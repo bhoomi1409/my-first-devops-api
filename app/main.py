@@ -12,5 +12,5 @@ def read_root():
 @app.get("/predict")
 def predict(value: int):
     # In reality, this would use an ML model. Here we just do simple math.
-    result = value * 2
+    result = value * 100
     return {"input": value, "prediction": result, "status": "success"}
