@@ -8,29 +8,39 @@ on:
       - bhoomi
 
 jobs:
-  # Job 1: Always test the code, no matter what branch it is
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Build Docker Image
-        run: docker build -t my-devops-api .
+        
+      # This is the new step! Log into the Docker Hub Registry using Secrets
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  # Job 2: ONLY runs if we push to 'staging'
+      # Build the image and PUSH it to the registry
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: bhoomi14092005/my-first-devops-api:latest
+
   deploy-to-staging:
     runs-on: ubuntu-latest
-    needs: build-and-test # Wait for the test to pass first!
+    needs: build-and-test
     if: github.ref == 'refs/heads/staging'
     steps:
       - name: Fake Deploy to AWS Staging
-        run: echo "Deploying this Docker container to the secret AWS Staging Server!"
+        run: echo "AWS is now downloading bhoomi14092005/my-first-devops-api:latest from Docker Hub!"
 
-  # Job 3: ONLY runs if we push to 'main'
   deploy-to-production:
     runs-on: ubuntu-latest
     needs: build-and-test
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Fake Deploy to AWS Production
-        run: echo "DANGER! Deploying to the LIVE AWS Production Server for real customers!"
+        run: echo "DANGER! AWS is deploying bhoomi14092005/my-first-devops-api:latest to Live Servers!"
