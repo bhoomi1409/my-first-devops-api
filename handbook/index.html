@@ -1520,8 +1520,8 @@ def query_payment_gateway(): return requests.get("https://api.paypal.com/checkou
                         text: `<p>If an enterprise application utilizes a single shared thread pool ($500\\text{ threads}$) to serve both critical payment checkouts and low-priority avatar image uploads, a slow AWS S3 image upload bottleneck will consume all 500 threads, completely blocking customers from paying!</p>
 <h4>The Bulkhead Pattern</h4>
 <p>The **Bulkhead Pattern** partitions server resources into isolated pools:
-* Pool A ($400\\text{ threads}$): Dedicated exclusively to `/ checkout` payment APIs.
-* Pool B ($100\\text{ threads}$): Dedicated exclusively to `/ upload - avatar` image endpoints.
+* Pool A ($400\\text{ threads}$): Dedicated exclusively to (/checkout) payment APIs.
+* Pool B ($100\\text{ threads}$): Dedicated exclusively to (/ upload - avatar) image endpoints.
 If image uploads hang, Pool B exhausts completely ($100/100\\text{ busy}$), returning HTTP 429 for images while Pool A continues processing $400\\text{ concurrent payments}$ unhindered!</p>`,
                         flow: ["Incoming HTTP Request", "Router inspects endpoint path", "Route to isolated Bulkhead Thread Pool A (Payments)", "Slow Image Uploads in Pool B never starve Payment threads!"],
                         analogy: "Amazon Fulfillment Gateways: Core order processing thread pools run completely isolated from background warehouse review analytics pools.",
