@@ -3693,10 +3693,30 @@ opts: [
 
             ${t.text}
             
-            <div class="flow-box">
-                <div class="flow-header">📊 Step-by-Step Visual Flowchart Pipeline</div>
-                <div class="flow-diagram">
-                    ${t.flow.map((step, si) => `<div class="f-step">${step}</div>${si < t.flow.length - 1 ? '<div class="f-arr">──▶</div>' : ''}`).join('')}
+            <div class="flow-box" style="margin:26px 0;background:var(--bg2);border:1px solid var(--vi);border-radius:16px;padding:24px;box-shadow:0 8px 32px rgba(0,0,0,.3);">
+                <div class="flow-header" style="font-size:.88rem;color:var(--cy);display:flex;align-items:center;gap:8px;margin-bottom:18px;">
+                    <span>🏗️ SYSTEM ARCHITECTURE BLUEPRINT & PIPELINE FLOWCHART</span>
+                </div>
+                
+                <!-- Architectural Box Diagram View -->
+                <div style="background:#0b0e14;border:1px solid #1f293d;border-radius:10px;padding:18px;margin-bottom:20px;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:#00f2fe;overflow-x:auto;white-space:nowrap;line-height:1.6;">
+                    <div style="color:#8b9bb4;font-size:.72rem;margin-bottom:10px;letter-spacing:.05em;">// END-TO-END ARCHITECTURAL BOX DIAGRAM</div>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ${t.flow.map((step, si) => `
+                            <span style="background:rgba(0,242,254,.08);border:1px solid rgba(0,242,254,.35);padding:6px 12px;border-radius:6px;color:#fff;font-weight:600;">[0${si+1}] ${step.length > 32 ? step.substring(0, 30) + '...' : step}</span>
+                            ${si < t.flow.length - 1 ? '<span style="color:#00f2fe;font-weight:900;font-size:1.1rem;">══▶</span>' : ''}
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Detailed Flowchart Stages Grid -->
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;">
+                    ${t.flow.map((step, si) => `
+                        <div style="background:var(--bg);border:1px solid var(--brd2);border-left:4px solid var(--vi);border-radius:10px;padding:14px;">
+                            <div style="font-size:.72rem;font-weight:800;color:var(--vi);margin-bottom:6px;letter-spacing:.06em;">STAGE 0${si+1}</div>
+                            <div style="font-size:.88rem;color:var(--t1);font-weight:600;line-height:1.45;">${step}</div>
+                        </div>
+                    `).join('')}
                 </div>
             </div>
 
