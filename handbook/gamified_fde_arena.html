@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ Gamified FDE Arena — Visual Simulators, Projects & Principal MCQs</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#040407;--bg1:#090910;--bg2:#11111e;--bg3:rgba(18,18,32,.92);--glass:rgba(255,255,255,.03);--brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.16);--t1:#f2f2fa;--t2:#a2a2c0;--t3:#646484;--vi:#7c5cfc;--vi2:rgba(124,92,252,.18);--cy:#00e5ff;--cy2:rgba(0,229,255,.14);--em:#10b981;--em2:rgba(16,185,129,.14);--am:#f59e0b;--am2:rgba(245,158,11,.14);--ro:#f43f5e;--ro2:rgba(244,63,94,.14);--r:14px;--r2:20px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.75;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 10% 20%,rgba(124,92,252,.06) 0%,transparent 50%),radial-gradient(circle at 90% 80%,rgba(0,229,255,.05) 0%,transparent 50%);pointer-events:none;}
+code{font-family:'JetBrains Mono',monospace;background:rgba(124,92,252,.12);color:var(--cy);padding:2px 6px;border-radius:4px;font-size:.85em;}
+
+/* ─── HEADER & LEVEL BAR ─── */
+header{position:sticky;top:0;z-index:100;background:rgba(4,4,7,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--brd);padding:14px 30px;}
+.h-inner{max-width:1250px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;}
+.h-logo{font-weight:900;font-size:1.15rem;background:linear-gradient(135deg,var(--vi),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:flex;align-items:center;gap:8px;}
+.h-stats{display:flex;align-items:center;gap:16px;}
+.xp-box{background:var(--bg2);border:1px solid var(--brd);padding:6px 16px;border-radius:99px;display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:800;}
+.xp-val{color:var(--am);font-family:'JetBrains Mono',monospace;}
+.level-badge{background:var(--vi);color:#fff;padding:3px 10px;border-radius:99px;font-size:.7rem;font-weight:900;letter-spacing:.05em;}
+.nav-links{display:flex;gap:8px;}
+.h-btn{padding:7px 16px;border:1px solid var(--brd);background:none;color:var(--t2);text-decoration:none;font-weight:700;font-size:.8rem;border-radius:8px;cursor:pointer;transition:all .2s;}
+.h-btn:hover,.h-btn.on{background:var(--glass);color:var(--t1);border-color:var(--brd2);}
+
+.container{max-width:1250px;margin:30px auto;padding:0 30px;}
+.view{display:none;animation:fadeUp .3s ease;}
+.view.on{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── TABS NAV ─── */
+.tabs{display:flex;gap:12px;margin-bottom:34px;border-bottom:1px solid var(--brd);padding-bottom:16px;overflow-x:auto;}
+.tab{padding:10px 22px;border-radius:10px;background:var(--bg2);border:1px solid var(--brd);color:var(--t2);font-weight:800;font-size:.86rem;cursor:pointer;transition:all .25s;white-space:nowrap;display:flex;align-items:center;gap:8px;}
+.tab:hover{color:var(--t1);border-color:var(--brd2);}
+.tab.on{background:var(--vi2);color:#fff;border-color:var(--vi);box-shadow:0 0 20px rgba(124,92,252,.3);}
+
+/* ─── SECTION CARDS ─── */
+.card{background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r2);padding:36px;margin-bottom:30px;backdrop-filter:blur(12px);}
+.card h2{font-size:1.6rem;font-weight:900;color:#fff;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.card h3{font-size:1.1rem;font-weight:800;color:var(--cy);margin:24px 0 10px;text-transform:uppercase;letter-spacing:.05em;}
+.card p{font-size:.92rem;color:var(--t2);margin-bottom:14px;line-height:1.8;}
+
+/* ─── SIMULATOR STYLES ─── */
+.sim-box{background:#06060c;border:1px solid var(--brd2);border-radius:16px;padding:26px;margin:20px 0;}
+.sim-controls{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px;padding-bottom:18px;border-bottom:1px solid var(--brd);}
+.sim-btn{padding:9px 18px;border-radius:8px;font-weight:800;font-size:.82rem;cursor:pointer;border:1px solid var(--brd);transition:all .2s;background:var(--bg2);color:var(--t1);}
+.sim-btn:hover{background:var(--vi);border-color:var(--vi);}
+.sim-btn.danger{background:var(--ro2);color:var(--ro);border-color:rgba(244,63,94,.3);}
+.sim-btn.danger:hover{background:var(--ro);color:#fff;}
+.sim-stage{min-height:220px;display:flex;align-items:center;justify-content:center;position:relative;padding:20px;overflow:hidden;}
+
+/* Ring visualizer */
+.ring-container{width:260px;height:260px;border-radius:50%;border:3px dashed var(--brd2);position:relative;display:flex;align-items:center;justify-content:center;}
+.ring-node{position:absolute;width:48px;height:48px;border-radius:50%;background:var(--vi);border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;color:#fff;box-shadow:0 0 16px rgba(124,92,252,.6);transition:all .5s cubic-bezier(.22,1,.36,1);}
+.ring-node.dead{background:var(--ro);box-shadow:0 0 16px rgba(244,63,94,.6);transform:scale(.8);opacity:.4;}
+.ring-center{text-align:center;}
+.ring-center h4{font-size:1.1rem;font-weight:900;color:var(--cy);}
+
+/* Circuit Breaker Visualizer */
+.cb-status{display:flex;align-items:center;justify-content:space-around;width:100%;max-width:600px;margin:0 auto;}
+.cb-node{padding:20px 30px;border-radius:12px;background:var(--bg2);border:2px solid var(--brd);text-align:center;font-weight:900;width:160px;}
+.cb-node.active{border-color:var(--em);background:var(--em2);color:var(--em);box-shadow:0 0 20px rgba(16,185,129,.4);}
+.cb-node.trip{border-color:var(--ro);background:var(--ro2);color:var(--ro);box-shadow:0 0 20px rgba(244,63,94,.4);}
+.cb-node.half{border-color:var(--am);background:var(--am2);color:var(--am);box-shadow:0 0 20px rgba(245,158,11,.4);}
+
+/* Project Cards */
+.proj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(500px,1fr));gap:24px;margin-top:20px;}
+.proj-card{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:28px;display:flex;flex-direction:column;justify-content:space-between;}
+.proj-card h3{font-size:1.25rem;font-weight:900;color:#fff;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;}
+.proj-tag{font-size:.68rem;font-weight:900;padding:4px 12px;border-radius:99px;background:var(--vi2);color:var(--vi);}
+.proj-card p{font-size:.88rem;color:var(--t2);margin:12px 0;line-height:1.7;}
+.proj-specs{background:#06060a;padding:14px;border-radius:10px;font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--cy);margin-top:14px;border:1px solid var(--brd);}
+
+/* MCQ Grid */
+.mcq-box{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:28px;margin-bottom:24px;}
+.mcq-q{font-size:1.05rem;font-weight:800;color:#fff;margin-bottom:18px;}
+.mcq-opts{display:flex;flex-direction:column;gap:10px;}
+.mcq-o{padding:14px 18px;border-radius:10px;background:var(--glass);border:1px solid var(--brd);cursor:pointer;font-size:.9rem;color:var(--t2);transition:all .2s;display:flex;align-items:center;gap:12px;font-weight:600;}
+.mcq-o:hover:not(.dis){border-color:rgba(124,92,252,.4);color:#fff;}
+.mcq-o.sc{background:var(--em2);border-color:var(--em);color:var(--em);}
+.mcq-o.sw{background:var(--ro2);border-color:var(--ro);color:var(--ro);}
+.mcq-o.dis{cursor:default;}
+.mcq-exp{margin-top:16px;padding:16px;background:rgba(124,92,252,.05);border-left:3px solid var(--vi);border-radius:8px;font-size:.88rem;color:var(--t2);display:none;}
+.mcq-exp.vis{display:block;animation:fadeUp .3s ease;}
+
+@media(max-width:768px){.proj-grid{grid-template-columns:1fr;}.h-stats{display:none;}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="h-inner">
+<div class="h-logo">⚡ Gamified FDE Arena</div>
+<div class="h-stats">
+<div class="xp-box">
+<span>⚔️ LEVEL:</span>
+<span class="level-badge" id="lvlText">LVL 1 JUNIOR</span>
+</div>
+<div class="xp-box">
+<span>⭐ XP SCORE:</span>
+<span class="xp-val" id="xpText">0 XP</span>
+</div>
+</div>
+<div class="nav-links">
+<a href="index.html" class="h-btn">📚 12-Phase Course</a>
+<a href="phase12_capstones.html" class="h-btn">🏢 System Capstones</a>
+</div>
+</div>
+</header>
+
+<div class="container">
+<div class="tabs">
+<div class="tab on" onclick="switchTab('sims')">🕹️ Visual Simulators</div>
+<div class="tab" onclick="switchTab('projects')">🛠️ Principal Project Ideas</div>
+<div class="tab" onclick="switchTab('mcqs')">⚔️ Gamified MCQ Arena (Earn XP)</div>
+<div class="tab" onclick="switchTab('complex')">🚀 Ultra-Complex Topics (HFT & Mesh)</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 1: VISUAL SIMULATORS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="view on" id="v-sims">
+<div class="card">
+<h2>🕹️ Interactive Visual System Simulators</h2>
+<p>Distributed systems concepts like Consistent Hashing and Circuit Breakers are difficult to grasp from static text. Interact with live simulation engines below to observe how production infrastructure behaves under failure.</p>
+
+<h3>1. Consistent Hashing Ring & Virtual Node Redistribution Simulator</h3>
+<p>Notice what happens when you crash a server node on a standard ring vs a ring with 200 Virtual Nodes. On standard rings, crushing Node B remaps 50% of the ring directly onto Node C, triggering a cascade crash!</p>
+<div class="sim-box">
+<div class="sim-controls">
+<button class="sim-btn" onclick="simRingAdd()">➕ Add Server Node</button>
+<button class="sim-btn danger" onclick="simRingCrash()">💥 Simulate Node Crash</button>
+<button class="sim-btn" onclick="simRingReset()">🔄 Reset Ring</button>
+</div>
+<div class="sim-stage" id="ringStage">
+<div class="ring-container" id="ringEl">
+<div class="ring-center"><h4 id="ringStats">4 Active Nodes</h4><p style="font-size:.7rem;color:var(--t3);">Uniform Load (~25% each)</p></div>
+</div>
+</div>
+</div>
+
+<h3>2. Circuit Breaker State Machine Simulator (Python Engine Logic)</h3>
+<p>Click below to simulate incoming HTTP 502 Bad Gateway errors from a third-party payment gateway. Watch how the circuit transitions from <code>CLOSED</code> to <code>OPEN</code> (failing fast in 0.1ms to protect thread pools), and then enters exploratory <code>HALF-OPEN</code> recovery.</p>
+<div class="sim-box">
+<div class="sim-controls">
+<button class="sim-btn" onclick="simCbSuccess()">✅ Simulate Success Request</button>
+<button class="sim-btn danger" onclick="simCbFail()">⚠️ Simulate HTTP 502 Timeout (Fail)</button>
+<button class="sim-btn" onclick="simCbTimeout()">⏱️ Simulate 30s Recovery Timer Expired</button>
+</div>
+<div class="sim-stage">
+<div class="cb-status">
+<div class="cb-node active" id="cbClosed">CLOSED<br><span style="font-size:.65rem;">Normal Flow</span></div>
+<div style="color:var(--t3);">──▶</div>
+<div class="cb-node" id="cbOpen">OPEN<br><span style="font-size:.65rem;">Fast Fallback (Tripped)</span></div>
+<div style="color:var(--t3);">──▶</div>
+<div class="cb-node" id="cbHalf">HALF-OPEN<br><span style="font-size:.65rem;">Exploratory Test</span></div>
+</div>
+</div>
+<p style="text-align:center;margin-top:18px;font-weight:700;color:var(--cy);" id="cbLog">Status: 0 / 5 failures recorded. Circuit healthy.</p>
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 2: PRINCIPAL PROJECT IDEAS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="view" id="v-projects">
+<div class="card">
+<h2>🛠️ Principal / FDE Portfolio Capstone Projects</h2>
+<p>To leapfrog engineers who are 5 months ahead, don't build generic TODO apps or basic CRUD REST APIs. Build high-concurrency, fault-tolerant infrastructure projects that demonstrate Principal-level systems mastery on GitHub.</p>
+<div class="proj-grid">
+
+<div class="proj-card">
+<div>
+<h3>Raft Consensus Key-Value Store <span class="proj-tag">Distributed Systems</span></h3>
+<p>Build a distributed, strongly consistent key-value store from scratch in Go or Python/Rust. Implement the full Raft consensus specification: Leader Election, AppendEntries RPCs, Log Compaction, and persistent storage epochs.</p>
+<div class="proj-specs">
+<b>Key Features to Implement:</b><br>
+• Randomized heartbeat timeouts (150ms - 300ms)<br>
+• Split-brain election safety & Quorum confirmation<br>
+• Monotonic storage fencing tokens preventing stale primary writes
+</div>
+</div>
+<p style="font-size:.78rem;color:var(--vi);font-weight:700;margin-top:14px;">🎯 Interview Impact: Proves mastery of CAP theorem, consensus algorithms, and distributed state machines.</p>
+</div>
+
+<div class="proj-card">
+<div>
+<h3>Autonomous SRE Agent Swarm via MCP <span class="proj-tag">AI Engineering</span></h3>
+<p>Build a production Model Context Protocol (MCP) server that connects Claude or local Llama 3 to live Docker containers. Implement a Supervisor-Worker LangGraph orchestrator where specialized AI agents debug container crashes and generate automated git fixes.</p>
+<div class="proj-specs">
+<b>Key Features to Implement:</b><br>
+• JSON-RPC 2.0 FastMCP stdio/SSE transport layer<br>
+• AST parser tool verifying python syntax safety before execution<br>
+• Hard iteration ceilings ($O(1)$ max loop termination)
+</div>
+</div>
+<p style="font-size:.78rem;color:var(--vi);font-weight:700;margin-top:14px;">🎯 Interview Impact: Proves cutting-edge AI agent architecture, tool evaluation, and automated SRE self-healing.</p>
+</div>
+
+<div class="proj-card">
+<div>
+<h3>Global 50k req/sec Distributed Rate Limiter <span class="proj-tag">Low-Latency Gateway</span></h3>
+<p>Build a cross-datacenter API gateway proxy in Go or high-concurrency Python that enforces Sliding Window Token Bucket rate limits across simulated US, Europe, and Asia clusters using Redis Lua scripts.</p>
+<div class="proj-specs">
+<b>Key Features to Implement:</b><br>
+• Atomic Redis Lua evaluation executing in $<0.5\text{ms}$<br>
+• Asynchronous Kafka CRDT PN-Counter background synchronization<br>
+• HTTP Slowloris header timeout mitigation engine
+</div>
+</div>
+<p style="font-size:.78rem;color:var(--vi);font-weight:700;margin-top:14px;">🎯 Interview Impact: Demonstrates L4/L7 proxy engineering, Redis concurrency locking, and CRDT math.</p>
+</div>
+
+<div class="proj-card">
+<div>
+<h3>Secure RAG Engine with Cryptographic Audit Logs <span class="proj-tag">Security & AI</span></h3>
+<p>Build an enterprise vector document platform where query ingestion enforces mandatory ACL metadata tagging and query-time JWT role pre-filtering, preventing unauthorized employees from retrieving confidential data.</p>
+<div class="proj-specs">
+<b>Key Features to Implement:</b><br>
+• Query-time role pre-filtering before cosine similarity matching<br>
+• NeMo Guardrails output sanitization (PII redaction)<br>
+• SHA-256 prompt hashing with HMAC cryptographic audit chaining
+</div>
+</div>
+<p style="font-size:.78rem;color:var(--vi);font-weight:700;margin-top:14px;">🎯 Interview Impact: Proves enterprise AI security, data governance, and GDPR/compliance audit engineering.</p>
+</div>
+
+</div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 3: GAMIFIED MCQ ARENA -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="view" id="v-mcqs">
+<div class="card">
+<h2>⚔️ Gamified FDE Challenge Arena (Earn XP & Level Up)</h2>
+<p>Test your systems design instincts against real-world production scenarios. Correct answers reward +100 XP and elevate your engineering rank!</p>
+
+<div id="mcqContainer"></div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- TAB 4: ULTRA-COMPLEX TOPICS -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<div class="view" id="v-complex">
+<div class="card">
+<h2>🚀 Ultra-Complex Topics: HFT, Kernel Bypass & Service Mesh</h2>
+<p>To operate at the Principal / FDE tier above senior engineers, master the low-level infrastructure mechanics used in High-Frequency Trading (HFT) and ultra-large-scale cloud environments.</p>
+
+<h3>1. High-Frequency Trading (HFT): Kernel Bypass via DPDK & OpenOnload</h3>
+<p>In standard Linux networking, when a network packet arrives at the NIC, the hardware fires an interrupt to the OS kernel. The kernel copies the packet from kernel ring buffers into user-space application RAM via system calls (`recv()` / `read()`). This context switch introduces $\mathbf{5\text{ to }10\text{ microseconds}}$ of latency—fatal in HFT where trades execute in sub-microsecond windows.</p>
+<p>**Data Plane Development Kit (DPDK)** and **Solarflare OpenOnload** bypass the Linux kernel entirely! The network card DMA controller writes incoming network packets directly into pre-allocated user-space ring memory. The user application polls this memory loop locklessly at $100\%$ CPU utilization ($0$ kernel context switches, achieving $\mathbf{800\text{ nanosecond}}$ packet-to-trade latency).</p>
+
+<h3>2. Lockless Ring Buffers: The LMAX Disruptor Pattern</h3>
+<p>Standard multi-threaded queues rely on mutex locks or semaphores (`pthread_mutex_lock`). Under 1,000,000 operations/sec, CPU threads spend $80\%$ of their time sleeping in OS wait queues waiting for lock acquisition.</p>
+<p>The **LMAX Disruptor** utilizes a pre-allocated circular array (Ring Buffer) where producers and consumers claim sequential sequence slots via atomic hardware CAS (Compare-And-Swap) instructions without OS locking. Furthermore, each slot is aligned to 64-byte boundaries to eliminate **CPU False Sharing** across L1/L2 cache lines!</p>
+
+<h3>3. Service Mesh & Zero-Trust Identity: mTLS SPIFFE/SPIRE</h3>
+<p>In modern cloud infrastructure, firewalls and private IP subnets do not equal security. If an attacker breaches one perimeter pod, internal network trust allows them to query any internal database.</p>
+<p>**Zero-Trust Service Mesh** injects Envoy proxy sidecars (or eBPF Ambient node proxies) beside every pod. Every inter-service request is cryptographically authenticated via **SPIFFE/SPIRE X.509 SVID certificates** rotated automatically every 60 minutes over mutual TLS (mTLS). Even if an attacker intercepts internal datacenter fiber wires, payloads remain $100\%$ AES-GCM encrypted.</p>
+</div>
+</div>
+
+</div>
+
+<script>
+// ─── TAB SWITCHING ───
+function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('on'));
+    event.currentTarget.classList.add('on');
+    document.getElementById('v-' + name).classList.add('on');
+}
+
+// ─── GAMIFICATION & XP STATE ───
+let xp = parseInt(localStorage.getItem('fde_xp') || '0');
+function updateXP(add) {
+    xp += add;
+    localStorage.setItem('fde_xp', xp);
+    document.getElementById('xpText').textContent = xp + ' XP';
+    let lvl = "LVL 1 JUNIOR";
+    if (xp >= 200) lvl = "LVL 2 MID-LEVEL";
+    if (xp >= 500) lvl = "LVL 3 SENIOR SRE";
+    if (xp >= 900) lvl = "LVL 4 STAFF ARCHITECT";
+    if (xp >= 1500) lvl = "LVL 5 PRINCIPAL FDE 👑";
+    document.getElementById('lvlText').textContent = lvl;
+}
+updateXP(0);
+
+// ─── RING SIMULATOR ENGINE ───
+let ringNodes = ['A', 'B', 'C', 'D'];
+function renderRing() {
+    const el = document.getElementById('ringEl');
+    el.innerHTML = `<div class="ring-center"><h4 id="ringStats">${ringNodes.length} Active Nodes</h4><p style="font-size:.7rem;color:var(--t3);">Consistent Hash Space</p></div>`;
+    ringNodes.forEach((n, idx) => {
+        const angle = (idx / ringNodes.length) * 2 * Math.PI - Math.PI / 2;
+        const x = 130 + 105 * Math.cos(angle) - 24;
+        const y = 130 + 105 * Math.sin(angle) - 24;
+        const node = document.createElement('div');
+        node.className = 'ring-node';
+        node.style.left = x + 'px'; node.style.top = y + 'px';
+        node.textContent = 'Node ' + n;
+        el.appendChild(node);
+    });
+}
+function simRingAdd() {
+    if (ringNodes.length >= 8) return alert("Maximum simulation ring capacity reached!");
+    ringNodes.push(String.fromCharCode(65 + ringNodes.length));
+    renderRing();
+}
+function simRingCrash() {
+    if (ringNodes.length <= 1) return alert("Cannot crash last surviving node!");
+    const dead = ringNodes.pop();
+    renderRing();
+    document.getElementById('ringStats').innerHTML = `<span style="color:var(--ro);">Node ${dead} CRASHED!</span>`;
+}
+function simRingReset() { ringNodes = ['A', 'B', 'C', 'D']; renderRing(); }
+renderRing();
+
+// ─── CIRCUIT BREAKER SIMULATOR ───
+let cbState = 'CLOSED'; let cbFails = 0;
+function renderCb() {
+    document.querySelectorAll('.cb-node').forEach(n => n.className = 'cb-node');
+    if (cbState === 'CLOSED') document.getElementById('cbClosed').classList.add('active');
+    if (cbState === 'OPEN') document.getElementById('cbOpen').classList.add('trip');
+    if (cbState === 'HALF') document.getElementById('cbHalf').classList.add('half');
+    document.getElementById('cbLog').textContent = `State: ${cbState} | Recorded Failures: ${cbFails} / 5 threshold`;
+}
+function simCbSuccess() {
+    if (cbState === 'OPEN') return alert("Circuit is OPEN! Fast fallback blocked request.");
+    cbFails = 0; cbState = 'CLOSED'; renderCb();
+}
+function simCbFail() {
+    if (cbState === 'OPEN') return alert("Circuit is already OPEN! Fast fallback active.");
+    cbFails++;
+    if (cbFails >= 5) { cbState = 'OPEN'; }
+    renderCb();
+}
+function simCbTimeout() {
+    if (cbState === 'OPEN') { cbState = 'HALF'; cbFails = 0; renderCb(); }
+    else alert("Circuit must be OPEN before recovery timer expires.");
+}
+
+// ─── MCQ ARENA DATA ───
+const MCQS = [
+{q:"1. You operate a BullMQ queue on an AWS ElastiCache Redis cluster configured with 'allkeys-lru'. During peak shopping hours, memory hits 100%. What catastrophic failure happens?",
+opts:["Redis rejects new job writes with an OOM error, keeping pending jobs safe","Redis silently evicts least-recently used keys across the DB, deleting unexecuted pending background jobs and corrupting job queues","BullMQ automatically scales out Redis cluster slots","Redis switches to read-only replica mode"],correct:1,exp:"'allkeys-lru' evicts any key across the keyspace when RAM fills up. Job queues stored in Redis will have their internal queue structures deleted before worker pods execute them! Always use 'noeviction' for mission-critical job queues."},
+
+{q:"2. Why does executing 'SELECT * FROM audit_logs ORDER BY id DESC LIMIT 20 OFFSET 500000' take 4.8 seconds on PostgreSQL while keyset pagination takes 0.4ms?",
+opts:["OFFSET queries disable B-Tree indexes entirely","PostgreSQL must physically read, evaluate, and discard 500,000 index pointers before emitting the final 20 rows (O(N) linear degradation)","Keyset pagination forces PostgreSQL to store pre-sorted HTML tables in RAM","B-Trees cannot be scanned backwards"],correct:1,exp:"Relational databases cannot jump directly to an arbitrary offset without scanning preceding index entries. Keyset cursors ('WHERE id < last_seen_id') jump directly to the exact B-Tree leaf node in O(log N) time."},
+
+{q:"3. In High-Frequency Trading (HFT), how does DPDK achieve sub-microsecond network packet processing?",
+opts:["By overclocking CPU cores to 6GHz","By bypassing the Linux kernel network stack and copying incoming NIC packets directly into user-space ring memory via hardware DMA without context switches","By compressing TCP headers with gzip","By using HTTP/3 over UDP datagrams"],correct:1,exp:"Standard socket calls (recv/read) trigger hardware interrupts and kernel-to-userspace memory copies taking 5-10 microseconds. DPDK kernel bypass writes NIC packets directly to user RAM polled locklessly at wire speed."},
+
+{q:"4. Your enterprise chatbot using Vector RAG accidentally leaks secret Q4 M&A acquisition slides to an intern. What exact architectural defense prevents this?",
+opts:["Instructing Claude in the system prompt to ignore secret documents","Attaching ACL metadata tags ('allowed_roles') during ingestion and enforcing mandatory query-time JWT role pre-filtering before cosine similarity matching runs","Encrypting vector embeddings with AES-256 on disk","Running the chatbot inside a Docker container"],correct:1,exp:"System prompts can be jailbroken via prompt injection. Query-time pre-filtering at the vector database engine level ensures restricted chunks are filtered out before semantic similarity scoring takes place."}
+];
+
+function renderMCQs() {
+    const c = document.getElementById('mcqContainer');
+    c.innerHTML = MCQS.map((m, idx) => `
+        <div class="mcq-box" id="mcq_${idx}">
+            <div class="mcq-q">${m.q}</div>
+            <div class="mcq-opts">${m.opts.map((o, oi) => `<div class="mcq-o" id="opt_${idx}_${oi}" onclick="ansMCQ(${idx},${oi},${m.correct})"><span>${String.fromCharCode(65+oi)}.</span><span>${o}</span></div>`).join('')}</div>
+            <div class="mcq-exp" id="exp_${idx}"><strong>💡 Principal Explanation (+100 XP Awarded!):</strong> ${m.exp}</div>
+        </div>
+    `).join('');
+}
+
+let mcqDone = {};
+function ansMCQ(qIdx, optIdx, correctIdx) {
+    if (mcqDone[qIdx]) return;
+    mcqDone[qIdx] = true;
+    const box = document.getElementById('mcq_' + qIdx);
+    box.querySelectorAll('.mcq-o').forEach(o => o.classList.add('dis'));
+    if (optIdx === correctIdx) {
+        document.getElementById(`opt_${qIdx}_${optIdx}`).classList.add('sc');
+        updateXP(100);
+    } else {
+        document.getElementById(`opt_${qIdx}_${optIdx}`).classList.add('sw');
+        document.getElementById(`opt_${qIdx}_${correctIdx}`).classList.add('sc');
+    }
+    document.getElementById('exp_' + qIdx).classList.add('vis');
+}
+renderMCQs();
+</script>
+</body>
+</html>

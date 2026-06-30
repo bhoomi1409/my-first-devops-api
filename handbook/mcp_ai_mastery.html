@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FDE Masterclass — AI Assistant, MCP, Distributed Systems & Resiliency</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg0:#06060a;--bg1:#0c0c14;--bg2:#13131f;--bg3:rgba(20,20,35,.85);--glass:rgba(255,255,255,.03);--brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);--t1:#f0f0f8;--t2:#a4a4c0;--t3:#6a6a8a;--vi:#7c5cfc;--vi2:rgba(124,92,252,.15);--cy:#00e5ff;--cy2:rgba(0,229,255,.12);--em:#10b981;--em2:rgba(16,185,129,.12);--am:#f59e0b;--am2:rgba(245,158,11,.12);--ro:#f43f5e;--ro2:rgba(244,63,94,.12);--r:14px;--r2:20px;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.75;display:flex;min-height:100vh;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 10% 20%,rgba(124,92,252,.04) 0%,transparent 50%),radial-gradient(circle at 90% 80%,rgba(0,229,255,.03) 0%,transparent 50%);pointer-events:none;}
+code{font-family:'JetBrains Mono',monospace;background:rgba(124,92,252,.1);color:var(--cy);padding:2px 6px;border-radius:4px;font-size:.84em;}
+
+/* ─── SIDEBAR NAV ─── */
+aside{width:320px;background:var(--bg1);border-right:1px solid var(--brd);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;}
+.sidebar-header{padding:22px 20px;border-bottom:1px solid var(--brd);background:rgba(6,6,10,.6);}
+.sidebar-header h1{font-size:1rem;font-weight:900;background:linear-gradient(135deg,var(--vi),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.02em;}
+.sidebar-header p{font-size:.74rem;color:var(--t3);margin-top:4px;font-weight:600;}
+.nav-list{flex:1;overflow-y:auto;padding:12px 10px;display:flex;flex-direction:column;gap:4px;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;cursor:pointer;transition:all .2s;border:1px solid transparent;color:var(--t2);font-size:.82rem;font-weight:600;}
+.nav-item:hover{background:var(--glass);color:var(--t1);}
+.nav-item.on{background:var(--vi2);border-color:rgba(124,92,252,.3);color:#fff;}
+.nav-num{width:24px;height:24px;border-radius:6px;background:var(--bg2);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:var(--cy);flex-shrink:0;}
+.nav-item.on .nav-num{background:var(--vi);color:#fff;border-color:var(--vi);}
+.sidebar-footer{padding:14px 20px;border-top:1px solid var(--brd);font-size:.75rem;}
+.sidebar-footer a{display:block;text-align:center;padding:10px;border-radius:8px;background:var(--bg2);color:var(--t1);text-decoration:none;font-weight:700;border:1px solid var(--brd);transition:all .2s;}
+.sidebar-footer a:hover{background:var(--vi);border-color:var(--vi);}
+
+/* ─── MAIN CONTENT ─── */
+main{flex:1;max-width:1100px;padding:40px 50px;margin:0 auto;overflow-y:auto;}
+.topic-pane{display:none;animation:fadeIn .3s ease;}
+.topic-pane.on{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.topic-tag{display:inline-block;font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:99px;background:var(--vi2);color:var(--vi);border:1px solid rgba(124,92,252,.2);margin-bottom:12px;}
+h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:900;letter-spacing:-.03em;margin-bottom:10px;color:#fff;}
+.topic-desc{font-size:.95rem;color:var(--t2);margin-bottom:30px;max-width:800px;}
+
+.section-card{background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r2);padding:28px 32px;margin-bottom:24px;backdrop-filter:blur(10px);}
+.section-card h3{font-size:1.1rem;font-weight:800;margin-bottom:14px;color:var(--t1);display:flex;align-items:center;gap:8px;}
+.section-card h4{font-size:.86rem;font-weight:800;color:var(--cy);text-transform:uppercase;letter-spacing:.05em;margin:22px 0 8px;}
+.section-card p{font-size:.88rem;color:var(--t2);margin-bottom:12px;line-height:1.8;}
+.section-card ul,.section-card ol{margin:8px 0 16px 20px;font-size:.88rem;color:var(--t2);}
+.section-card li{margin-bottom:8px;line-height:1.7;}
+
+.box{border-radius:12px;padding:18px 22px;margin:16px 0;}
+.box h5{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.b-an{background:rgba(0,229,255,.04);border:1px solid rgba(0,229,255,.15);}.b-an h5{color:var(--cy);}
+.b-co{background:rgba(124,92,252,.04);border:1px solid rgba(124,92,252,.15);}.b-co h5{color:var(--vi);}
+.b-da{background:rgba(244,63,94,.04);border:1px solid rgba(244,63,94,.15);}.b-da h5{color:var(--ro);}
+.b-fi{background:rgba(16,185,129,.04);border:1px solid rgba(16,185,129,.15);}.b-fi h5{color:var(--em);}
+
+.cb{background:#07070c;border:1px solid var(--brd);border-radius:12px;padding:18px 22px;margin:16px 0;font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:1.7;overflow-x:auto;color:var(--cy);white-space:pre;tab-size:4;}
+.cm{color:var(--t3);}
+
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:16px 0;}
+th{text-align:left;padding:12px 16px;background:var(--bg2);color:var(--t1);font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--brd);}
+td{padding:12px 16px;border-bottom:1px solid var(--brd);color:var(--t2);vertical-align:top;}
+
+@media(max-width:900px){aside{display:none;}main{padding:20px;}}
+</style>
+</head>
+<body>
+
+<aside>
+<div class="sidebar-header">
+<h1>⚡ FDE Deep-Dive Encyclopedia</h1>
+<p>Complete Architecture & Implementation</p>
+</div>
+<div class="nav-list" id="navList"></div>
+<div class="sidebar-footer">
+<a href="index.html">← Return to 12-Phase Roadmap</a>
+</div>
+</aside>
+
+<main id="contentArea"></main>
+
+<script>
+const TOPICS = [
+// ─── 1. MCP AI ASSISTANT ───
+{id:"mcp",title:"Building an MCP-Powered AI Assistant from Scratch",tag:"AI Architecture • Protocol Spec",desc:"How to build a production AI assistant using the Model Context Protocol (MCP) from beginner fundamentals to complete Python code.",
+content:`
+<div class="section-card">
+<h3>🌐 What is the Model Context Protocol (MCP)?</h3>
+<div class="box b-an"><h5>🔌 Universal Hardware Analogy</h5><p>Before USB-C, connecting laptops to external monitors, keyboards, printers, and external hard drives required 15 different proprietary cables and drivers. In AI engineering, connecting LLMs (Claude, GPT-4, Llama) to external tools (SQL databases, GitHub repos, internal Jira APIs) traditionally required custom ad-hoc Python glue code for every single pairing. **MCP is the universal USB-C standard for AI agents.**</p></div>
+<p>Developed as an open standard, MCP defines a structured JSON-RPC 2.0 communication layer between **Host Clients** (like Claude Desktop, IDEs, or custom orchestration apps) and **MCP Servers** (lightweight services that expose structured capabilities).</p>
+<h4>The 3 Core Primitives Exposed by MCP Servers</h4>
+<ul>
+<li><strong>Resources (<code>resources/list</code>):</strong> Read-only contextual data URIs that provide direct context to the LLM (e.g., <code>file:///var/logs/error.log</code> or <code>postgres://db/schema</code>).</li>
+<li><strong>Prompts (<code>prompts/list</code>):</strong> Reusable, parameterized prompt templates that standardized domain workflows (e.g., an <code>analyze_stack_trace</code> prompt template).</li>
+<li><strong>Tools (<code>tools/list</code>):</strong> Executable functions with strict JSON Schema parameter validation that allow the LLM to perform side effects (e.g., querying databases, restarting Kubernetes pods).</li>
+</ul>
+</div>
+
+<div class="section-card">
+<h3>💻 Complete Executable Python MCP Server</h3>
+<p>Here is a complete, runnable production MCP server written in Python using the official <code>mcp</code> SDK that exposes a live database query tool and log analysis resources:</p>
+<div class="cb"><span class="cm"># server.py — Run with: pip install mcp[cli] sqlite3</span>
+import sqlite3
+from typing import Any
+from mcp.server.fastmcp import FastMCP
+
+<span class="cm"># Initialize FastMCP Server</span>
+mcp = FastMCP("EnterpriseDevOpsAssistant")
+
+<span class="cm"># 1. Define a Read-Only Resource (System Logs)</span>
+@mcp.resource("file://var/logs/app.log")
+def read_application_logs() -> str:
+    """Returns the last 50 lines of production application logs."""
+    try:
+        with open("/var/log/system.log", "r") as f:
+            lines = f.readlines()[-50:]
+            return "".join(lines)
+    except Exception as e:
+        return f"Log read error: {str(e)}"
+
+<span class="cm"># 2. Define an Executable Tool with JSON Schema Validation</span>
+@mcp.tool()
+def run_diagnostic_query(query: str, limit: int = 10) -> str:
+    """Executes a read-only diagnostic SQL query against the system metrics database.
+    
+    Args:
+        query: SELECT query string inspecting CPU or memory metrics.
+        limit: Max rows returned (defaults to 10).
+    """
+    if not query.strip().upper().startswith("SELECT"):
+        return "ERROR: Only read-only SELECT queries are permitted by security policy."
+    
+    conn = sqlite3.connect("metrics.db")
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f"{query} LIMIT {int(limit)}")
+        rows = cursor.fetchall()
+        return str(rows)
+    except Exception as err:
+        return f"SQL Execution Failed: {str(err)}"
+    finally:
+        conn.close()
+
+if __name__ == "__main__":
+    <span class="cm"># Starts stdio communication loop listening for JSON-RPC messages</span>
+    mcp.run(transport='stdio')</div>
+</div>
+`},
+
+// ─── 2. MULTI-AGENT ORCHESTRATION ───
+{id:"multiagent",title:"Multi-Agent Orchestration & Supervisor Architectures",tag:"AI Systems • LangGraph",desc:"Why single-agent loops break down on complex tasks and how to architect autonomous Supervisor-Worker agent teams.",
+content:`
+<div class="section-card">
+<h3>🐙 The Bottleneck of Single-Agent Loops</h3>
+<p>When you give a single LLM agent 25 tools and instruct it to *"Find why the production payment API is dropping connections, fix the code, run unit tests, and deploy,"* its reasoning loop degrades rapidly:</p>
+<ul>
+<li><strong>Context Window Poisoning:</strong> Verbose terminal output and large SQL dumps overwhelm the LLM's attention span, causing it to forget the original bug objective.</li>
+<li><strong>Tool Hallucination:</strong> With 25 tools in context, the model confuses parameter schemas or executes destructive operations out of order.</li>
+<li><strong>Infinite Deadlock Loops:</strong> If a test fails, single agents often get trapped retrying the exact same broken shell command endlessly.</li>
+</ul>
+</div>
+
+<div class="section-card">
+<h3>👑 The Supervisor Router Architecture</h3>
+<p>Production engineering systems (built on frameworks like LangGraph or Google Antigravity SDK) organize agents into isolated specialist teams directed by a central **Supervisor Router Agent**:</p>
+<div class="box b-co"><h5>The Supervisor State Graph Flow</h5>
+<ol>
+<li><strong>Supervisor Agent:</strong> Receives user goal. Analyzes global state graph. Routes immediate sub-task to the appropriate specialist worker. Never executes raw shell commands or tools itself.</li>
+<li><strong>Log & Observability Specialist:</strong> Armed strictly with Elasticsearch/Prometheus read tools. Analyzes stack traces and returns a clean, concise 100-word JSON diagnosis back to the Supervisor.</li>
+<li><strong>Code Patch Worker:</strong> Receives clean diagnosis. Accesses sandboxed git directory. Modifies source code and runs local unit tests. Returns pass/fail result.</li>
+<li><strong>Security Review Specialist:</strong> Inspects diff for SQL injections or hardcoded keys before final git push.</li>
+</ol></div>
+<div class="box b-fi"><h5>✅ Preventing Deadlocks ($O(1)$ Hard Ceiling Rule)</h5><p>Every worker node transition in the orchestration graph must enforce a hard iteration counter limit (e.g., <code>max_iterations = 10</code>). If the Code Patch Worker fails unit tests 3 consecutive times, the graph aborts autonomous loops and emits a structured clarification request to a human SRE on Slack.</p></div>
+</div>
+`},
+
+// ─── 3. URL SHORTENER ───
+{id:"shortener",title:"How URL Shorteners Work (Base62 & KGS Architecture)",tag:"System Design • Core Web",desc:"Step-by-step engineering design of a high-throughput URL shortener handling 10,000 creates/sec and 100,000 redirects/sec.",
+content:`
+<div class="section-card">
+<h3>🧮 Base62 Encoding Math</h3>
+<p>Why use Base62 instead of Base64 or hex? Base62 consists of digits <code>0-9</code>, lowercase <code>a-z</code>, and uppercase <code>A-Z</code> ($10 + 26 + 26 = 62$ characters). It omits URL-unsafe symbols like <code>+</code> and <code>/</code>.</p>
+<ul>
+<li>A 6-character Base62 string yields $62^6 = \\mathbf{56.8\\text{ Billion}}$ unique URLs.</li>
+<li>A 7-character Base62 string yields $62^7 = \\mathbf{3.52\\text{ Trillion}}$ unique URLs (handles 1,000 creations/sec for 110+ years without exhaustion!).</li>
+</ul>
+</div>
+
+<div class="section-card">
+<h3>⚡ Key Generation Service (KGS) Pre-Computation Pool</h3>
+<p>Naive implementations generate a random 7-char string and run <code>SELECT id FROM urls WHERE short_key = 'x9Kd2Pq'</code> to check for collisions. At 10,000 creates/sec, database disk lock contention halts the system.</p>
+<div class="box b-fi"><h5>✅ The KGS Architecture</h5><p>Run an offline standalone **Key Generation Service (KGS)** daemon that continuously generates millions of random 7-character strings in advance and stores them in a fast Redis set pool. When a user creates a shortened link, the web server pops a guaranteed-unique key from Redis in $\\mathbf{0.1\\text{ms}}$ with zero SQL collision queries!</p></div>
+</div>
+
+<div class="section-card">
+<h3>🚫 HTTP 301 vs HTTP 302 Redirect Trap</h3>
+<table>
+<tr><th>Redirect Status</th><th>Browser Behavior</th><th>Engineering Impact</th></tr>
+<tr><td><code>HTTP 301 Permanent</code></td><td>Browser caches the target URL locally forever. Next time user clicks the short link, browser jumps directly to destination.</td><td><strong>DESTROYS ANALYTICS!</strong> Your server never receives repeat clicks, making geolocation and device tracking impossible.</td></tr>
+<tr><td><code>HTTP 302 Temporary</code></td><td>Browser visits your shortening server every single time the link is clicked.</td><td><strong>REQUIRED FOR ENTERPRISE:</strong> Allows your server to count clicks, record referrer headers, and execute rate limiting before issuing redirect.</td></tr>
+</table>
+</div>
+`},
+
+// ─── 4. INTERNET & HTTP ───
+{id:"internet",title:"How the Internet & HTTP Work (Packet to Padlock)",tag:"Network Protocols • Core",desc:"Complete physical packet journey from DNS resolution to TCP handshake and TLS 1.3 ECDHE encryption.",
+content:`
+<div class="section-card">
+<h3>🌐 The Full 6-Step DNS Resolution Lifecycle</h3>
+<ol>
+<li><strong>Browser Cache:</strong> Checks local RAM cache ($0\\text{ms}$).</li>
+<li><strong>OS Resolver:</strong> Checks system cache <code>/etc/resolv.conf</code> ($1\\text{ms}$).</li>
+<li><strong>Recursive Resolver (ISP):</strong> Cloudflare 1.1.1.1 or Google 8.8.8.8 checks cache or initiates recursive walk.</li>
+<li><strong>Root DNS Server:</strong> Returns IP of the <code>.com</code> TLD Name Server.</li>
+<li><strong>TLD Name Server:</strong> Returns IP of Google's Authoritative Name Server.</li>
+<li><strong>Authoritative Server:</strong> Returns final IP <code>142.250.80.46</code> with configured TTL (Time To Live).</li>
+</ol>
+</div>
+
+<div class="section-card">
+<h3>🤝 TCP 3-Way Handshake vs HTTP/3 QUIC</h3>
+<p>Before HTTP data flows over TCP, 3 packets must travel across the globe: <code>SYN</code> $\\rightarrow$ <code>SYN-ACK</code> $\\rightarrow$ <code>ACK</code> (1 full network round-trip wasted). On a 150ms cross-continent fiber link, that is 150ms of pure waiting.</p>
+<div class="box b-co"><h5>Why HTTP/3 Uses UDP (QUIC)</h5><p>HTTP/2 multiplexes multiple data streams over a single TCP socket. However, because TCP enforces strict sequential byte ordering, if 1 packet is dropped by an ocean router, **ALL streams freeze** waiting for TCP retransmission (Head-of-Line Blocking). HTTP/3 builds reliability and encryption directly over UDP. If Stream A loses a packet, Streams B, C, and D continue flowing unimpeded!</p></div>
+</div>
+`},
+
+// ─── 5. AI EVALUATION PIPELINES ───
+{id:"evals",title:"AI Evaluation Pipelines & Automated Tool Testing",tag:"LLM Ops • CI/CD Testing",desc:"Replacing subjective vibe checks with automated mathematical Ragas scoring and regression suites in GitHub Actions.",
+content:`
+<div class="section-card">
+<h3>📐 The Core 3 RAG Metrics (Ragas Framework)</h3>
+<p>In production AI engineering, evaluating chatbot accuracy requires calculating quantitative scores using an automated LLM-as-a-Judge pipeline:</p>
+<table>
+<tr><th>Metric</th><th>Definition</th><th>Failure Symptom</th></tr>
+<tr><td><strong>Faithfulness</strong></td><td>Measures if every claim in the LLM answer can be verified directly from the retrieved context chunks.</td><td>Model hallucinates outside facts not present in documents.</td></tr>
+<tr><td><strong>Answer Relevance</strong></td><td>Measures how directly the completion answers the user's specific prompt without verbosity.</td><td>Model rambles or answers a tangential topic.</td></tr>
+<tr><td><strong>Context Precision</strong></td><td>Measures whether the vector database ranked the most relevant document chunks at the top ($K=1, 2$).</td><td>Relevant documents appeared at rank $K=10$, getting truncated by context window.</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>🧪 Tool Execution & Schema Evaluation in CI/CD</h3>
+<p>When evaluating autonomous agents, you must verify that the model generates valid tool call payloads under adversarial conditions. Automated test harnesses run assertions against agent tool calls:</p>
+<div class="cb"><span class="cm"># CI/CD Automated Agent Tool Evaluation Assertion</span>
+def test_agent_diagnostic_tool_call():
+    prompt = "Check CPU load on pod api-worker-4"
+    response = agent.execute(prompt)
+    
+    assert len(response.tool_calls) == 1
+    tool = response.tool_calls[0]
+    assert tool.name == "query_production_metrics"
+    assert tool.arguments["service_name"] == "api-worker-4"
+    <span class="cm"># Verify model did not inject malicious SQL characters</span>
+    assert ";" not in tool.arguments["service_name"]</div>
+</div>
+`},
+
+// ─── 6. SECURE RAG SYSTEM ───
+{id:"securerag",title:"Enterprise Secure RAG: Vector ACLs, Guardrails & Audit Logs",tag:"AI Security • Governance",desc:"Complete architecture preventing confidential RAG data leaks with metadata filtering, NeMo guardrails, and SQL audit tables.",
+content:`
+<div class="section-card">
+<h3>🛡️ 3-Layer Defense Against RAG Roadmap Leaks</h3>
+<p>If an intern asks your internal RAG chatbot *"What are our secret acquisition targets for Q4?"* naive vector cosine similarity will retrieve C-Suite strategy docs and stream them to the intern.</p>
+<ol>
+<li><strong>Ingestion Metadata ACLs:</strong> During embedding indexing, attach strict Access Control Lists: <code>chunk.metadata = {"allowed_roles": ["C_SUITE", "VP_STRATEGY"]}</code>.</li>
+<li><strong>Query-Time Role Pre-Filtering:</strong> When a user queries, extract their verified JWT roles and pass them into the vector DB filter *before* vector search executes: <code>filter={"allowed_roles": {"$in": user.roles}}</code>.</li>
+<li><strong>NeMo Output Guardrails:</strong> Run all generated completions through an independent classification model inspecting for PII, SSNs, or classified project codenames before emitting network packets.</li>
+</ol>
+</div>
+
+<div class="section-card">
+<h3>📜 Immutable SQL Audit Logging Schema</h3>
+<div class="cb"><span class="cm">-- Tamper-Proof AI Audit Table with Cryptographic Chaining</span>
+CREATE TABLE ai_audit_logs (
+    event_id UUID PRIMARY KEY,
+    timestamp TIMESTAMPTZ DEFAULT NOW(),
+    user_id VARCHAR(128) NOT NULL,
+    prompt_sha256 CHAR(64) NOT NULL,        <span class="cm">-- SHA-256 hash ensures GDPR privacy</span>
+    retrieved_chunk_ids UUID[] NOT NULL,
+    model_name VARCHAR(64) NOT NULL,
+    prev_record_hmac CHAR(64) NOT NULL      <span class="cm">-- Chained hash prevents record deletion</span>
+);</div>
+</div>
+`},
+
+// ─── 7. HOSTING OPEN SOURCE LLMS ───
+{id:"hostingllm",title:"Hosting Open Source Models on Your Own Data (vLLM)",tag:"On-Prem AI • vLLM Tuning",desc:"Self-hosting Llama 3 / Mistral on private infrastructure with PagedAttention VRAM tuning and local embedding pipelines.",
+content:`
+<div class="section-card">
+<h3>⚡ Why Standard HuggingFace Serving Wastes 60% VRAM</h3>
+<p>Standard PyTorch serving pre-allocates contiguous GPU Key-Value (KV) cache memory for the maximum theoretical sequence length (e.g., 8,192 tokens). If a prompt is only 150 tokens, 98% of that reserved GPU memory sits completely empty due to internal fragmentation!</p>
+</div>
+
+<div class="section-card">
+<h3>🚀 vLLM & PagedAttention Breakthrough</h3>
+<p>Inspired by OS virtual memory paging, **vLLM** divides the KV cache into small, non-contiguous physical memory blocks (e.g., 16 tokens per block). A virtual block table maps logical token sequence positions to physical GPU slots on the fly.</p>
+<div class="box b-fi"><h5>✅ Production Impact</h5><p>PagedAttention eliminates VRAM fragmentation entirely, boosting GPU memory utilization to $>96\\%$ and achieving $\\mathbf{4\\times\\text{ higher batch serving throughput}}$ than naive HuggingFace pipelines!</p></div>
+<div class="cb"><span class="cm"># Launching enterprise vLLM server with PagedAttention on GPU cluster</span>
+python -m vllm.entrypoints.openai.api_server \\
+    --model meta-llama/Llama-3-70B-Instruct \\
+    --tensor-parallel-size 4 \\
+    --gpu-memory-utilization 0.95 \\
+    --max-num-seqs 256</div>
+</div>
+`},
+
+// ─── 8. KNOWLEDGE GRAPH AI ───
+{id:"graphrag",title:"Knowledge Graph AI (GraphRAG vs Vector RAG)",tag:"Graph AI • Multi-Hop Search",desc:"Why vector similarity search fails at global reasoning and how GraphRAG extracts entity networks into Neo4j.",
+content:`
+<div class="section-card">
+<h3>🕸️ The Failure of Vector Search on Multi-Hop Queries</h3>
+<p>Ask Vector RAG: *"What is the relationship between our cloud vendor outage in May and the Q3 revenue drop in European retail?"* Cosine similarity fails because the keywords appear in 40 separate, disconnected incident reports and ledger spreadsheets.</p>
+</div>
+
+<div class="section-card">
+<h3>🧬 GraphRAG Architecture</h3>
+<p>GraphRAG uses LLMs during document ingestion to extract structured **Entities** (Servers, Teams, Outages, Clients) and **Relationships** (CAUSED_BY, DEPENDS_ON, OWNED_BY) into a graph database like Neo4j.</p>
+<div class="cb"><span class="cm">// Cypher Query traversing multi-hop organizational dependencies</span>
+MATCH path = shortestPath(
+  (outage:Incident {name: 'May-EU-Outage'})-[*1..4]-(rev:FinancialMetric {region: 'EU'})
+)
+RETURN path</div>
+<p>By executing graph traversals across connected nodes, GraphRAG synthesizes comprehensive global answers that standard vector similarity algorithms are mathematically blind to.</p>
+</div>
+`},
+
+// ─── 9. RAG ROADMAP LEAK CASE STUDY ───
+{id:"casestudy",title:"Production Case Study: RAG Chatbot Leaked the Roadmap",tag:"Incident Autopsy • Security",desc:"Complete root cause investigation and architectural fix of a real-world enterprise RAG data exfiltration incident.",
+content:`
+<div class="section-card">
+<h3>🚨 Incident Overview & Symptom</h3>
+<p>A corporate AI chatbot deployed to 5,000 employees was asked by a junior intern: *"Give me a high-level overview of strategic initiatives happening next quarter."* The chatbot returned exact details of a secret unannounced $\$400\\text{M}$ acquisition of a rival startup.</p>
+</div>
+
+<div class="section-card">
+<h3>🔍 Root Cause Analysis</h3>
+<ul>
+<li><strong>No Data Segmentation:</strong> All corporate SharePoint files (including C-Suite executive slide decks) were embedded into a single shared vector index without document permissions.</li>
+<li><strong>Semantic Trapping:</strong> Because "strategic initiatives" semantically matches "acquisition roadmap" vector embeddings ($0.88$ cosine similarity), the vector database returned the confidential slides as top context chunks.</li>
+</ul>
+</div>
+
+<div class="section-card">
+<h3>✅ The Architectural Remediation Checklist</h3>
+<ol>
+<li>Purged single vector index. Migrated to multi-tenant namespaced vector collections separated by organization security level.</li>
+<li>Implemented mandatory JWT OAuth bearer token propagation from web client down to vector query filters.</li>
+<li>Enabled PII & Financial regex masking filters on prompt output streams.</li>
+</ol>
+</div>
+`},
+
+// ─── 10. AI COST CONTROL ───
+{id:"costcontrol",title:"Preventing AI API Cost Blowups & Semantic Caching",tag:"FinOps • Redis Vector Cache",desc:"How to stop infinite token loops and implement sub-5ms Redis semantic caching to slash OpenAI billing by 70%.",
+content:`
+<div class="section-card">
+<h3>💰 The Token Blowup Hazard</h3>
+<p>A single recursive agent loop stuck retrying a failing API tool can consume 100,000 GPT-4 tokens every 30 seconds. Without API edge rate limits, a minor bug can generate a $\$5,000$ bill overnight.</p>
+</div>
+
+<div class="section-card">
+<h3>⚡ Complete Redis Semantic Vector Caching Code</h3>
+<p>Standard caching requires exact string matches. If User A asks *"How do I reset my password?"* and User B asks *"I forgot my password help me reset,"* standard caches miss. **Semantic Caching** embeds the query and searches for nearby vectors:</p>
+<div class="cb"><span class="cm"># Complete Redis Semantic Caching Workflow</span>
+import redis
+from sentence_transformers import SentenceTransformer
+
+client = redis.Redis(host='localhost', port=6379)
+embedder = SentenceTransformer('all-MiniLM-L6-v2')
+
+def query_llm_with_semantic_cache(user_prompt: str) -> str:
+    query_vector = embedder.encode(user_prompt).astype('float32').tobytes()
+    
+    <span class="cm"># Search Redis Vector Index for similar past questions</span>
+    query = "*=>[KNN 1 @vector $vec AS distance]"
+    results = client.ft("prompt_cache").search(query, query_params={"vec": query_vector})
+    
+    if results and len(results.docs) > 0:
+        dist = float(results.docs[0].distance)
+        if dist < 0.08:  <span class="cm"># Cosine distance threshold (highly similar!)</span>
+            print("⚡ SEMANTIC CACHE HIT! Zero LLM API cost incurred.")
+            return results.docs[0].cached_answer
+            
+    <span class="cm"># Cache Miss: Call expensive OpenAI API and cache result</span>
+    answer = call_openai_gpt4(user_prompt)
+    client.hset(f"cache:{user_prompt}", mapping={"cached_answer": answer, "vector": query_vector})
+    return answer</div>
+</div>
+`},
+
+// ─── 11. AUTH & SECRETS ───
+{id:"authsecrets",title:"Enterprise Auth, Secrets & Token Security Mastery",tag:"Security Core • Vault",desc:"JWT RS256 public/private keys, refresh token family rotation, and replacing .env files with HashiCorp Vault leases.",
+content:`
+<div class="section-card">
+<h3>🔐 JWT RS256 Asymmetric Signing vs HS256</h3>
+<p>HS256 uses a single shared secret key across all services. If 1 reporting microservice is breached, the attacker steals the secret and signs forged admin JWTs. **RS256 uses asymmetric RSA keypairs:** the Auth Server signs tokens with a Private Key; microservices verify signatures using only the Public Key.</p>
+</div>
+
+<div class="section-card">
+<h3>🔄 Refresh Token Family Rotation</h3>
+<p>When a client exchanges a refresh token for a new access token, issue a **brand new refresh token** and invalidate the old one. If an attacker steals an old refresh token and tries to use it, the auth server detects the reuse anomaly and **immediately revokes the entire Token Family ID**, locking out all sessions!</p>
+</div>
+
+<div class="section-card">
+<h3>🗝️ HashiCorp Vault Dynamic Ephemeral Leases</h3>
+<div class="box b-da"><h5>⚠️ Never Store Secrets in .env Files</h5><p>Enterprise apps pull credentials dynamically from HashiCorp Vault. Vault generates temporary PostgreSQL users with strict permissions and a 1-hour lease TTL. If a server is compromised, credentials expire automatically.</p></div>
+</div>
+`},
+
+// ─── 12. RESILIENCY ───
+{id:"resiliency",title:"Production Resiliency & Fault Tolerance Patterns",tag:"Reliability • SRE Core",desc:"Complete Python Circuit Breaker implementation, Bulkhead thread pools, Idempotency keys, and Full Jitter backoff.",
+content:`
+<div class="section-card">
+<h3>⚡ Complete Python Circuit Breaker Implementation</h3>
+<div class="cb">import time
+
+class CircuitBreaker:
+    def __init__(self, failure_threshold=5, recovery_timeout=30):
+        self.state = "CLOSED"
+        self.failure_count = 0
+        self.failure_threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.last_state_change = time.time()
+
+    def call(self, func, *args):
+        if self.state == "OPEN":
+            if time.time() - self.last_state_change > self.recovery_timeout:
+                self.state = "HALF_OPEN"
+            else:
+                raise Exception("Circuit Breaker OPEN: Fast fallback triggered!")
+        try:
+            res = func(*args)
+            if self.state == "HALF_OPEN":
+                self.state = "CLOSED"
+                self.failure_count = 0
+            return res
+        except Exception as e:
+            self.failure_count += 1
+            if self.failure_count >= self.failure_threshold:
+                self.state = "OPEN"
+                self.last_state_change = time.time()
+            raise e</div>
+</div>
+
+<div class="section-card">
+<h3>🛡️ Bulkheads & Exponential Backoff with Full Jitter</h3>
+<p><strong>Bulkhead Pattern:</strong> Partition worker thread pools so a memory leak in PDF generating threads cannot freeze checkout payment threads.</p>
+<p><strong>Full Jitter Formula:</strong> Never retry failed requests at fixed intervals! Randomize retry windows to prevent synchronized thundering herds:</p>
+<div class="cb"><span class="cm"># Full Jitter Backoff Formula</span>
+sleep_time = random.uniform(0, min(max_backoff, base_delay * (2 ** attempt)))</div>
+</div>
+`},
+
+// ─── 13. LOAD BALANCING ───
+{id:"loadbalancing",title:"How Load Balancers Decide Who Handles Requests",tag:"Traffic Routing • L4/L7",desc:"Complete breakdown of Round Robin, Least Connections, IP Hash, and Consistent Hashing rings with Virtual Nodes.",
+content:`
+<div class="section-card">
+<h3>🧮 Decision Algorithms Explained</h3>
+<table>
+<tr><th>Algorithm</th><th>Mechanics</th><th>Best Used For</th></tr>
+<tr><td><strong>Round Robin</strong></td><td>Loops sequentially ($1 \\rightarrow 2 \\rightarrow 3 \\rightarrow 1$).</td><td>Stateless web apps with uniform request execution times.</td></tr>
+<tr><td><strong>Least Connections</strong></td><td>Routes new request to server with fewest active TCP conns.</td><td>Long-lived connections (WebSockets, heavy LLM inference).</td></tr>
+<tr><td><strong>IP Hash / Sticky</strong></td><td>Hashes client IP to ensure user always lands on same server.</td><td>Legacy stateful apps caching user state in local server RAM.</td></tr>
+<tr><td><strong>Power of Two Choices</strong></td><td>Picks 2 random backend nodes; routes to the less loaded one.</td><td>High-frequency HFT scale systems ($O(1)$ lockless overhead).</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>🔵 Consistent Hashing & Virtual Nodes (V-Nodes)</h3>
+<p>Modulo hashing <code>hash(key) % N</code> fails because adding or dropping 1 server remaps $90\\%$ of keys, triggering cache stampedes. **Consistent Hashing** maps nodes onto a $0$ to $2^{32}-1$ ring. To eliminate lopsided traffic hotspots across small node counts, assign 200 Virtual Nodes per physical machine.</p>
+</div>
+`},
+
+// ─── 14. REDIS & BULLMQ ───
+{id:"redisbullmq",title:"Redis, BullMQ Hosting & What Happens When Memory Fills Up",tag:"Distributed Queues • Caching",desc:"Redis RAM eviction policies explained, BullMQ Lua scripts, Cluster Mode CROSSSLOT errors, and hosting strategies.",
+content:`
+<div class="section-card">
+<h3>🔴 What Happens When Redis Hits 100% Memory?</h3>
+<table>
+<tr><th>Eviction Policy</th><th>Behavior Under Memory Pressure</th><th>Production Impact</th></tr>
+<tr><td><code>noeviction</code> (Default)</td><td>Refuses new writes with OOM error. Reads succeed.</td><td><strong>CRITICAL FOR BULLMQ QUEUES!</strong> Keeps pending job state safe without data loss. Writes fail until RAM clears.</td></tr>
+<tr><td><code>allkeys-lru</code></td><td>Evicts least recently used keys across entire DB.</td><td><strong>FATAL FOR QUEUES:</strong> Silently deletes unexecuted background jobs! Use strictly for transient HTML/JSON caching layers.</td></tr>
+</table>
+</div>
+
+<div class="section-card">
+<h3>⚡ BullMQ Architecture & Cluster Mode Gotcha</h3>
+<p>BullMQ manages complex job states (waiting, active, delayed, failed) atomically via Redis Lua scripts. If you deploy Redis in **Cluster Mode Enabled** without enclosing queue names in hash tags like <code>{myqueue}:jobs</code>, BullMQ crashes with <code>CROSSSLOT Keys don't hash to the same slot</code>! Why? Because Lua scripts cannot atomically modify keys living on different physical cluster shards.</p>
+</div>
+`
+}
+];
+
+function renderNav() {
+    const list = document.getElementById('navList');
+    list.innerHTML = TOPICS.map((t, i) => `
+        <div class="nav-item ${i === 0 ? 'on' : ''}" onclick="selectTopic(${i})" id="nav_${i}">
+            <div class="nav-num">${i + 1}</div>
+            <div>${t.title}</div>
+        </div>
+    `).join('');
+}
+
+function renderContent() {
+    const area = document.getElementById('contentArea');
+    area.innerHTML = TOPICS.map((t, i) => `
+        <div class="topic-pane ${i === 0 ? 'on' : ''}" id="pane_${i}">
+            <span class="topic-tag">${t.tag}</span>
+            <h2>${t.title}</h2>
+            <p class="topic-desc">${t.desc}</p>
+            ${t.content}
+        </div>
+    `).join('');
+}
+
+function selectTopic(idx) {
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('on'));
+    document.querySelectorAll('.topic-pane').forEach(p => p.classList.remove('on'));
+    document.getElementById('nav_' + idx).classList.add('on');
+    document.getElementById('pane_' + idx).classList.add('on');
+    document.getElementById('contentArea').scrollTo(0, 0);
+}
+
+renderNav();
+renderContent();
+</script>
+</body>
+</html>
