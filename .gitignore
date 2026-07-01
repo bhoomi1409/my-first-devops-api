@@ -8,3 +8,10 @@ env/
 
 # Docker
 .dockerignore
+
+# Temporary scratch files and OS files
+.DS_Store
+*.log
+check*.js
+temp*.js
+test_runtime.js

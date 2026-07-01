@@ -21,13 +21,16 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build the image and PUSH it to the registry
+      # Build the image and PUSH it to the registry with immutable Git SHA tags for rollback safety
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          tags: bhoomi14092005/my-first-devops-api:latest
+          tags: |
+            bhoomi14092005/my-first-devops-api:latest
+            bhoomi14092005/my-first-devops-api:${{ github.sha }}
+
 
   deploy-to-staging:
     runs-on: ubuntu-latest
