@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛡️ Complete Application Security & Auth Zero-to-Hero Interactive Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg0: #040407;
+            --bg1: #090912;
+            --bg2: #121222;
+            --bg3: rgba(22, 22, 38, 0.94);
+            --glass: rgba(255, 255, 255, 0.03);
+            --brd: rgba(255, 255, 255, 0.08);
+            --brd2: rgba(255, 255, 255, 0.18);
+            --t1: #f4f4fa;
+            --t2: #a8a8ca;
+            --t3: #68688a;
+            --vi: #7c5cfc;
+            --vi2: rgba(124, 92, 252, 0.18);
+            --cy: #00e5ff;
+            --cy2: rgba(0, 229, 255, 0.14);
+            --em: #10b981;
+            --em2: rgba(16, 185, 129, 0.14);
+            --am: #f59e0b;
+            --am2: rgba(245, 158, 11, 0.14);
+            --ro: #f43f5e;
+            --ro2: rgba(244, 63, 94, 0.18);
+            --r: 14px;
+            --r2: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg0);
+            color: var(--t1);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(244, 63, 94, 0.07) 0%, transparent 45%),
+                        radial-gradient(circle at 90% 80%, rgba(124, 92, 252, 0.06) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(124, 92, 252, 0.15);
+            color: var(--cy);
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            font-weight: 600;
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(4, 4, 7, 0.92);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--brd);
+            padding: 14px 30px;
+        }
+        .h-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .h-logo {
+            font-weight: 900;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--ro), var(--am));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .h-nav { display: flex; gap: 12px; }
+        .h-btn {
+            padding: 8px 18px;
+            border: 1px solid var(--brd);
+            background: var(--bg2);
+            color: var(--t1);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            transition: all 0.25s;
+            cursor: pointer;
+        }
+        .h-btn:hover {
+            background: var(--ro);
+            border-color: var(--ro);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(245, 158, 11, 0.08));
+            border: 1px solid var(--ro2);
+            border-radius: var(--r2);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--t2);
+            max-width: 950px;
+            margin-bottom: 24px;
+        }
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+        .tag { padding: 6px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
+        .tag-ro { background: var(--ro2); color: #ff8093; border: 1px solid rgba(244, 63, 94, 0.3); }
+        .tag-am { background: var(--am2); color: var(--am); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .tag-cy { background: var(--cy2); color: var(--cy); border: 1px solid rgba(0, 229, 255, 0.3); }
+
+        /* Level Navigation */
+        .level-nav {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--brd);
+        }
+        .l-tab {
+            padding: 14px 24px;
+            background: var(--bg2);
+            border: 1px solid var(--brd);
+            border-radius: 12px;
+            color: var(--t2);
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s;
+        }
+        .l-tab:hover { color: #fff; border-color: var(--brd2); }
+        .l-tab.on {
+            background: var(--ro);
+            color: #fff;
+            border-color: var(--ro);
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.45);
+        }
+
+        .level-content { display: none; animation: fadeIn 0.35s ease; }
+        .level-content.on { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Card */
+        .card {
+            background: var(--bg3);
+            border: 1px solid var(--brd);
+            border-radius: var(--r2);
+            padding: 36px;
+            margin-bottom: 35px;
+        }
+        .card h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 16px; color: #fff; }
+        .card h3 { font-size: 1.3rem; font-weight: 800; margin: 24px 0 12px; color: var(--cy); }
+        .card p { color: var(--t2); margin-bottom: 16px; }
+
+        /* Sandbox Boxes */
+        .sandbox {
+            background: #05050a;
+            border: 2px solid var(--ro);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 25px 0;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
+        }
+        .sandbox h3 { color: #ff8093; margin-top: 0; }
+        
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0; }
+        .box-col { background: var(--bg2); padding: 20px; border-radius: 12px; border: 1px solid var(--brd); }
+        .box-col label { font-weight: 700; color: var(--t1); display: block; margin-bottom: 6px; font-size: 0.9rem; }
+        .box-col textarea, .box-col input {
+            width: 100%;
+            background: #080811;
+            border: 1px solid var(--brd2);
+            border-radius: 8px;
+            color: #fff;
+            padding: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+            outline: none;
+        }
+
+        .jwt-token-display {
+            background: #0d0d1a;
+            border: 1px solid var(--brd2);
+            border-radius: 10px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            word-break: break-all;
+            font-size: 0.95rem;
+        }
+        .jwt-header { color: #fb7185; }
+        .jwt-payload { color: #c084fc; }
+        .jwt-signature { color: #38bdf8; }
+
+        .form-row { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
+        .btn {
+            background: var(--ro);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(244,63,94,0.5); }
+        .out-box { background: #000; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; color: var(--am); margin-top: 15px; white-space: pre-wrap; }
+
+        table { width: 100%; border-collapse: collapse; margin: 25px 0; background: var(--bg2); border-radius: 12px; overflow: hidden; }
+        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--brd); }
+        th { background: rgba(244, 63, 94, 0.2); color: #fff; font-weight: 800; }
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="h-inner">
+            <div class="h-logo">🛡️ AppSec Zero-to-Hero Lab</div>
+            <div class="h-nav">
+                <a href="index.html" class="h-btn">← Handbook Dashboard</a>
+                <a href="linux_zero_to_hero.html" class="h-btn">🐧 Linux Lab</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Application Security & Authentication Mastery Encyclopedia</h1>
+            <p>Complete zero-to-hero interactive curriculum covering JWT, OAuth 2.0 PKCE, Cryptography, SQL Injection, XSS, CSRF, CORS, SSRF, Rate Limiting, and Zero-Trust Enterprise Security.</p>
+            <div class="hero-tags">
+                <span class="tag tag-ro">🔐 Auth & Cryptography</span>
+                <span class="tag tag-am">💻 SQLi & XSS Simulators</span>
+                <span class="tag tag-cy">🛡️ Zero-Trust Architecture</span>
+            </div>
+        </div>
+
+        <div class="level-nav">
+            <div class="l-tab on" onclick="switchLevel(0)">🔑 1. JWT & Token Auth Sandbox</div>
+            <div class="l-tab" onclick="switchLevel(1)">🌐 2. OAuth 2.0 & OIDC Architecture</div>
+            <div class="l-tab" onclick="switchLevel(2)">💉 3. SQL Injection Simulator</div>
+            <div class="l-tab" onclick="switchLevel(3)">⚡ 4. XSS Sandbox & CSRF Defense</div>
+            <div class="l-tab" onclick="switchLevel(4)">🔐 5. Cryptography & Password Hashing</div>
+            <div class="l-tab" onclick="switchLevel(5)">🛡️ 6. CORS, SSRF & Rate Limiting</div>
+        </div>
+
+        <!-- LEVEL 0: JWT -->
+        <div class="level-content on" id="lvl-0">
+            <div class="card">
+                <h2>JSON Web Tokens (JWT) & Stateless Authentication</h2>
+                <p>Unlike traditional stateful session IDs stored in database memory, a <b>JWT is a self-contained cryptographic token</b> verifying identity via an HMAC or RSA cryptographic signature.</p>
+
+                <div class="sandbox">
+                    <h3>⚡ Live JWT Crafting & Tampering Playground</h3>
+                    <p>Edit the JSON Payload below. Notice how changing a single letter instantly recalculates the Base64 token and changes the cryptographic signature!</p>
+                    <div class="grid-2">
+                        <div class="box-col">
+                            <label>🔴 Header (Algorithm & Token Type)</label>
+                            <textarea id="jwtHeader" rows="3" oninput="encodeJWT()">{
+  "alg": "HS256",
+  "typ": "JWT"
+}</textarea>
+                            <label>🟣 Payload (User Claims & Roles)</label>
+                            <textarea id="jwtPayload" rows="6" oninput="encodeJWT()">{
+  "sub": "user_9821",
+  "username": "bhoomim",
+  "role": "developer",
+  "iat": 1719830000
+}</textarea>
+                            <label>🔵 HMAC Secret Key</label>
+                            <input type="text" id="jwtSecret" value="super_secret_devops_key_2026" oninput="encodeJWT()">
+                        </div>
+                        <div class="box-col">
+                            <label>Generated Encoded JWT (Base64Url)</label>
+                            <div class="jwt-token-display">
+                                <span id="outHeader" class="jwt-header"></span>.<span id="outPayload" class="jwt-payload"></span>.<span id="outSig" class="jwt-signature"></span>
+                            </div>
+                            <div style="margin-top:20px;padding:15px;background:#10101d;border-radius:8px;border:1px solid var(--brd2);">
+                                <h4 style="color:var(--em);margin-bottom:8px;">💡 Security Gotcha Checklist:</h4>
+                                <ul style="font-size:0.85rem;color:var(--t2);padding-left:18px;">
+                                    <li><b>Never store sensitive data (passwords, SSNs) in JWT payloads!</b> The payload is merely Base64 encoded, NOT encrypted.</li>
+                                    <li><b>Always use strong secrets or RS256 asymmetric pairs.</b> Weak secrets can be brute-forced offline in seconds using Hashcat.</li>
+                                    <li><b>Storage:</b> Store tokens in <code>HttpOnly</code> cookies or memory to prevent XSS theft!</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 1: OAUTH 2.0 -->
+        <div class="level-content" id="lvl-1">
+            <div class="card">
+                <h2>OAuth 2.0 & OpenID Connect (OIDC) Architecture</h2>
+                <p><b>OAuth 2.0 is an Authorization protocol</b> (delegated access without sharing passwords). <b>OpenID Connect (OIDC) adds Authentication</b> by issuing an ID Token proving user identity.</p>
+
+                <h3>The Authorization Code Flow with PKCE (Proof Key for Code Exchange)</h3>
+                <div style="background:#06060c;padding:25px;border-radius:14px;border:1px solid var(--brd2);margin:20px 0;font-family:'JetBrains Mono',monospace;font-size:0.9rem;">
+                    1. 🧑 Client generates random <span style="color:var(--cy);">code_verifier</span> and hashes it to create <span style="color:var(--vi);">code_challenge</span>.<br><br>
+                    2. ➔ Redirects browser to Auth Server (Google/Okta) with <span style="color:var(--vi);">code_challenge</span>.<br><br>
+                    3. 🧑 User logs in and approves consent screen.<br><br>
+                    4. ➔ Auth Server redirects back with temporary <span style="color:var(--am);">Authorization Code</span>.<br><br>
+                    5. ➔ App sends <span style="color:var(--am);">Authorization Code</span> + original secret <span style="color:var(--cy);">code_verifier</span> to token endpoint.<br><br>
+                    6. ✅ Auth Server verifies hash! Issues secure <span style="color:var(--em);">Access Token + ID Token</span>!
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 2: SQL INJECTION -->
+        <div class="level-content" id="lvl-2">
+            <div class="card">
+                <h2>SQL Injection (SQLi) — Attack & Defense Simulator</h2>
+                <p>SQL Injection happens when untrusted user input is directly concatenated into raw database SQL query strings instead of using parameterized placeholders.</p>
+
+                <div class="sandbox">
+                    <h3>⚡ Interactive SQL Injection Login Bypass</h3>
+                    <p>Try logging in. Enter normal username <code>admin</code> or try classic injection: <code>' OR '1'='1</code></p>
+                    <div class="form-row">
+                        <input type="text" id="sqliUser" placeholder="Enter username (try: ' OR '1'='1 )" style="background:#0b0b16;border:1px solid var(--brd2);color:#fff;padding:12px;border-radius:8px;flex:1;font-family:'JetBrains Mono',monospace;">
+                        <button class="btn" onclick="runSQLi(false)">Execute Vulnerable Query</button>
+                        <button class="btn" style="background:var(--em);" onclick="runSQLi(true)">Execute Prepared Statement Defense</button>
+                    </div>
+                    <div class="out-box" id="sqliOutput">Run a query above to inspect the database execution!</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 3: XSS & CSRF -->
+        <div class="level-content" id="lvl-3">
+            <div class="card">
+                <h2>Cross-Site Scripting (XSS) Sandbox & CSRF Defense</h2>
+                <p>XSS allows attackers to inject malicious JavaScript into web pages viewed by other users, stealing tokens or session data.</p>
+
+                <div class="sandbox">
+                    <h3>⚡ Live XSS Attack & Sanitization Simulator</h3>
+                    <p>Enter a comment below containing malicious script tags: <code>&lt;img src="x" onerror="alert('XSS Stolen Cookie!')"&gt;</code></p>
+                    <div class="form-row">
+                        <input type="text" id="xssInput" value="<img src='x' onerror='alert(\"🚨 XSS ATTACK! Stolen Token: \" + localStorage.getItem(\"secret_token\"))'>" style="background:#0b0b16;border:1px solid var(--brd2);color:#fff;padding:12px;border-radius:8px;flex:1;font-family:'JetBrains Mono',monospace;">
+                        <button class="btn" onclick="runXSS(false)">Render Unprotected DOM</button>
+                        <button class="btn" style="background:var(--em);" onclick="runXSS(true)">Render with Output Sanitization</button>
+                    </div>
+                    <div class="out-box" id="xssOutput">Simulated rendering output will appear here.</div>
+                </div>
+
+                <h3>Cross-Site Request Forgery (CSRF) Prevention</h3>
+                <p>CSRF tricks a logged-in user's browser into auto-submitting cookies to perform state-changing requests on banking or API servers.</p>
+                <ul>
+                    <li><b>SameSite Cookie Attribute:</b> Set cookies to <code>SameSite=Strict</code> or <code>Lax</code> to prevent browsers from sending cookies on cross-origin requests.</li>
+                    <li><b>Anti-CSRF Synchronizer Tokens:</b> Backend issues a random secret token verified on every POST/PUT request.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LEVEL 4: CRYPTOGRAPHY -->
+        <div class="level-content" id="lvl-4">
+            <div class="card">
+                <h2>Cryptography Mastery: Symmetric vs. Asymmetric vs. Hashing</h2>
+                <p>Understanding the exact cryptographic algorithms used in enterprise applications is critical:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Industry Standard Algorithms</th>
+                            <th>How It Works & Best Use Case</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Symmetric Encryption</b><br>(Shared Secret Key)</td>
+                            <td><code>AES-GCM-256</code><br><code>ChaCha20-Poly1305</code></td>
+                            <td>Uses the <b>exact same secret key</b> to encrypt and decrypt data. Extremely fast! Used for encrypting database backups, cloud S3 buckets, and data at rest.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Asymmetric Encryption</b><br>(Public / Private Key Pair)</td>
+                            <td><code>RSA-4096</code><br><code>ECC / ED25519</code></td>
+                            <td>Uses a <b>Public Key</b> to encrypt or verify, and a secret <b>Private Key</b> to decrypt or sign. Used for HTTPS/TLS handshakes, SSH access, and signing RS256 JWT tokens.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Password Hashing</b><br>(One-Way Key Derivation)</td>
+                            <td><code>Argon2id</code><br><code>bcrypt</code> / <code>PBKDF2</code></td>
+                            <td>One-way mathematical functions that cannot be decrypted. <b>Never use fast hashes like MD5 or SHA-256 for passwords!</b> Modern GPUs can calculate billions of SHA-256 hashes per second. Argon2 and bcrypt intentionally consume RAM and CPU to make brute-forcing impossible.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LEVEL 5: CORS, SSRF & RATE LIMITING -->
+        <div class="level-content" id="lvl-5">
+            <div class="card">
+                <h2>CORS, SSRF, Rate Limiting & Zero-Trust Architecture</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Security Topic</th>
+                            <th>Vulnerability / Risk</th>
+                            <th>Architectural Defense Standard</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>CORS</b><br>(Cross-Origin Resource Sharing)</td>
+                            <td>Setting header <code>Access-Control-Allow-Origin: *</code> alongside authentication credentials allows any malicious website on the internet to read your users' API responses!</td>
+                            <td>Specify exact trusted domain whitelists (e.g., <code>https://app.company.com</code>) and validate origin headers explicitly.</td>
+                        </tr>
+                        <tr>
+                            <td><b>SSRF</b><br>(Server-Side Request Forgery)</td>
+                            <td>Attackers supply an internal URL (e.g., AWS Metadata IP <code>http://169.254.169.254/latest/meta-data/</code>) to a webhook endpoint, forcing your cloud server to leak internal IAM credentials.</td>
+                            <td>Implement strict network egress firewalls and block private IP ranges (<code>10.0.0.0/8</code>, <code>127.0.0.1</code>) in input validators.</td>
+                        </tr>
+                        <tr>
+                            <td><b>Rate Limiting & DDoS Defense</b></td>
+                            <td>Attackers flood authentication or GraphQL endpoints with millions of automated requests, causing database exhaustion.</td>
+                            <td>Implement <b>Token Bucket</b> or <b>Sliding Window</b> rate limiters at the API Gateway / Cloudflare level (e.g., max 5 login attempts per minute per IP).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        localStorage.setItem("secret_token", "JWT_SECRET_ADMIN_TOKEN_9912");
+
+        function switchLevel(idx) {
+            document.querySelectorAll('.l-tab').forEach((t, i) => t.classList.toggle('on', i === idx));
+            document.querySelectorAll('.level-content').forEach((c, i) => c.classList.toggle('on', i === idx));
+        }
+
+        function base64UrlEncode(str) {
+            return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        }
+
+        function encodeJWT() {
+            try {
+                let h = base64UrlEncode(document.getElementById('jwtHeader').value);
+                let p = base64UrlEncode(document.getElementById('jwtPayload').value);
+                let s = base64UrlEncode("simulated_hmac_signature_" + document.getElementById('jwtSecret').value + h + p);
+                document.getElementById('outHeader').innerText = h;
+                document.getElementById('outPayload').innerText = p;
+                document.getElementById('outSig').innerText = s;
+            } catch(e) {}
+        }
+
+        function runSQLi(isSecure) {
+            let u = document.getElementById('sqliUser').value || 'admin';
+            let out = document.getElementById('sqliOutput');
+            if (!isSecure) {
+                let rawSQL = `SELECT * FROM users WHERE username = '${u}' AND status = 'active';`;
+                if (u.includes("' OR '1'='1")) {
+                    out.innerHTML = `❌ <span style="color:#ff5f56;">VULNERABLE QUERY EXECUTED:</span>\n${rawSQL}\n\n🚨 ATTACK SUCCESSFUL! The condition ('1'='1') is ALWAYS TRUE! Returned ALL 14,200 user records including admin passwords!`;
+                } else {
+                    out.innerHTML = `⚠️ <span style="color:#f59e0b;">RAW CONCATENATED QUERY EXECUTED:</span>\n${rawSQL}\n\nResult: Looked up single user '${u}'.`;
+                }
+            } else {
+                let prepSQL = `SELECT * FROM users WHERE username = $1 AND status = 'active';  -- Params: [$1 = "${u}"]`;
+                out.innerHTML = `🛡️ <span style="color:#10b981;">SECURE PREPARED STATEMENT EXECUTED:</span>\n${prepSQL}\n\n✅ BLOCKED! The database engine treated "${u}" strictly as a literal string value, preventing query logic hijacking!`;
+            }
+        }
+
+        function runXSS(isSecure) {
+            let val = document.getElementById('xssInput').value;
+            let out = document.getElementById('xssOutput');
+            if (!isSecure) {
+                out.innerHTML = `❌ <span style="color:#ff5f56;">UNPROTECTED DOM RENDERING:</span>\nAttempting to insert HTML directly into document...\n\n`;
+                if (val.includes("<img") || val.includes("<script")) {
+                    alert("🚨 XSS EXPLOIT TRIGGERED! Stolen Token: " + localStorage.getItem("secret_token"));
+                    out.innerHTML += `🚨 ATTACK SUCCESSFUL! The browser executed the injected JavaScript tag and popped up an alert displaying stored tokens!`;
+                } else {
+                    out.innerHTML += `Rendered: ${val}`;
+                }
+            } else {
+                let clean = val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+                out.innerHTML = `🛡️ <span style="color:#10b981;">SANITIZED & ENCODED DOM OUTPUT:</span>\n${clean}\n\n✅ BLOCKED! HTML entities were escaped (< became &lt;), forcing the browser to display the tag as plain harmless text rather than executable code!`;
+            }
+        }
+
+        encodeJWT();
+    </script>
+</body>
+</html>
