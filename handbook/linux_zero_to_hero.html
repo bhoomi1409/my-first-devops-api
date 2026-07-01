@@ -419,12 +419,13 @@
         <!-- Level Navigation -->
         <div class="level-nav">
             <div class="l-tab on" onclick="switchLevel(0)">🌟 Level 0: Why Linux & AI Agents?</div>
-            <div class="l-tab" onclick="switchLevel(1)">📁 Level 1: Navigation (`ls`, `cd`, `pwd`)</div>
-            <div class="l-tab" onclick="switchLevel(2)">📜 Level 2: Files & Content (`cat`, `cp`, `mv`)</div>
-            <div class="l-tab" onclick="switchLevel(3)">🔍 Level 3: Search & Pipes (`grep`, `find`, `|`)</div>
-            <div class="l-tab" onclick="switchLevel(4)">🛡️ Level 4: Permissions (`chmod`, `chown`, `ps`)</div>
-            <div class="l-tab" onclick="switchLevel(5)">⚡ Level 5: Text Giants (`sed`, `awk`, `nl`)</div>
-            <div class="l-tab" onclick="switchLevel(6)">💻 Interactive Terminal Sandbox</div>
+            <div class="l-tab" onclick="switchLevel(1)">🐚 Level 1: What is a Shell, Terminal & Kernel?</div>
+            <div class="l-tab" onclick="switchLevel(2)">📁 Level 2: Navigation (`ls`, `cd`, `pwd`)</div>
+            <div class="l-tab" onclick="switchLevel(3)">📜 Level 3: Files & Content (`cat`, `cp`, `mv`)</div>
+            <div class="l-tab" onclick="switchLevel(4)">🔍 Level 4: Search & Pipes (`grep`, `find`, `|`)</div>
+            <div class="l-tab" onclick="switchLevel(5)">🛡️ Level 5: Permissions (`chmod`, `chown`, `ps`)</div>
+            <div class="l-tab" onclick="switchLevel(6)">⚡ Level 6: Text Giants (`sed`, `awk`, `nl`)</div>
+            <div class="l-tab" onclick="switchLevel(7)">💻 Interactive Terminal Sandbox</div>
         </div>
 
         <!-- LEVEL 0 -->
@@ -453,20 +454,73 @@
                         <div class="fc-node" style="border-color:var(--em);color:var(--em);">⚙️ OS Kernel<br><span style="font-size:0.8rem;color:#ccc;">Allocates CPU & Memory</span></div>
                     </div>
                 </div>
-
-                <h3>Video Walkthroughs & Concepts</h3>
-                <p>To master Linux concepts visually, check out these highly recommended concepts and video playlists:</p>
-                <ul>
-                    <li><b>The Linux Filesystem Hierarchy:</b> Think of Linux not as disk drive letters (like <code>C:\</code> or <code>D:\</code>), but as a single upside-down tree starting at root (<code>/</code>). Everything branches out from root: <code>/home</code>, <code>/var</code>, <code>/etc</code>, <code>/bin</code>.</li>
-                    <li><b>Everything is a File:</b> In Linux, text files, hardware devices, internet connections, and running processes are all represented as files inside the filesystem!</li>
-                </ul>
             </div>
         </div>
 
-        <!-- LEVEL 1 -->
+        <!-- LEVEL 1: WHAT IS A SHELL vs TERMINAL vs KERNEL -->
         <div class="level-content" id="lvl-1">
             <div class="card">
-                <h2>Level 1: Navigating the Filesystem Hierarchy</h2>
+                <h2>Level 1: What is a Shell, a Terminal, and the Kernel? (Zero-to-Hero Architecture)</h2>
+                <p>When beginners hear programmers say <i>"Open your terminal and type a bash command into the shell,"</i> it sounds like three words for the exact same thing! But in Linux computer science, they represent three completely distinct layers of an onion:</p>
+
+                <div class="flowchart" style="margin: 30px 0;">
+                    <div class="fc-row" style="flex-wrap:wrap;">
+                        <div class="fc-node" style="border-color:#f43f5e;color:#ff8093;">🖥️ 1. Terminal App<br><span style="font-size:0.75rem;color:#ccc;">(iTerm2 / Alacritty) The Window</span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:#7c5cfc;color:#c4b5fd;">🐚 2. The Shell<br><span style="font-size:0.75rem;color:#ccc;">(Bash / Zsh) The Translator</span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:#00e5ff;color:#67e8f9;">⚙️ 3. OS Kernel<br><span style="font-size:0.75rem;color:#ccc;">(Linux Core) The Hardware Boss</span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:#10b981;color:#6ee7b7;">💾 4. Hardware<br><span style="font-size:0.75rem;color:#ccc;">(CPU, RAM, NVMe SSD)</span></div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Layer</th>
+                            <th>What It Is</th>
+                            <th>Real-World Analogy</th>
+                            <th>Popular Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>🖥️ The Terminal</b></td>
+                            <td>The graphical window or application on your desktop that draws text on your screen and captures keyboard inputs. It is just a display wrapper!</td>
+                            <td>The physical phone booth or window counter where you stand to speak.</td>
+                            <td>Terminal.app (macOS), iTerm2, Alacritty, GNOME Terminal, PuTTY.</td>
+                        </tr>
+                        <tr>
+                            <td><b>🐚 The Shell</b></td>
+                            <td>The command-language interpreter program running inside the terminal. It takes the text commands you type (<code>ls</code>, <code>cat</code>), checks their grammar, and translates them into machine system calls!</td>
+                            <td>The bilingual interpreter who listens to your English speech and translates it into instructions the factory workers understand.</td>
+                            <td><b>Bash</b> (Bourne Again Shell - default on Linux servers), <b>Zsh</b> (default on macOS), <b>Fish</b>.</td>
+                        </tr>
+                        <tr>
+                            <td><b>⚙️ The Kernel</b></td>
+                            <td>The absolute core engine of the operating system. Humans never talk to the kernel directly! It directly manages memory allocation, CPU threads, network sockets, and disk read/write heads.</td>
+                            <td>The factory floor machine operators and electricity grid.</td>
+                            <td>Linux Kernel 6.8, Darwin Kernel (macOS).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background:rgba(124,92,252,0.1);border:1px solid var(--vi);border-radius:12px;padding:20px;margin-top:25px;">
+                    <h3 style="color:#fff;margin-top:0;">💡 Bash vs Zsh — Why Do People Argue About Them?</h3>
+                    <p>Think of shells like dialects of a language. Both understand 99% of the exact same Linux commands (<code>ls</code>, <code>grep</code>, <code>chmod</code>):</p>
+                    <ul>
+                        <li><b>Bash (Bourne Again Shell):</b> Created in 1989. It is the absolute universal standard installed on 99.9% of Ubuntu, Debian, AWS EC2, and Docker servers worldwide. When writing automation scripts (`deploy.sh`), you almost always write in Bash!</li>
+                        <li><b>Zsh (Z Shell):</b> An extended, modernized super-shell built on top of Bash. It adds smart auto-completion, color themes (Oh-My-Zsh), and spell-correction. Apple made Zsh the default terminal shell on all Macs starting in macOS Catalina!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 2 -->
+        <div class="level-content" id="lvl-2">
+            <div class="card">
+                <h2>Level 2: Navigating the Filesystem Hierarchy</h2>
                 <p>Before you can edit or run programs, you must know where you are and what is around you. These three foundational commands represent 90% of basic terminal movement.</p>
 
                 <table>
@@ -712,7 +766,7 @@
         }
 
         function focusTerminal() {
-            switchLevel(6);
+            switchLevel(7);
             setTimeout(() => focusInput(), 100);
         }
 
