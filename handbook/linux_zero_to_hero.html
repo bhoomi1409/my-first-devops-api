@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ Linux Zero-to-Hero Interactive Lab & Terminal Playground</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg0: #040407;
+            --bg1: #090912;
+            --bg2: #121222;
+            --bg3: rgba(22, 22, 38, 0.92);
+            --glass: rgba(255, 255, 255, 0.03);
+            --brd: rgba(255, 255, 255, 0.08);
+            --brd2: rgba(255, 255, 255, 0.18);
+            --t1: #f4f4fa;
+            --t2: #a8a8ca;
+            --t3: #68688a;
+            --vi: #7c5cfc;
+            --vi2: rgba(124, 92, 252, 0.18);
+            --cy: #00e5ff;
+            --cy2: rgba(0, 229, 255, 0.14);
+            --em: #10b981;
+            --em2: rgba(16, 185, 129, 0.14);
+            --am: #f59e0b;
+            --am2: rgba(245, 158, 11, 0.14);
+            --ro: #f43f5e;
+            --ro2: rgba(244, 63, 94, 0.14);
+            --r: 14px;
+            --r2: 20px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg0);
+            color: var(--t1);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 15% 15%, rgba(124, 92, 252, 0.07) 0%, transparent 45%),
+                        radial-gradient(circle at 85% 85%, rgba(0, 229, 255, 0.06) 0%, transparent 45%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(124, 92, 252, 0.15);
+            color: var(--cy);
+            padding: 2px 7px;
+            border-radius: 5px;
+            font-size: 0.88em;
+            font-weight: 600;
+        }
+
+        /* Navbar */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(4, 4, 7, 0.92);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--brd);
+            padding: 14px 30px;
+        }
+        .h-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+        .h-logo {
+            font-weight: 900;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--cy), var(--vi));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .h-nav {
+            display: flex;
+            gap: 12px;
+        }
+        .h-btn {
+            padding: 8px 18px;
+            border: 1px solid var(--brd);
+            background: var(--bg2);
+            color: var(--t1);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            transition: all 0.25s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .h-btn:hover {
+            background: var(--vi);
+            border-color: var(--vi);
+            color: #fff;
+            box-shadow: 0 0 20px rgba(124, 92, 252, 0.4);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, rgba(124, 92, 252, 0.12), rgba(0, 229, 255, 0.08));
+            border: 1px solid var(--brd2);
+            border-radius: var(--r2);
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--t2);
+            max-width: 950px;
+            margin-bottom: 24px;
+        }
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .tag {
+            padding: 6px 14px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .tag-vi { background: var(--vi2); color: #c4b5fd; border: 1px solid rgba(124, 92, 252, 0.3); }
+        .tag-cy { background: var(--cy2); color: var(--cy); border: 1px solid rgba(0, 229, 255, 0.3); }
+        .tag-em { background: var(--em2); color: var(--em); border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        /* Level Navigation Tabs */
+        .level-nav {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid var(--brd);
+        }
+        .l-tab {
+            padding: 14px 24px;
+            background: var(--bg2);
+            border: 1px solid var(--brd);
+            border-radius: 12px;
+            color: var(--t2);
+            font-weight: 800;
+            font-size: 0.9rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .l-tab:hover {
+            color: #fff;
+            border-color: var(--brd2);
+            transform: translateY(-2px);
+        }
+        .l-tab.on {
+            background: var(--vi);
+            color: #fff;
+            border-color: var(--vi);
+            box-shadow: 0 0 25px rgba(124, 92, 252, 0.45);
+        }
+
+        .level-content {
+            display: none;
+            animation: fadeIn 0.35s ease;
+        }
+        .level-content.on {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card sections */
+        .card {
+            background: var(--bg3);
+            border: 1px solid var(--brd);
+            border-radius: var(--r2);
+            padding: 36px;
+            margin-bottom: 35px;
+        }
+        .card h2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 24px 0 12px;
+            color: var(--cy);
+        }
+        .card p {
+            color: var(--t2);
+            margin-bottom: 16px;
+        }
+
+        /* Interactive Terminal Simulator */
+        .term-container {
+            background: #05050a;
+            border: 2px solid var(--vi);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7);
+            margin: 25px 0;
+        }
+        .term-header {
+            background: #11111c;
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--brd);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .term-dots {
+            display: flex;
+            gap: 8px;
+        }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot-red { background: #ff5f56; }
+        .dot-yellow { background: #ffbd2e; }
+        .dot-green { background: #27c93f; }
+        .term-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--t2);
+            font-weight: 600;
+        }
+
+        .term-body {
+            padding: 24px;
+            height: 380px;
+            overflow-y: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.92rem;
+            color: #d1d1eb;
+        }
+        .term-line { margin-bottom: 6px; word-break: break-all; }
+        .term-prompt { color: var(--em); font-weight: 700; }
+        .term-cmd { color: #fff; font-weight: 700; }
+        .term-out { color: #a8a8ca; margin-bottom: 12px; white-space: pre-wrap; }
+        .term-input-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        .term-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+            flex: 1;
+            outline: none;
+        }
+
+        /* Interactive Permission Calculator */
+        .perm-box {
+            background: rgba(0, 229, 255, 0.04);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-radius: 16px;
+            padding: 28px;
+            margin: 25px 0;
+        }
+        .perm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .perm-col {
+            background: var(--bg2);
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid var(--brd);
+        }
+        .perm-col h4 {
+            color: var(--cy);
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        .perm-chk {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--t1);
+        }
+        .perm-chk input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--vi);
+        }
+
+        /* Flowchart box */
+        .flowchart {
+            background: #030307;
+            border: 1px solid var(--brd2);
+            border-radius: 16px;
+            padding: 30px;
+            margin: 25px 0;
+            overflow-x: auto;
+        }
+        .fc-node {
+            background: var(--bg2);
+            border: 2px solid var(--vi);
+            border-radius: 12px;
+            padding: 16px 22px;
+            text-align: center;
+            font-weight: 800;
+            min-width: 180px;
+            box-shadow: 0 0 15px rgba(124, 92, 252, 0.2);
+        }
+        .fc-arrow {
+            color: var(--cy);
+            font-weight: 900;
+            font-size: 1.5rem;
+            padding: 0 15px;
+        }
+        .fc-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        /* Command reference table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: var(--bg2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--brd);
+        }
+        th { background: rgba(124, 92, 252, 0.2); color: #fff; font-weight: 800; }
+        tr:hover { background: rgba(255, 255, 255, 0.02); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="h-inner">
+            <div class="h-logo">⚡ Linux Zero-to-Hero Interactive Lab</div>
+            <div class="h-nav">
+                <a href="index.html" class="h-btn">← Back to Handbook</a>
+                <button class="h-btn" onclick="focusTerminal()">💻 Jump to Terminal Sandbox</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h1>Why Linux? Why Do AI Agents & DevOps Engineers Live in It?</h1>
+            <p>From absolute zero to command-line hero. Understand the visual architecture of OS kernels, filesystem trees, data pipelines, permissions, and exactly how AI coding agents execute shell commands under the hood.</p>
+            <div class="hero-tags">
+                <span class="tag tag-vi">💡 Zero to Hero Curriculum</span>
+                <span class="tag tag-cy">🖥️ Live Interactive Terminal</span>
+                <span class="tag tag-em">🤖 AI Coding Agent Architecture</span>
+            </div>
+        </div>
+
+        <!-- Level Navigation -->
+        <div class="level-nav">
+            <div class="l-tab on" onclick="switchLevel(0)">🌟 Level 0: Why Linux & AI Agents?</div>
+            <div class="l-tab" onclick="switchLevel(1)">📁 Level 1: Navigation (`ls`, `cd`, `pwd`)</div>
+            <div class="l-tab" onclick="switchLevel(2)">📜 Level 2: Files & Content (`cat`, `cp`, `mv`)</div>
+            <div class="l-tab" onclick="switchLevel(3)">🔍 Level 3: Search & Pipes (`grep`, `find`, `|`)</div>
+            <div class="l-tab" onclick="switchLevel(4)">🛡️ Level 4: Permissions (`chmod`, `chown`, `ps`)</div>
+            <div class="l-tab" onclick="switchLevel(5)">⚡ Level 5: Text Giants (`sed`, `awk`, `nl`)</div>
+            <div class="l-tab" onclick="switchLevel(6)">💻 Interactive Terminal Sandbox</div>
+        </div>
+
+        <!-- LEVEL 0 -->
+        <div class="level-content on" id="lvl-0">
+            <div class="card">
+                <h2>Why Is Linux the Foundation of Software, Cloud & AI?</h2>
+                <p>If you have ever wondered why software engineers, DevOps architects, and AI agents constantly use Linux commands instead of clicking graphical windows, here is the fundamental truth:</p>
+                <div style="background:rgba(124,92,252,0.1);border:1px solid var(--vi);border-radius:12px;padding:20px;margin:20px 0;">
+                    <h3 style="color:#fff;margin-top:0;">1. Servers & Cloud Infrastructure Don't Have Screens</h3>
+                    <p>When you deploy your application to AWS, Google Cloud, or Docker containers, there is no mouse, no keyboard, and no graphical monitor attached. The operating system runs "headless." The only way to interact with the server is by sending text instructions through a Linux terminal.</p>
+                </div>
+                <div style="background:rgba(0,229,255,0.08);border:1px solid var(--cy);border-radius:12px;padding:20px;margin:20px 0;">
+                    <h3 style="color:#fff;margin-top:0;">2. How AI Agents (Like Antigravity) Execute Code</h3>
+                    <p>When you ask an AI coding assistant to "analyze my codebase," "install dependencies," or "run Docker tests," the AI does not click buttons on your screen. Instead, the AI calls structured tools like <code>run_command</code> to execute shell commands directly inside the system's bash/zsh environment.</p>
+                </div>
+
+                <h3>Visual Flowchart: How Your Request Turns Into Linux Commands</h3>
+                <div class="flowchart">
+                    <div class="fc-row">
+                        <div class="fc-node" style="border-color:var(--am);color:var(--am);">🧑 You (User Prompt)<br><span style="font-size:0.8rem;color:#ccc;">"Check logs & start app"</span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:var(--vi);color:#c4b5fd;">🤖 AI Agent<br><span style="font-size:0.8rem;color:#ccc;">Decides tool execution</span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:var(--cy);color:var(--cy);">⚡ Linux Shell<br><span style="font-size:0.8rem;color:#ccc;"><code>cd /app && npm start</code></span></div>
+                        <div class="fc-arrow">➔</div>
+                        <div class="fc-node" style="border-color:var(--em);color:var(--em);">⚙️ OS Kernel<br><span style="font-size:0.8rem;color:#ccc;">Allocates CPU & Memory</span></div>
+                    </div>
+                </div>
+
+                <h3>Video Walkthroughs & Concepts</h3>
+                <p>To master Linux concepts visually, check out these highly recommended concepts and video playlists:</p>
+                <ul>
+                    <li><b>The Linux Filesystem Hierarchy:</b> Think of Linux not as disk drive letters (like <code>C:\</code> or <code>D:\</code>), but as a single upside-down tree starting at root (<code>/</code>). Everything branches out from root: <code>/home</code>, <code>/var</code>, <code>/etc</code>, <code>/bin</code>.</li>
+                    <li><b>Everything is a File:</b> In Linux, text files, hardware devices, internet connections, and running processes are all represented as files inside the filesystem!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LEVEL 1 -->
+        <div class="level-content" id="lvl-1">
+            <div class="card">
+                <h2>Level 1: Navigating the Filesystem Hierarchy</h2>
+                <p>Before you can edit or run programs, you must know where you are and what is around you. These three foundational commands represent 90% of basic terminal movement.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Full Name</th>
+                            <th>What It Does</th>
+                            <th>Real-World Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>pwd</code></td>
+                            <td>Print Working Directory</td>
+                            <td>Tells you the exact absolute path of the folder you are currently sitting in.</td>
+                            <td><code>pwd</code> ➔ Output: <code>/Users/bhoomim/devops CI:CD</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>ls -la</code></td>
+                            <td>List (Long + All)</td>
+                            <td>Lists all files in the current folder, including hidden files (starting with <code>.</code>), file permissions, owner, size, and timestamp.</td>
+                            <td><code>ls -la</code> ➔ Shows <code>Dockerfile</code>, <code>.git/</code>, <code>requirements.txt</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>cd</code></td>
+                            <td>Change Directory</td>
+                            <td>Moves you into another directory. Use <code>cd ..</code> to go up one level, or <code>cd /</code> to jump to root.</td>
+                            <td><code>cd handbook</code> ➔ Moves into the handbook subdirectory.</td>
+                        </tr>
+                        <tr>
+                            <td><code>mkdir</code></td>
+                            <td>Make Directory</td>
+                            <td>Creates a brand new folder. Adding <code>-p</code> creates parent folders automatically if needed.</td>
+                            <td><code>mkdir -p src/utils/logs</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div style="background:rgba(244,63,94,0.1);border:1px solid var(--ro);border-radius:12px;padding:20px;margin-top:20px;">
+                    <h4 style="color:var(--ro);margin-top:0;">🚨 Critical AI Agent Rule: Why `cd` Doesn't Persist Across Tool Calls</h4>
+                    <p>When an AI coding assistant runs a tool command, each invocation spawns in a fresh subshell session. If the agent executes <code>cd /tmp</code> in Step 1, Step 2 will still start back in the workspace root directory! That is why AI agents and professional CI/CD scripts always pass explicit working directories (<code>Cwd</code> parameter) or chain commands together: <code>cd /folder && command</code>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEVEL 2 -->
+        <div class="level-content" id="lvl-2">
+            <div class="card">
+                <h2>Level 2: Inspecting & Manipulating Files</h2>
+                <p>Once you navigate to a directory, how do you read code, create files, or inspect logs? Here are the essential file manipulation tools.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Purpose</th>
+                            <th>Why & When To Use It</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>cat filename</code></td>
+                            <td>Concatenate & Print</td>
+                            <td>Prints the entire content of a file directly to the terminal screen. Great for small files like configuration scripts or JSON files.</td>
+                        </tr>
+                        <tr>
+                            <td><code>less filename</code></td>
+                            <td>Pager Viewer</td>
+                            <td>Opens large files page-by-page so you can scroll up and down without flooding your screen. Press <code>q</code> to exit.</td>
+                        </tr>
+                        <tr>
+                            <td><code>head -n 20</code> / <code>tail -n 20</code></td>
+                            <td>Top / Bottom Inspection</td>
+                            <td>Views only the first 20 or last 20 lines of a file. <code>tail -f app.log</code> streams live log updates in real-time as the app runs!</td>
+                        </tr>
+                        <tr>
+                            <td><code>cp</code> / <code>mv</code> / <code>rm</code></td>
+                            <td>Copy / Move / Remove</td>
+                            <td><code>cp a.txt b.txt</code> duplicates a file. <code>mv old.txt new.txt</code> renames or moves a file. <code>rm -rf folder</code> recursively deletes a folder forever.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LEVEL 3 -->
+        <div class="level-content" id="lvl-3">
+            <div class="card">
+                <h2>Level 3: The UNIX Pipeline Superpower (`|` & `grep`)</h2>
+                <p>The true genius of Linux is the philosophy that every command should do one thing exceptionally well, and commands can be connected together like LEGO bricks using the Pipe symbol (<code>|</code>).</p>
+
+                <div class="flowchart">
+                    <div class="fc-row">
+                        <div class="fc-node">cat app.log<br><span style="font-size:0.8rem;color:#aaa;">Outputs 10,000 lines</span></div>
+                        <div class="fc-arrow">|</div>
+                        <div class="fc-node" style="border-color:var(--cy);">grep "ERROR"<br><span style="font-size:0.8rem;color:#aaa;">Filters only ERROR lines</span></div>
+                        <div class="fc-arrow">|</div>
+                        <div class="fc-node" style="border-color:var(--em);">wc -l<br><span style="font-size:0.8rem;color:#aaa;">Counts matching lines</span></div>
+                    </div>
+                </div>
+
+                <h3>Essential Search & Filter Commands</h3>
+                <ul>
+                    <li><code>grep "pattern" filename</code>: Scans text files line-by-line and outputs only lines matching the search term. Add <code>-i</code> for case-insensitive search, or <code>-r</code> to search recursively across all subfolders.</li>
+                    <li><code>find /path -name "*.py"</code>: Searches the actual disk directory tree to find filenames matching a pattern.</li>
+                    <li><code>command > output.txt</code>: Redirects standard output into a file (overwriting it). Use <code>>></code> to append instead!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LEVEL 4 -->
+        <div class="level-content" id="lvl-4">
+            <div class="card">
+                <h2>Level 4: Permissions & Process Management (`chmod`, `ps`)</h2>
+                <p>Linux is a multi-user, highly secure operating system. Every single file has permissions specifying who can Read (<code>r</code>), Write (<code>w</code>), or Execute (<code>x</code>) it.</p>
+
+                <div class="perm-box">
+                    <h3>Interactive Octal Permission Calculator</h3>
+                    <p>Select permissions below to see how octal numbers (like <code>755</code> or <code>644</code>) are generated:</p>
+                    <div class="perm-grid">
+                        <div class="perm-col">
+                            <h4>👤 Owner (User)</h4>
+                            <label class="perm-chk"><input type="checkbox" id="u-r" checked onchange="calcPerm()"> Read (4)</label>
+                            <label class="perm-chk"><input type="checkbox" id="u-w" checked onchange="calcPerm()"> Write (2)</label>
+                            <label class="perm-chk"><input type="checkbox" id="u-x" checked onchange="calcPerm()"> Execute (1)</label>
+                        </div>
+                        <div class="perm-col">
+                            <h4>👥 Group</h4>
+                            <label class="perm-chk"><input type="checkbox" id="g-r" checked onchange="calcPerm()"> Read (4)</label>
+                            <label class="perm-chk"><input type="checkbox" id="g-w" onchange="calcPerm()"> Write (2)</label>
+                            <label class="perm-chk"><input type="checkbox" id="g-x" checked onchange="calcPerm()"> Execute (1)</label>
+                        </div>
+                        <div class="perm-col">
+                            <h4>🌍 Others (Everyone)</h4>
+                            <label class="perm-chk"><input type="checkbox" id="o-r" checked onchange="calcPerm()"> Read (4)</label>
+                            <label class="perm-chk"><input type="checkbox" id="o-w" onchange="calcPerm()"> Write (2)</label>
+                            <label class="perm-chk"><input type="checkbox" id="o-x" checked onchange="calcPerm()"> Execute (1)</label>
+                        </div>
+                    </div>
+                    <div style="background:#05050a;padding:18px;border-radius:12px;border:1px solid var(--brd2);font-size:1.1rem;">
+                        Generated Command: <code id="permResult" style="font-size:1.2rem;color:var(--em);">chmod 755 script.sh</code>
+                        <span style="display:block;font-size:0.85rem;color:var(--t2);margin-top:6px;" id="permExplain">Owner can read/write/execute. Group and Others can read and execute.</span>
+                    </div>
+                </div>
+
+                <h3>Monitoring Running Processes</h3>
+                <ul>
+                    <li><code>ps aux</code>: Lists every running process currently executing on the computer, along with Process IDs (PID) and CPU/Memory usage.</li>
+                    <li><code>top</code> / <code>htop</code>: Interactive live dashboard showing CPU utilization, RAM usage, and running services.</li>
+                    <li><code>kill -9 PID</code>: Forcefully terminates a hung or stuck process immediately using its numeric Process ID.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- LEVEL 5: TEXT & STREAM PROCESSING GIANTS -->
+        <div class="level-content" id="lvl-5">
+            <div class="card">
+                <h2>Level 5: Commands Like `cat` — Text & Stream Processing Giants</h2>
+                <p>While <code>cat</code> simply concatenates and dumps whole files to the screen, professional DevOps engineers and AI coding agents use specialized stream processing tools to slice, number, reverse, filter, and transform text streams on the fly.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Command</th>
+                            <th>Relation to `cat`</th>
+                            <th>What It Does & Real-World Example</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>nl filename</code></td>
+                            <td>Numbered <code>cat</code></td>
+                            <td>Like <code>cat -n</code>, prints the file contents with exact line numbers prepended. Essential when debugging compiler errors or pinpointing line numbers for AI edits!</td>
+                        </tr>
+                        <tr>
+                            <td><code>tac filename</code></td>
+                            <td>Reverse <code>cat</code></td>
+                            <td>Spelled literally as <code>cat</code> backwards! Prints the document starting from the bottom line up to the top. Perfect for inspecting chronological log files where the latest errors are at the very bottom.</td>
+                        </tr>
+                        <tr>
+                            <td><code>sed 's/old/new/g' file</code></td>
+                            <td>Stream Editor</td>
+                            <td>Transforms text streams on the fly using regular expressions without opening a text editor. E.g., replacing localhost IP addresses with production URLs across config files.</td>
+                        </tr>
+                        <tr>
+                            <td><code>awk '{print $1, $3}' file</code></td>
+                            <td>Column Extractor</td>
+                            <td>Slices structured data tables or logs by whitespace columns. E.g., extracting only timestamps and HTTP status codes from web server logs.</td>
+                        </tr>
+                        <tr>
+                            <td><code>tee filename</code></td>
+                            <td>Splitter <code>cat</code></td>
+                            <td>Acts like a T-junction water pipe: splits standard output so you can watch text stream on your screen AND write it into a file simultaneously (<code>cat app.log | grep ERROR | tee errors.txt</code>).</td>
+                        </tr>
+                        <tr>
+                            <td><code>hexdump -C file</code></td>
+                            <td>Binary <code>cat</code></td>
+                            <td>If you run regular <code>cat</code> on an image or executable binary, your terminal will beep and show gibberish symbols. <code>hexdump</code> safely renders raw hexadecimal bytes and ASCII representations.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- LEVEL 6: INTERACTIVE TERMINAL -->
+        <div class="level-content" id="lvl-6">
+            <div class="card">
+                <h2>Level 6: Live Simulated Bash Terminal Sandbox</h2>
+                <p>Try out your command mastery right now! Type commands below and press Enter. Available commands: <code>help</code>, <code>pwd</code>, <code>ls</code>, <code>ls -la</code>, <code>cd &lt;dir&gt;</code>, <code>cat &lt;file&gt;</code>, <code>nl &lt;file&gt;</code>, <code>tac &lt;file&gt;</code>, <code>grep &lt;pattern&gt; &lt;file&gt;</code>, <code>chmod &lt;perm&gt; &lt;file&gt;</code>, <code>ps</code>, <code>whoami</code>, <code>clear</code>.</p>
+
+                <div class="term-container">
+                    <div class="term-header">
+                        <div class="term-dots">
+                            <div class="dot dot-red"></div>
+                            <div class="dot dot-yellow"></div>
+                            <div class="dot dot-green"></div>
+                        </div>
+                        <div class="term-title">bhoomim@mac-devops: ~/devops CI:CD — bash</div>
+                        <div></div>
+                    </div>
+                    <div class="term-body" id="termBody" onclick="focusInput()">
+                        <div class="term-out">Welcome to the Antigravity Linux Terminal Simulator! Type 'help' for available commands.</div>
+                        <div id="termHistory"></div>
+                        <div class="term-input-row">
+                            <span class="term-prompt">bhoomim@mac-devops:<span id="termCwd">~/devops CI:CD</span>$</span>
+                            <input type="text" id="cmdInput" class="term-input" autocomplete="off" spellcheck="false" placeholder="Type ls or pwd..." onkeydown="handleTermKey(event)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchLevel(idx) {
+            document.querySelectorAll('.l-tab').forEach((t, i) => {
+                t.classList.toggle('on', i === idx);
+            });
+            document.querySelectorAll('.level-content').forEach((c, i) => {
+                c.classList.toggle('on', i === idx);
+            });
+        }
+
+        function focusTerminal() {
+            switchLevel(6);
+            setTimeout(() => focusInput(), 100);
+        }
+
+        function focusInput() {
+            document.getElementById('cmdInput').focus();
+        }
+
+        function calcPerm() {
+            let u = (document.getElementById('u-r').checked ? 4 : 0) + (document.getElementById('u-w').checked ? 2 : 0) + (document.getElementById('u-x').checked ? 1 : 0);
+            let g = (document.getElementById('g-r').checked ? 4 : 0) + (document.getElementById('g-w').checked ? 2 : 0) + (document.getElementById('g-x').checked ? 1 : 0);
+            let o = (document.getElementById('o-r').checked ? 4 : 0) + (document.getElementById('o-w').checked ? 2 : 0) + (document.getElementById('o-x').checked ? 1 : 0);
+            
+            let octal = `${u}${g}${o}`;
+            document.getElementById('permResult').innerText = `chmod ${octal} script.sh`;
+            
+            let exp = `Owner (${u}) `;
+            exp += u===7?"can read, write & execute. ":u===6?"can read & write. ":"has specific permissions. ";
+            exp += `Group (${g}) & Others (${o}) have permissions set accordingly.`;
+            document.getElementById('permExplain').innerText = exp;
+        }
+
+        /* Virtual Filesystem Simulation */
+        let currPath = "~/devops CI:CD";
+        let fs = {
+            "~/devops CI:CD": {
+                dirs: ["handbook", "src"],
+                files: {
+                    "Dockerfile": "FROM python:3.11-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install -r requirements.txt\nCOPY . .\nCMD [\"python\", \"main.py\"]",
+                    "requirements.txt": "fastapi==0.109.0\nuvicorn==0.27.0\npytest==8.0.0\nprompt_toolkit==3.0.43",
+                    "app.log": "2026-07-01 10:00:01 INFO Server started on port 8000\n2026-07-01 10:05:22 ERROR Database connection timeout\n2026-07-01 10:05:23 WARNING Retrying connection in 5s\n2026-07-01 10:05:28 INFO Connected to PostgreSQL database successfully"
+                },
+                perms: {
+                    "Dockerfile": "-rw-r--r--",
+                    "requirements.txt": "-rw-r--r--",
+                    "app.log": "-rw-r--r--"
+                }
+            },
+            "~/devops CI:CD/handbook": {
+                dirs: [],
+                files: {
+                    "index.html": "<!DOCTYPE html>\n<html>\n<head><title>Company Handbook</title></head>\n<body><h1>Mastery Curriculum</h1></body>\n</html>",
+                    "visual_flowchart_encyclopedia.html": "<!DOCTYPE html>\n<html><title>Visual Flowchart Encyclopedia</title></html>"
+                },
+                perms: {
+                    "index.html": "-rw-r--r--",
+                    "visual_flowchart_encyclopedia.html": "-rw-r--r--"
+                }
+            },
+            "~/devops CI:CD/src": {
+                dirs: [],
+                files: {
+                    "main.py": "from fastapi import FastAPI\napp = FastAPI()\n@app.get('/')\ndef read_root():\n    return {'status': 'active'}"
+                },
+                perms: {
+                    "main.py": "-rwxr-xr-x"
+                }
+            }
+        };
+
+        function handleTermKey(e) {
+            if (e.key === 'Enter') {
+                let input = e.target.value.trim();
+                e.target.value = '';
+                runCommand(input);
+            }
+        }
+
+        function runCommand(cmdStr) {
+            let hist = document.getElementById('termHistory');
+            let promptHtml = `<div class="term-line"><span class="term-prompt">bhoomim@mac-devops:${currPath}$</span> <span class="term-cmd">${cmdStr}</span></div>`;
+            hist.innerHTML += promptHtml;
+
+            if (!cmdStr) {
+                scrollTerm();
+                return;
+            }
+
+            let parts = cmdStr.split(' ');
+            let cmd = parts[0];
+            let args = parts.slice(1);
+            let output = "";
+
+            let dirData = fs[currPath];
+
+            switch(cmd) {
+                case 'help':
+                    output = "Available simulated commands:\n  pwd             Print current directory path\n  ls [-la]        List files in current directory\n  cd <dir>        Change directory (try 'cd handbook' or 'cd ..')\n  cat <file>      Display contents of a file (try 'cat Dockerfile')\n  grep <txt> <f>  Search pattern in file (try 'grep ERROR app.log')\n  chmod <oct> <f> Change file permissions (try 'chmod 777 Dockerfile')\n  ps              View running system processes\n  whoami          Display current username\n  clear           Clear terminal screen";
+                    break;
+                case 'pwd':
+                    output = currPath.replace("~", "/Users/bhoomim");
+                    break;
+                case 'whoami':
+                    output = "bhoomim";
+                    break;
+                case 'clear':
+                    hist.innerHTML = "";
+                    scrollTerm();
+                    return;
+                case 'ls':
+                    let longFormat = args.includes('-la') || args.includes('-l');
+                    if (longFormat) {
+                        let lines = ["total 32"];
+                        dirData.dirs.forEach(d => {
+                            lines.push(`drwxr-xr-x  2 bhoomim  staff   64 Jul  1 17:30 ${d}/`);
+                        });
+                        Object.keys(dirData.files).forEach(f => {
+                            let perm = dirData.perms[f] || "-rw-r--r--";
+                            lines.push(`${perm}  1 bhoomim  staff  240 Jul  1 17:30 ${f}`);
+                        });
+                        output = lines.join('\n');
+                    } else {
+                        output = [...dirData.dirs.map(d=>d+"/"), ...Object.keys(dirData.files)].join('   ');
+                    }
+                    break;
+                case 'cd':
+                    let target = args[0] || "~";
+                    if (target === ".." || target === "../") {
+                        if (currPath !== "~/devops CI:CD") {
+                            currPath = "~/devops CI:CD";
+                        }
+                    } else if (target === "~" || target === "/") {
+                        currPath = "~/devops CI:CD";
+                    } else if (dirData.dirs.includes(target.replace('/', ''))) {
+                        currPath = currPath + "/" + target.replace('/', '');
+                    } else {
+                        output = `cd: no such file or directory: ${target}`;
+                    }
+                    document.getElementById('termCwd').innerText = currPath;
+                    break;
+                case 'cat':
+                    let fName = args[0];
+                    if (!fName) { output = "cat: missing file argument"; }
+                    else if (dirData.files[fName]) { output = dirData.files[fName]; }
+                    else if (dirData.dirs.includes(fName)) { output = `cat: ${fName}: Is a directory`; }
+                    else { output = `cat: ${fName}: No such file or directory`; }
+                    break;
+                case 'nl':
+                    let nFile = args[0];
+                    if (!nFile) { output = "nl: missing file argument"; }
+                    else if (dirData.files[nFile]) {
+                        output = dirData.files[nFile].split('\n').map((l, idx) => `     ${idx+1}\t${l}`).join('\n');
+                    } else { output = `nl: ${nFile}: No such file or directory`; }
+                    break;
+                case 'tac':
+                    let tFile = args[0];
+                    if (!tFile) { output = "tac: missing file argument"; }
+                    else if (dirData.files[tFile]) {
+                        output = dirData.files[tFile].split('\n').reverse().join('\n');
+                    } else { output = `tac: ${tFile}: No such file or directory`; }
+                    break;
+                case 'grep':
+                    let pat = args[0];
+                    let gFile = args[1];
+                    if (!pat || !gFile) { output = "Usage: grep <pattern> <filename>"; }
+                    else if (dirData.files[gFile]) {
+                        let matches = dirData.files[gFile].split('\n').filter(l => l.includes(pat.replace(/["']/g, '')));
+                        output = matches.length > 0 ? matches.join('\n') : "";
+                    } else { output = `grep: ${gFile}: No such file or directory`; }
+                    break;
+                case 'chmod':
+                    let oct = args[0];
+                    let cFile = args[1];
+                    if (!oct || !cFile) { output = "Usage: chmod <octal_mode> <filename>"; }
+                    else if (dirData.files[cFile]) {
+                        dirData.perms[cFile] = `-rwxrwxrwx`;
+                        output = `Permissions for ${cFile} updated to ${oct}`;
+                    } else { output = `chmod: ${cFile}: No such file`; }
+                    break;
+                case 'ps':
+                    output = "  PID TTY           TIME CMD\n 1024 ttys001    0:01.24 /bin/zsh\n 4892 ttys001    0:04.12 python main.py\n 5109 ttys001    0:00.03 node dev_server.js";
+                    break;
+                default:
+                    output = `zsh: command not found: ${cmd}. Type 'help' for available commands.`;
+            }
+
+            if (output) {
+                hist.innerHTML += `<div class="term-out">${output}</div>`;
+            }
+            scrollTerm();
+        }
+
+        function scrollTerm() {
+            let tb = document.getElementById('termBody');
+            tb.scrollTop = tb.scrollHeight;
+        }
+
+        calcPerm();
+    </script>
+</body>
+</html>
