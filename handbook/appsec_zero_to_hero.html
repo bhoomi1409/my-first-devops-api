@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🛡️ The Complete 48-Topic Sequential API & AppSec Encyclopedia</title>
+    <title>🛡️ The Complete 48-Topic Sequential API Security Encyclopedia & Interactive Quiz Lab</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -72,9 +72,11 @@
         }
         .h-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
         .h-logo { font-weight: 900; font-size: 1.25rem; background: linear-gradient(135deg, var(--ro), var(--am)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .h-nav { display: flex; gap: 12px; }
+        .h-nav { display: flex; gap: 12px; align-items: center; }
         .h-btn { padding: 8px 18px; border: 1px solid var(--brd); background: var(--bg2); color: var(--t1); text-decoration: none; font-weight: 700; font-size: 0.85rem; border-radius: 10px; transition: all 0.25s; }
         .h-btn:hover { background: var(--ro); border-color: var(--ro); color: #fff; }
+
+        .xp-pill { background: rgba(16, 185, 129, 0.15); color: var(--em); border: 1px solid var(--em); padding: 6px 14px; border-radius: 99px; font-weight: 800; font-size: 0.85rem; }
 
         .container { max-width: 1400px; margin: 30px auto; padding: 0 30px; position: relative; z-index: 1; }
 
@@ -98,6 +100,7 @@
         .s-tab.on-bl { background: #0284c7; color: #fff; border-color: var(--bl); box-shadow: 0 0 25px rgba(56, 189, 248, 0.45); }
         .s-tab.on-cy { background: #0891b2; color: #fff; border-color: var(--cy); box-shadow: 0 0 25px rgba(0, 229, 255, 0.45); }
         .s-tab.on-em { background: #059669; color: #fff; border-color: var(--em); box-shadow: 0 0 25px rgba(16, 185, 129, 0.45); }
+        .s-tab.on-qz { background: linear-gradient(135deg, #f43f5e, #7c5cfc); color: #fff; border-color: #f43f5e; box-shadow: 0 0 30px rgba(244, 63, 94, 0.6); }
 
         .step-content { display: none; animation: fadeIn 0.35s ease; }
         .step-content.on { display: block; }
@@ -119,14 +122,26 @@
 
         .topic-desc { color: var(--t2); font-size: 0.95rem; margin-bottom: 16px; }
         .topic-fix { background: #07070f; border-left: 3px solid var(--em); padding: 12px 16px; border-radius: 0 8px 8px 0; font-size: 0.88rem; color: #d1d5db; font-family: 'JetBrains Mono', monospace; }
+
+        /* Interactive Quiz Arena */
+        .quiz-card { background: #070714; border: 2px solid var(--vi); border-radius: 20px; padding: 35px; margin-bottom: 30px; }
+        .q-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 15px; }
+        .q-options { display: grid; gap: 12px; margin: 20px 0; }
+        .q-opt { background: var(--bg2); border: 1px solid var(--brd2); padding: 16px 20px; border-radius: 12px; color: var(--t1); font-weight: 600; cursor: pointer; transition: 0.2s; text-align: left; font-size: 0.95rem; }
+        .q-opt:hover { background: rgba(124, 92, 252, 0.2); border-color: var(--vi); }
+        .q-opt.correct { background: rgba(16, 185, 129, 0.25); border-color: var(--em); color: #fff; }
+        .q-opt.wrong { background: rgba(244, 63, 94, 0.25); border-color: var(--ro); color: #fff; }
+        .q-explain { display: none; padding: 16px; border-radius: 10px; margin-top: 15px; font-size: 0.9rem; }
+        .q-explain.show { display: block; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="h-inner">
-            <div class="h-logo">🛡️ API & AppSec Sequential Encyclopedia (48 Topics)</div>
+            <div class="h-logo">🛡️ API & AppSec Sequential Encyclopedia (48 Topics + Interactive Quizzes)</div>
             <div class="h-nav">
+                <span class="xp-pill" id="scoreBadge">⭐ QUIZ SCORE: 0 / 6</span>
                 <a href="index.html" class="h-btn">← Handbook Dashboard</a>
                 <a href="linux_zero_to_hero.html" class="h-btn">🐧 Linux Lab</a>
             </div>
@@ -135,23 +150,23 @@
 
     <div class="container">
         <div class="hero">
-            <h1>The Complete Sequential API Security Masterclass</h1>
-            <p>Structured in the exact chronological order of how real-world applications are mapped by attackers, attacked, secured with authentication, armored across network layers, designed resiliently, and audited with defensive operations.</p>
+            <h1>The Complete Sequential API Security Masterclass & Interactive Quiz Arena</h1>
+            <p>Structured in exact chronological order across 6 lifecycle steps covering all 48 security topics. Test your concept understanding in real-time inside our interactive multiple-choice scenario arena!</p>
         </div>
 
         <div class="step-nav">
-            <div class="s-tab on-am" onclick="switchStep(0, 'am')">🕵️ Step 1: Recon & Exposure (8 Topics)</div>
-            <div class="s-tab" onclick="switchStep(1, 'ro')">💥 Step 2: Attack Types (12 Topics)</div>
-            <div class="s-tab" onclick="switchStep(2, 'vi')">🔐 Step 3: Auth & Identity (8 Topics)</div>
-            <div class="s-tab" onclick="switchStep(3, 'bl')">🌐 Step 4: Transport & Network (4 Topics)</div>
-            <div class="s-tab" onclick="switchStep(4, 'cy')">🛠️ Step 5: API Design Security (8 Topics)</div>
-            <div class="s-tab" onclick="switchStep(5, 'em')">🛡️ Step 6: Defensive Tools & Shield (8 Topics)</div>
+            <div class="s-tab on-am" onclick="switchStep(0, 'am')">🕵️ Step 1: Recon & Exposure (8)</div>
+            <div class="s-tab" onclick="switchStep(1, 'ro')">💥 Step 2: Attack Types (12)</div>
+            <div class="s-tab" onclick="switchStep(2, 'vi')">🔐 Step 3: Auth & Identity (8)</div>
+            <div class="s-tab" onclick="switchStep(3, 'bl')">🌐 Step 4: Transport & Network (4)</div>
+            <div class="s-tab" onclick="switchStep(4, 'cy')">🛠️ Step 5: API Design Security (8)</div>
+            <div class="s-tab" onclick="switchStep(5, 'em')">🛡️ Step 6: Defensive Tools (8)</div>
+            <div class="s-tab" onclick="switchStep(6, 'qz')">🧠 Step 7: Interactive Mastery Quizzes</div>
         </div>
 
         <!-- STEP 1: RECON & EXPOSURE -->
         <div class="step-content on" id="s-0">
             <h2 style="color:var(--am);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🕵️ Step 1: Recon & Exposure — How Attackers Discover Your Surface</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">1. Endpoint Enumeration</div><span class="topic-badge badge-am">Discovery</span></div>
@@ -206,7 +221,6 @@
         <!-- STEP 2: ATTACK TYPES -->
         <div class="step-content" id="s-1">
             <h2 style="color:var(--ro);font-size:1.8rem;font-weight:900;margin-bottom:20px;">💥 Step 2: Attack Types — The 12 Exploits That Break Your API</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">9. IDOR / BOLA</div><span class="topic-badge badge-ro">Critical #1</span></div>
@@ -285,7 +299,6 @@
         <!-- STEP 3: AUTH & IDENTITY -->
         <div class="step-content" id="s-2">
             <h2 style="color:var(--vi);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🔐 Step 3: Auth & Identity — Who Are You & What Can You Do</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">21. JWT Internals</div><span class="topic-badge badge-vi">Tokens</span></div>
@@ -340,7 +353,6 @@
         <!-- STEP 4: TRANSPORT & NETWORK -->
         <div class="step-content" id="s-3">
             <h2 style="color:var(--bl);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🌐 Step 4: Transport & Network — Securing Data in Motion</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">29. TLS 1.3 Handshake</div><span class="topic-badge badge-bl">Encryption</span></div>
@@ -371,7 +383,6 @@
         <!-- STEP 5: API DESIGN SECURITY -->
         <div class="step-content" id="s-4">
             <h2 style="color:var(--cy);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🛠️ Step 5: API Design Security — Building It Safe From The Start</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">33. Rate Limiting Algorithms</div><span class="topic-badge badge-cy">Resilience</span></div>
@@ -426,7 +437,6 @@
         <!-- STEP 6: DEFENSIVE TOOLS & PRACTICE -->
         <div class="step-content" id="s-5">
             <h2 style="color:var(--em);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🛡️ Step 6: Defensive Tools & Practices — Building The Enterprise Shield</h2>
-            
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">41. WAF (Web Application Firewall)</div><span class="topic-badge badge-em">Perimeter Shield</span></div>
@@ -477,15 +487,112 @@
                 </div>
             </div>
         </div>
+
+        <!-- STEP 7: INTERACTIVE MASTERY QUIZZES -->
+        <div class="step-content" id="s-6">
+            <h2 style="color:#f43f5e;font-size:1.8rem;font-weight:900;margin-bottom:20px;">🧠 Step 7: Interactive Mastery Quiz Arena (Test Your Understanding!)</h2>
+            <p style="margin-bottom:25px;color:var(--t2);">Select your answers below to verify your mastery across IDOR, JWT manipulation, Mass Assignment, SSRF, Rate Limiting, and CORS!</p>
+
+            <div class="quiz-card" id="q0">
+                <div class="q-title">Question 1: You inspect an endpoint `GET /api/invoices/9921`. You change `9921` to `9922` and receive someone else's corporate billing statement. What vulnerability did you just discover?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(0, 0, false)">[A] SQL Injection</div>
+                    <div class="q-opt" onclick="answerQuiz(0, 1, true)">[B] IDOR / Broken Object Level Authorization (BOLA)</div>
+                    <div class="q-opt" onclick="answerQuiz(0, 2, false)">[C] Cross-Site Scripting (XSS)</div>
+                    <div class="q-opt" onclick="answerQuiz(0, 3, false)">[D] Mass Assignment</div>
+                </div>
+                <div class="q-explain" id="ex0" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! IDOR (BOLA) occurs when backend queries trust URL identifiers blindly (`WHERE id = ?`) without checking whether the logged-in session ID owns the resource (`WHERE id = ? AND user_id = req.user.id`).</div>
+            </div>
+
+            <div class="quiz-card" id="q1">
+                <div class="q-title">Question 2: An attacker takes a valid Base64 JWT, changes `"role": "user"` to `"role": "admin"`, and re-encodes it without knowing your `JWT_SECRET`. What happens when they send this to a backend enforcing `jwt.verify()`?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(1, 0, false)">[A] They successfully become admin because Base64 is readable</div>
+                    <div class="q-opt" onclick="answerQuiz(1, 1, true)">[B] The server throws a cryptographic signature mismatch error (401 Unauthorized)</div>
+                    <div class="q-opt" onclick="answerQuiz(1, 2, false)">[C] The server crashes due to JSON parsing failure</div>
+                    <div class="q-opt" onclick="answerQuiz(1, 3, false)">[D] The token expires immediately</div>
+                </div>
+                <div class="q-explain" id="ex1" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! While Base64 payload claims can be decoded by anyone, the signature (`header + payload + secret`) acts as a tamper-evident seal. Any modification to the payload invalidates the cryptographic signature!</div>
+            </div>
+
+            <div class="quiz-card" id="q2">
+                <div class="q-title">Question 3: A user registers on your app by sending `{ "email": "user@test.com", "is_admin": true }`. The backend executes `db.users.create(req.body)`. What vulnerability did they exploit?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(2, 0, true)">[A] Mass Assignment (Over-Posting)</div>
+                    <div class="q-opt" onclick="answerQuiz(2, 1, false)">[B] Server-Side Request Forgery (SSRF)</div>
+                    <div class="q-opt" onclick="answerQuiz(2, 2, false)">[C] Command Injection</div>
+                    <div class="q-opt" onclick="answerQuiz(2, 3, false)">[D] Path Traversal</div>
+                </div>
+                <div class="q-explain" id="ex2" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! Mass Assignment occurs when a developer passes raw request bodies directly into ORM models without whitelisting explicit Data Transfer Object (DTO) fields (`const { email } = req.body`).</div>
+            </div>
+
+            <div class="quiz-card" id="q3">
+                <div class="q-title">Question 4: An attacker enters webhook URL `http://169.254.169.254/latest/meta-data/` into your integration settings. Your server fetches it and returns AWS IAM roles. What attack vector is this?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(3, 0, false)">[A] XML External Entity (XXE)</div>
+                    <div class="q-opt" onclick="answerQuiz(3, 1, true)">[B] Server-Side Request Forgery (SSRF)</div>
+                    <div class="q-opt" onclick="answerQuiz(3, 2, false)">[C] Cross-Origin Resource Sharing (CORS)</div>
+                    <div class="q-opt" onclick="answerQuiz(3, 3, false)">[D] Replay Attack</div>
+                </div>
+                <div class="q-explain" id="ex3" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! SSRF tricks backend servers into making HTTP requests to internal network IP ranges or cloud instance metadata addresses (`169.254.169.254`) that external attackers cannot reach directly.</div>
+            </div>
+
+            <div class="quiz-card" id="q4">
+                <div class="q-title">Question 5: An automated scraper sends 50,000 requests per minute to `/api/ai/summarize`, draining your OpenAI billing budget of $5,000 in 1 hour. What API design standard was missing?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(4, 0, false)">[A] Certificate Pinning</div>
+                    <div class="q-opt" onclick="answerQuiz(4, 1, true)">[B] Token Bucket / Sliding Window Rate Limiting</div>
+                    <div class="q-opt" onclick="answerQuiz(4, 2, false)">[C] Sunset Headers</div>
+                    <div class="q-opt" onclick="answerQuiz(4, 3, false)">[D] CORS Whitelist</div>
+                </div>
+                <div class="q-explain" id="ex4" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! Rate limiting (`express-rate-limit`) enforces maximum request thresholds per IP, user account, or API key, returning HTTP 429 to prevent resource exhaustion and billing drains.</div>
+            </div>
+
+            <div class="quiz-card" id="q5">
+                <div class="q-title">Question 6: A backend API returns `Access-Control-Allow-Origin: *` along with `Access-Control-Allow-Credentials: true`. Why does modern browser specification forbid this?</div>
+                <div class="q-options">
+                    <div class="q-opt" onclick="answerQuiz(5, 0, false)">[A] It causes SQL injection on the database</div>
+                    <div class="q-opt" onclick="answerQuiz(5, 1, true)">[B] Any malicious website could make authenticated cross-origin requests and read private user data</div>
+                    <div class="q-opt" onclick="answerQuiz(5, 2, false)">[C] It disables HTTPS encryption</div>
+                    <div class="q-opt" onclick="answerQuiz(5, 3, false)">[D] It causes DNS subdomain takeover</div>
+                </div>
+                <div class="q-explain" id="ex5" style="background:rgba(16,185,129,0.15);color:#6ee7b7;border:1px solid #10b981;">✅ Correct! If wildcard origin (`*`) were allowed with credentials (cookies/tokens), any malicious website opened by a logged-in user could query your API and read their private account data!</div>
+            </div>
+        </div>
     </div>
 
     <script>
+        let quizScore = 0;
+        let answered = [false, false, false, false, false, false];
+
         function switchStep(idx, color) {
             document.querySelectorAll('.s-tab').forEach((t, i) => {
                 t.className = 's-tab';
                 if (i === idx) t.classList.add('on-' + color);
             });
             document.querySelectorAll('.step-content').forEach((c, i) => c.classList.toggle('on', i === idx));
+        }
+
+        function answerQuiz(qIdx, optIdx, isCorrect) {
+            if (answered[qIdx]) return;
+            answered[qIdx] = true;
+
+            let card = document.getElementById('q' + qIdx);
+            let opts = card.querySelectorAll('.q-opt');
+            opts[optIdx].classList.add(isCorrect ? 'correct' : 'wrong');
+
+            if (!isCorrect) {
+                opts.forEach(o => {
+                    if (o.innerText.includes('[B] IDOR') || o.innerText.includes('[B] The server throws') || o.innerText.includes('[A] Mass Assignment') || o.innerText.includes('[B] Server-Side Request') || o.innerText.includes('[B] Token Bucket') || o.innerText.includes('[B] Any malicious website')) {
+                        o.classList.add('correct');
+                    }
+                });
+            } else {
+                quizScore++;
+                document.getElementById('scoreBadge').innerText = `⭐ QUIZ SCORE: ${quizScore} / 6`;
+            }
+
+            document.getElementById('ex' + qIdx).classList.add('show');
         }
     </script>
 </body>
