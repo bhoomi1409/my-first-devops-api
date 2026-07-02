@@ -383,6 +383,39 @@
         <!-- STEP 5: API DESIGN SECURITY -->
         <div class="step-content" id="s-4">
             <h2 style="color:var(--cy);font-size:1.8rem;font-weight:900;margin-bottom:20px;">🛠️ Step 5: API Design Security — Building It Safe From The Start</h2>
+            
+            <!-- LIVE RATE LIMITER SANDBOX -->
+            <div style="background:#070a14;border:2px solid var(--cy);border-radius:18px;padding:28px;margin-bottom:35px;box-shadow:0 0 30px rgba(0,229,255,0.15);">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;margin-bottom:18px;">
+                    <div>
+                        <h3 style="color:#fff;font-size:1.3rem;margin:0;">⚡ Live API Quota & Rate Limiter Simulator (Token Bucket)</h3>
+                        <p style="color:var(--t2);font-size:0.9rem;margin:4px 0 0;">Experience why API servers throw <code>HTTP 429 Too Many Requests</code> and how Client-Side Throttling solves it!</p>
+                    </div>
+                    <div style="background:var(--bg2);border:1px solid var(--brd2);padding:10px 18px;border-radius:12px;display:flex;align-items:center;gap:12px;">
+                        <span style="font-size:0.85rem;font-weight:700;color:#e2e8f0;">🧠 Client-Side Throttling ("Utni hi requests do jitni handle ho"):</span>
+                        <input type="checkbox" id="throttleToggle" style="width:20px;height:20px;accent-color:var(--cy);cursor:pointer;" onchange="toggleThrottle()">
+                    </div>
+                </div>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:20px;align-items:center;">
+                    <div style="background:var(--bg2);padding:20px;border-radius:14px;border:1px solid var(--brd);">
+                        <div style="display:flex;justify-content:space-between;margin-bottom:10px;font-weight:800;font-size:0.95rem;">
+                            <span style="color:var(--cy);">🪣 Token Bucket Quota:</span>
+                            <span id="bucketCount" style="color:#fff;font-family:'JetBrains Mono',monospace;">5 / 5 Tokens</span>
+                        </div>
+                        <div style="width:100%;height:14px;background:#1a1a2e;border-radius:99px;overflow:hidden;border:1px solid var(--brd2);">
+                            <div id="bucketBar" style="width:100%;height:100%;background:linear-gradient(90deg, #00e5ff, #10b981);transition:width 0.25s;"></div>
+                        </div>
+                        <p style="font-size:0.78rem;color:var(--t3);margin-top:8px;">Refills automatically at 1 token per 2 seconds (Max capacity: 5).</p>
+                        <button onclick="sendSimRequest()" id="simBtn" style="margin-top:12px;width:100%;padding:14px;background:var(--cy);color:#000;font-weight:900;font-size:0.95rem;border:none;border-radius:10px;cursor:pointer;transition:0.2s;">🚀 Send API Request (/api/generate)</button>
+                    </div>
+
+                    <div id="simLog" style="background:#030408;border:1px solid var(--brd);border-radius:14px;padding:18px;height:160px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:0.82rem;display:flex;flex-direction:column;gap:6px;">
+                        <div style="color:var(--t3);">System Ready. Click button above to fire API requests...</div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid-cards">
                 <div class="topic-card">
                     <div class="topic-header"><div class="topic-title">33. Rate Limiting Algorithms</div><span class="topic-badge badge-cy">Resilience</span></div>
@@ -593,6 +626,63 @@
             }
 
             document.getElementById('ex' + qIdx).classList.add('show');
+        }
+
+        /* RATE LIMITER SIMULATION */
+        let tokens = 5;
+        let isThrottled = false;
+        let isWaiting = false;
+
+        setInterval(() => {
+            if (tokens < 5) {
+                tokens++;
+                updateBucketUI();
+            }
+        }, 2000);
+
+        function toggleThrottle() {
+            isThrottled = document.getElementById('throttleToggle').checked;
+            logSim(`🧠 Client-Side Throttling is now ${isThrottled ? 'ENABLED (Safe Mode)' : 'DISABLED (Direct Mode)'}.`, '#00e5ff');
+        }
+
+        function updateBucketUI() {
+            document.getElementById('bucketCount').innerText = `${tokens} / 5 Tokens`;
+            document.getElementById('bucketBar').style.width = `${(tokens / 5) * 100}%`;
+            document.getElementById('bucketBar').style.background = tokens > 2 ? 'linear-gradient(90deg, #00e5ff, #10b981)' : '#f43f5e';
+        }
+
+        function logSim(msg, color='#a8a8ca') {
+            let log = document.getElementById('simLog');
+            let t = new Date().toLocaleTimeString();
+            log.innerHTML = `<div style="color:${color};">[${t}] ${msg}</div>` + log.innerHTML;
+        }
+
+        function sendSimRequest() {
+            if (isThrottled && tokens === 0) {
+                if (!isWaiting) {
+                    isWaiting = true;
+                    logSim(`⏳ Client Throttler active! Pausing request ("Utni hi requests do jitni handle ho") until bucket refills...`, '#f59e0b');
+                    let chk = setInterval(() => {
+                        if (tokens > 0) {
+                            clearInterval(chk);
+                            isWaiting = false;
+                            executeApiCall();
+                        }
+                    }, 500);
+                }
+                return;
+            }
+            executeApiCall();
+        }
+
+        function executeApiCall() {
+            if (tokens > 0) {
+                tokens--;
+                updateBucketUI();
+                logSim(`✅ HTTP 200 OK — /api/generate processed successfully! (${tokens} tokens left)`, '#10b981');
+            } else {
+                logSim(`🚨 HTTP 429 Too Many Requests! [GoogleGenerativeAI Quota Exceeded Error]. Retry in 2s.`, '#f43f5e');
+            }
         }
     </script>
 </body>
