@@ -82,6 +82,51 @@ const TOPICS = [
 {id:"mcp",title:"Building an MCP-Powered AI Assistant from Scratch",tag:"AI Architecture • Protocol Spec",desc:"How to build a production AI assistant using the Model Context Protocol (MCP) from beginner fundamentals to complete Python code.",
 content:`
 <div class="section-card">
+<h3>🤖 What Exactly is an "AI Agent"?</h3>
+<p>At its core, an <strong>AI Agent</strong> is a system that uses an LLM (like GPT-4 or Claude) not just to generate text, but as a <strong>Reasoning Engine</strong> to autonomously complete tasks.</p>
+<p>If standard ChatGPT is a "Consultant" (you ask a question, it gives advice, you do the work), an AI Agent is an "Employee" (you give it a goal, it figures out the steps, uses tools, and does the work for you).</p>
+
+<h4>The 4 Pillars of an AI Agent (The Andrew Ng Model)</h4>
+<ul>
+<li><strong>Tool Use (Function Calling):</strong> The AI can actually <em>do</em> things. It is connected to Python scripts or APIs so it can search the web, read a database, send an email, or execute code.</li>
+<li><strong>Planning:</strong> When you give it a complex goal (e.g., "Research competitors and make a spreadsheet"), it breaks it down into step-by-step instructions before it starts.</li>
+<li><strong>Memory / State:</strong> It remembers what it has done. It keeps a scratchpad of variables and context so it doesn't lose track of its progress during a 20-step task.</li>
+<li><strong>Reflection & Error Correction:</strong> If an Agent tries to query a database and gets a SQL Syntax Error, it doesn't crash. It reads the error message, realizes its mistake, rewrites the SQL query, and tries again autonomously until it succeeds.</li>
+</ul>
+
+<h4>Example: Chatbot vs. Agent</h4>
+<p><strong>User Request:</strong> <em>"Find the error in my server logs and fix it."</em></p>
+<ul>
+<li><strong>Standard Chatbot:</strong> "Please paste the logs here so I can look at them." (Stops and waits for you to do the work).</li>
+<li><strong>AI Agent:</strong> 
+  <ol>
+  <li><em>Thinks:</em> "I need to read the logs." → Calls tool: <code>read_file('/var/logs/error.log')</code>.</li>
+  <li><em>Thinks:</em> "Ah, it's a missing NPM package." → Calls tool: <code>run_terminal_command('npm install cors')</code>.</li>
+  <li><em>Thinks:</em> "Let me check if the server starts now." → Calls tool: <code>run_terminal_command('npm start')</code>.</li>
+  <li><em>Output to User:</em> "I found the missing CORS package, installed it, and restarted the server. It's working now."</li>
+  </ol>
+</li>
+</ul>
+</div>
+
+<div class="section-card">
+<h3>📋 Prerequisites for Building AI Agents</h3>
+<p>Before you dive into building your own Agent using MCP or Python, you need the following fundamentals setup:</p>
+<ul>
+<li><strong>Python 3.10+</strong>: The ecosystem for AI Agents is overwhelmingly Python-based (LangChain, LangGraph, MCP SDK).</li>
+<li><strong>LLM API Keys</strong>: You need access to a frontier model with strong reasoning and tool-calling capabilities. Set these in your <code>.env</code> file:
+  <ul>
+    <li><code>ANTHROPIC_API_KEY</code> (Claude 3.5 Sonnet is currently the undisputed king of agentic coding and tool use).</li>
+    <li><code>OPENAI_API_KEY</code> (GPT-4o).</li>
+  </ul>
+</li>
+<li><strong>MCP SDK</strong>: The official Model Context Protocol package for Python (<code>pip install mcp</code>).</li>
+<li><strong>sqlite3</strong> (or similar): For testing database tools locally without spinning up a full PostgreSQL cluster.</li>
+<li><strong>Claude Desktop App</strong>: The best way to test your MCP servers visually before wiring them into your own Python agent loops.</li>
+</ul>
+</div>
+
+<div class="section-card">
 <h3>🌐 What is the Model Context Protocol (MCP)?</h3>
 <div class="box b-an"><h5>🔌 Universal Hardware Analogy</h5><p>Before USB-C, connecting laptops to external monitors, keyboards, printers, and external hard drives required 15 different proprietary cables and drivers. In AI engineering, connecting LLMs (Claude, GPT-4, Llama) to external tools (SQL databases, GitHub repos, internal Jira APIs) traditionally required custom ad-hoc Python glue code for every single pairing. **MCP is the universal USB-C standard for AI agents.**</p></div>
 <p>Developed as an open standard, MCP defines a structured JSON-RPC 2.0 communication layer between **Host Clients** (like Claude Desktop, IDEs, or custom orchestration apps) and **MCP Servers** (lightweight services that expose structured capabilities).</p>
