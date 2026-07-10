@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🤖 AI Agents & Observability — Complete Handbook</title>
+<meta name="description" content="The ultimate guide to AI Agents, Observability, and building Agent Watchers. 50 topics with theory, examples, MCQs, flowcharts, and projects.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg0:#04040a;--bg1:#08080f;--bg2:#10101c;--bg3:rgba(16,16,30,.92);
+  --glass:rgba(255,255,255,.03);--brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.14);
+  --t1:#f0f0f8;--t2:#a0a0c0;--t3:#606080;
+  --vi:#7c5cfc;--vi2:rgba(124,92,252,.16);--vi3:rgba(124,92,252,.06);
+  --cy:#00e5ff;--cy2:rgba(0,229,255,.12);
+  --em:#10b981;--em2:rgba(16,185,129,.12);
+  --am:#f59e0b;--am2:rgba(245,158,11,.12);
+  --ro:#f43f5e;--ro2:rgba(244,63,94,.12);
+  --pk:#e879f9;--pk2:rgba(232,121,249,.12);
+  --r:12px;--r2:18px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg0);color:var(--t1);line-height:1.75;display:flex;height:100vh;overflow:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 15% 25%,rgba(124,92,252,.05) 0%,transparent 50%),radial-gradient(circle at 85% 75%,rgba(0,229,255,.04) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(232,121,249,.02) 0%,transparent 70%);pointer-events:none;z-index:0;}
+code{font-family:'JetBrains Mono',monospace;background:rgba(124,92,252,.12);color:var(--cy);padding:2px 7px;border-radius:5px;font-size:.83em;}
+
+aside{width:300px;background:var(--bg1);border-right:1px solid var(--brd);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;flex-shrink:0;z-index:10;}
+.sb-header{padding:18px 16px;border-bottom:1px solid var(--brd);}
+.sb-logo{font-size:1rem;font-weight:900;background:linear-gradient(135deg,var(--vi),var(--cy),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.02em;}
+.sb-sub{font-size:.7rem;color:var(--t3);margin-top:3px;font-weight:600;}
+.sb-xp{display:flex;align-items:center;gap:8px;margin-top:10px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;padding:7px 12px;}
+.xp-label{font-size:.7rem;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;}
+.xp-val{font-size:.85rem;font-weight:900;color:var(--am);font-family:'JetBrains Mono',monospace;margin-left:auto;}
+.xp-bar-wrap{height:4px;background:var(--bg2);border-radius:99px;margin-top:6px;overflow:hidden;}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--vi),var(--cy));border-radius:99px;width:0%;transition:width .6s ease;}
+.sb-search{padding:10px 14px;border-bottom:1px solid var(--brd);}
+.sb-search input{width:100%;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;padding:8px 12px;color:var(--t1);font-size:.8rem;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s;}
+.sb-search input:focus{border-color:rgba(124,92,252,.4);}
+.sb-search input::placeholder{color:var(--t3);}
+.sb-parts{padding:8px 14px 4px;font-size:.65rem;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.1em;}
+.nav-list{flex:1;overflow-y:auto;padding:4px 8px 12px;}
+.nav-list::-webkit-scrollbar{width:4px;}
+.nav-list::-webkit-scrollbar-thumb{background:rgba(124,92,252,.3);border-radius:99px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:9px;cursor:pointer;transition:all .18s;border:1px solid transparent;color:var(--t2);font-size:.78rem;font-weight:600;margin-bottom:2px;}
+.nav-item:hover{background:var(--glass);color:var(--t1);border-color:var(--brd);}
+.nav-item.on{background:var(--vi2);border-color:rgba(124,92,252,.28);color:#fff;}
+.nav-item.done .nav-num{background:var(--em);border-color:var(--em);color:#fff;}
+.nav-num{width:22px;height:22px;border-radius:6px;background:var(--bg2);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:var(--cy);flex-shrink:0;}
+.nav-item.on .nav-num{background:var(--vi);color:#fff;border-color:var(--vi);}
+.nav-check{margin-left:auto;font-size:.75rem;display:none;color:var(--em);}
+.nav-item.done .nav-check{display:block;}
+.sb-footer{padding:12px 14px;border-top:1px solid var(--brd);}
+.sb-footer a{display:block;text-align:center;padding:9px;border-radius:8px;background:var(--bg2);color:var(--t1);text-decoration:none;font-weight:700;font-size:.77rem;border:1px solid var(--brd);transition:all .2s;}
+.sb-footer a:hover{background:var(--vi);border-color:var(--vi);}
+
+main{flex:1;height:100vh;overflow-y:auto;overflow-x:hidden;position:relative;z-index:1;scroll-behavior:smooth;}
+main::-webkit-scrollbar{width:6px;}
+main::-webkit-scrollbar-track{background:var(--bg1);}
+main::-webkit-scrollbar-thumb{background:rgba(124,92,252,.35);border-radius:99px;}
+main::-webkit-scrollbar-thumb:hover{background:rgba(124,92,252,.6);}
+.content-wrap{max-width:1050px;padding:44px 50px 80px;margin:0 auto;}
+
+/* ── PREV/NEXT NAV ── */
+.topic-nav{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--brd);gap:12px;}
+.tnav-btn{display:flex;align-items:center;gap:10px;padding:14px 22px;border-radius:12px;background:var(--bg2);border:1px solid var(--brd);cursor:pointer;transition:all .25s;text-decoration:none;flex:1;max-width:48%;}
+.tnav-btn:hover{border-color:rgba(124,92,252,.4);background:var(--vi3);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3);}
+.tnav-btn.next{flex-direction:row-reverse;text-align:right;}
+.tnav-arrow{font-size:1.2rem;flex-shrink:0;color:var(--vi);}
+.tnav-label{font-size:.65rem;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;display:block;margin-bottom:2px;}
+.tnav-title{font-size:.82rem;font-weight:700;color:var(--t1);display:block;}
+
+/* ── SCROLL TO TOP BUTTON ── */
+#scrollTop{position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--vi),var(--cy));border:none;cursor:pointer;display:none;align-items:center;justify-content:center;font-size:1.1rem;z-index:150;box-shadow:0 4px 20px rgba(124,92,252,.5);transition:all .25s;}
+#scrollTop:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(124,92,252,.7);}
+#scrollTop.visible{display:flex;}
+.topic-pane{display:none;animation:fadeUp .3s ease;}
+.topic-pane.on{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.t-tag{display:inline-flex;align-items:center;gap:6px;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:4px 12px;border-radius:99px;background:var(--vi2);color:var(--vi);border:1px solid rgba(124,92,252,.22);margin-bottom:14px;}
+.t-num{font-size:.65rem;background:var(--vi);color:#fff;border-radius:4px;padding:1px 6px;}
+h2.topic-title{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:900;letter-spacing:-.03em;margin-bottom:10px;color:#fff;line-height:1.2;}
+.t-desc{font-size:.93rem;color:var(--t2);margin-bottom:28px;max-width:750px;line-height:1.8;}
+
+.sec-tabs{display:flex;gap:6px;margin-bottom:24px;flex-wrap:wrap;}
+.sec-tab{padding:8px 18px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--t2);font-weight:700;font-size:.78rem;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.sec-tab:hover{color:var(--t1);border-color:var(--brd2);}
+.sec-tab.on{background:var(--vi2);color:#fff;border-color:rgba(124,92,252,.3);box-shadow:0 0 16px rgba(124,92,252,.25);}
+.sec-panel{display:none;}
+.sec-panel.on{display:block;animation:fadeUp .25s ease;}
+
+.card{background:var(--bg3);border:1px solid var(--brd);border-radius:var(--r2);padding:28px 32px;margin-bottom:22px;backdrop-filter:blur(12px);}
+.card h3{font-size:1.05rem;font-weight:800;margin-bottom:14px;color:var(--t1);display:flex;align-items:center;gap:8px;}
+.card h4{font-size:.82rem;font-weight:800;color:var(--cy);text-transform:uppercase;letter-spacing:.06em;margin:20px 0 8px;}
+.card p{font-size:.88rem;color:var(--t2);margin-bottom:12px;line-height:1.85;}
+.card ul,.card ol{margin:8px 0 14px 22px;font-size:.87rem;color:var(--t2);}
+.card li{margin-bottom:8px;line-height:1.75;}
+.card strong{color:var(--t1);font-weight:700;}
+
+.box{border-radius:11px;padding:16px 20px;margin:14px 0;}
+.box h5{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.b-vi{background:var(--vi3);border:1px solid rgba(124,92,252,.18);}.b-vi h5{color:var(--vi);}
+.b-cy{background:var(--cy2);border:1px solid rgba(0,229,255,.18);}.b-cy h5{color:var(--cy);}
+.b-em{background:var(--em2);border:1px solid rgba(16,185,129,.18);}.b-em h5{color:var(--em);}
+.b-am{background:var(--am2);border:1px solid rgba(245,158,11,.18);}.b-am h5{color:var(--am);}
+.b-ro{background:var(--ro2);border:1px solid rgba(244,63,94,.18);}.b-ro h5{color:var(--ro);}
+.b-pk{background:var(--pk2);border:1px solid rgba(232,121,249,.18);}.b-pk h5{color:var(--pk);}
+
+.cb{background:#06060e;border:1px solid var(--brd);border-radius:11px;padding:18px 22px;margin:14px 0;font-family:'JetBrains Mono',monospace;font-size:.77rem;line-height:1.75;overflow-x:auto;color:var(--cy);white-space:pre;tab-size:2;}
+.cm{color:var(--t3);}.ck{color:var(--pk);}.cs{color:var(--em);}.cv{color:var(--am);}
+
+table{width:100%;border-collapse:collapse;font-size:.84rem;margin:14px 0;border-radius:10px;overflow:hidden;}
+th{text-align:left;padding:11px 16px;background:var(--bg2);color:var(--t1);font-weight:800;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--brd);}
+td{padding:11px 16px;border-bottom:1px solid var(--brd);color:var(--t2);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+
+.flow-container{background:var(--bg2);border:1px solid var(--brd);border-radius:16px;padding:24px;margin:16px 0;}
+.flow-title{font-size:.8rem;font-weight:800;color:var(--cy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:18px;}
+.flow-down{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;}
+.flow-row{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;width:100%;}
+.flow-node{padding:10px 20px;border-radius:10px;font-size:.78rem;font-weight:700;text-align:center;min-width:120px;}
+.fn-start{background:linear-gradient(135deg,var(--vi),rgba(124,92,252,.6));color:#fff;border-radius:99px;padding:10px 24px;}
+.fn-end{background:linear-gradient(135deg,var(--em),rgba(16,185,129,.6));color:#fff;border-radius:99px;padding:10px 24px;}
+.fn-proc{background:var(--bg3);border:1px solid var(--brd2);color:var(--t1);}
+.fn-dec{background:var(--am2);border:1px solid rgba(245,158,11,.3);color:var(--am);}
+.fn-io{background:var(--cy2);border:1px solid rgba(0,229,255,.3);color:var(--cy);}
+.fn-db{background:var(--pk2);border:1px solid rgba(232,121,249,.3);color:var(--pk);}
+
+.mcq-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.mcq-header h3{font-size:1rem;font-weight:800;color:#fff;}
+.mcq-score{font-size:.8rem;font-weight:800;color:var(--am);background:var(--am2);padding:5px 14px;border-radius:99px;border:1px solid rgba(245,158,11,.2);}
+.mcq-progress{display:flex;gap:4px;margin-bottom:24px;flex-wrap:wrap;}
+.mcq-dot{width:10px;height:10px;border-radius:50%;background:var(--bg2);border:1px solid var(--brd);transition:all .3s;}
+.mcq-dot.ans-c{background:var(--em);border-color:var(--em);}
+.mcq-dot.ans-w{background:var(--ro);border-color:var(--ro);}
+.mcq-box{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:24px;margin-bottom:18px;transition:border-color .3s;}
+.mcq-box.ans-c{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.03);}
+.mcq-box.ans-w{border-color:rgba(244,63,94,.4);background:rgba(244,63,94,.03);}
+.mcq-q{font-size:.95rem;font-weight:700;color:#fff;margin-bottom:16px;line-height:1.6;}
+.mcq-num{display:inline-block;background:var(--vi2);color:var(--vi);font-weight:900;font-size:.72rem;padding:2px 8px;border-radius:5px;margin-right:8px;}
+.mcq-opts{display:flex;flex-direction:column;gap:8px;}
+.mcq-o{padding:12px 16px;border-radius:9px;background:var(--glass);border:1px solid var(--brd);cursor:pointer;font-size:.86rem;color:var(--t2);transition:all .2s;display:flex;align-items:center;gap:10px;font-weight:600;}
+.mcq-o:hover:not(.dis){border-color:rgba(124,92,252,.4);color:#fff;background:var(--vi3);}
+.mcq-o.dis{cursor:default;}
+.mcq-o.correct{border-color:var(--em)!important;background:var(--em2)!important;color:var(--em)!important;}
+.mcq-o.wrong{border-color:var(--ro)!important;background:var(--ro2)!important;color:var(--ro)!important;}
+.mcq-o.reveal{border-color:rgba(16,185,129,.3)!important;background:rgba(16,185,129,.06)!important;color:var(--em)!important;}
+.mcq-letter{width:26px;height:26px;border-radius:6px;background:var(--bg2);border:1px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0;transition:all .2s;}
+.mcq-o.correct .mcq-letter,.mcq-o.wrong .mcq-letter{background:currentColor;border-color:currentColor;color:#fff;}
+.mcq-explain{margin-top:12px;padding:12px 16px;border-radius:8px;background:var(--vi3);border:1px solid rgba(124,92,252,.2);font-size:.82rem;color:var(--t2);display:none;line-height:1.7;}
+.mcq-explain.show{display:block;}
+
+.game-header{background:linear-gradient(135deg,rgba(124,92,252,.12),rgba(0,229,255,.08));border:1px solid rgba(124,92,252,.2);border-radius:16px;padding:22px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px;}
+.game-icon{font-size:2.5rem;}
+.game-info h3{font-size:1rem;font-weight:900;color:#fff;margin-bottom:4px;}
+.game-info p{font-size:.82rem;color:var(--t2);}
+.game-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px;}
+.badge{padding:10px 18px;border-radius:10px;font-size:.78rem;font-weight:800;display:flex;align-items:center;gap:8px;border:1px solid;}
+.badge-vi{background:var(--vi2);border-color:rgba(124,92,252,.3);color:var(--vi);}
+.badge-cy{background:var(--cy2);border-color:rgba(0,229,255,.3);color:var(--cy);}
+.badge-am{background:var(--am2);border-color:rgba(245,158,11,.3);color:var(--am);}
+.badge-em{background:var(--em2);border-color:rgba(16,185,129,.3);color:var(--em);}
+.challenge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.challenge-card{background:var(--bg2);border:1px solid var(--brd);border-radius:12px;padding:20px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;}
+.challenge-card:hover{border-color:rgba(124,92,252,.35);transform:translateY(-2px);}
+.ch-icon{font-size:1.8rem;margin-bottom:10px;}
+.ch-title{font-size:.9rem;font-weight:800;color:#fff;margin-bottom:6px;}
+.ch-desc{font-size:.78rem;color:var(--t2);line-height:1.6;}
+.ch-xp{font-size:.7rem;font-weight:900;color:var(--am);margin-top:10px;}
+.leaderboard{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-top:20px;}
+.lb-header{padding:14px 20px;background:var(--vi2);border-bottom:1px solid rgba(124,92,252,.2);font-size:.82rem;font-weight:800;color:#fff;}
+.lb-row{display:flex;align-items:center;padding:12px 20px;border-bottom:1px solid var(--brd);gap:12px;font-size:.84rem;}
+.lb-row:last-child{border-bottom:none;}
+.lb-rank{width:24px;font-weight:900;color:var(--t3);}
+.lb-rank.gold{color:var(--am);}
+.lb-rank.silver{color:#c0c0c0;}
+.lb-rank.bronze{color:#cd7f32;}
+.lb-name{flex:1;font-weight:700;color:var(--t1);}
+.lb-xp{color:var(--am);font-weight:800;font-family:'JetBrains Mono',monospace;}
+
+.proj-header{background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(0,229,255,.06));border:1px solid rgba(16,185,129,.2);border-radius:16px;padding:24px 28px;margin-bottom:24px;}
+.proj-title{font-size:1.2rem;font-weight:900;color:#fff;margin-bottom:6px;display:flex;align-items:center;gap:10px;}
+.proj-badge{font-size:.68rem;font-weight:900;padding:3px 10px;border-radius:99px;background:var(--em2);color:var(--em);border:1px solid rgba(16,185,129,.2);}
+.proj-desc{font-size:.87rem;color:var(--t2);line-height:1.8;}
+.proj-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.proj-tag{font-size:.7rem;font-weight:800;padding:4px 11px;border-radius:6px;background:var(--bg2);color:var(--t2);border:1px solid var(--brd);}
+.step-list{counter-reset:step;}
+.step{display:flex;gap:16px;margin-bottom:20px;padding:18px 20px;background:var(--bg2);border:1px solid var(--brd);border-radius:12px;counter-increment:step;}
+.step::before{content:counter(step);width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--vi),var(--cy));display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:900;color:#fff;flex-shrink:0;}
+.step-content{flex:1;}
+.step-title{font-size:.88rem;font-weight:800;color:var(--t1);margin-bottom:6px;}
+.step-desc{font-size:.82rem;color:var(--t2);line-height:1.7;}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;padding:6px 16px;border-radius:99px;background:linear-gradient(135deg,var(--vi2),var(--cy2));color:var(--vi);border:1px solid rgba(124,92,252,.25);margin-bottom:20px;}
+.hero-title{font-size:clamp(2rem,5vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:16px;background:linear-gradient(135deg,#fff 30%,var(--vi) 60%,var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-desc{font-size:1rem;color:var(--t2);line-height:1.85;margin-bottom:32px;max-width:650px;}
+.hero-stats{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:36px;}
+.stat-pill{padding:12px 22px;background:var(--bg2);border:1px solid var(--brd);border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:100px;}
+.stat-num{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,var(--vi),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'JetBrains Mono',monospace;}
+.stat-label{font-size:.68rem;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.06em;}
+.roadmap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:8px;}
+.roadmap-card{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:20px;cursor:pointer;transition:all .25s;}
+.roadmap-card:hover{border-color:rgba(124,92,252,.35);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.rc-icon{font-size:1.8rem;margin-bottom:10px;}
+.rc-title{font-size:.88rem;font-weight:800;color:#fff;margin-bottom:4px;}
+.rc-range{font-size:.72rem;color:var(--t3);font-weight:600;}
+.start-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:12px;background:linear-gradient(135deg,var(--vi),var(--cy));color:#fff;font-weight:900;font-size:.95rem;border:none;cursor:pointer;transition:all .25s;}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(124,92,252,.4);}
+
+.global-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;background:var(--bg2);}
+.global-progress-bar{height:100%;background:linear-gradient(90deg,var(--vi),var(--cy),var(--pk));width:0%;transition:width .4s ease;}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--bg2);border:1px solid var(--brd2);border-radius:20px;padding:40px;max-width:480px;width:90%;text-align:center;animation:fadeUp .3s ease;}
+.modal h2{font-size:1.8rem;font-weight:900;margin-bottom:12px;background:linear-gradient(135deg,var(--vi),var(--cy));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.modal p{font-size:.9rem;color:var(--t2);margin-bottom:20px;line-height:1.7;}
+.modal-btn{padding:12px 32px;border-radius:99px;background:linear-gradient(135deg,var(--vi),var(--cy));color:#fff;font-weight:800;border:none;cursor:pointer;font-size:.9rem;}
+
+@media(max-width:900px){aside{display:none;}main{overflow-y:auto;}.content-wrap{padding:24px 20px;}}
+</style>
+</head>
+<body>
+
+<div class="global-progress"><div class="global-progress-bar" id="gBar"></div></div>
+
+<aside>
+  <div class="sb-header">
+    <div class="sb-logo">🤖 AI Agents Handbook</div>
+    <div class="sb-sub">50 Topics · Theory · MCQs · Projects</div>
+    <div class="sb-xp">
+      <span class="xp-label">⚡ XP</span>
+      <span class="xp-val" id="xpVal">0</span>
+    </div>
+    <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar"></div></div>
+  </div>
+  <div class="sb-search"><input type="text" placeholder="🔍 Search topics..." id="searchInput" oninput="filterNav(this.value)"></div>
+  <div class="nav-list" id="navList"></div>
+  <div class="sb-footer"><a href="index.html">← DevOps Roadmap</a></div>
+</aside>
+
+<main>
+<div class="content-wrap">
+
+<div class="topic-pane on" id="pane-welcome">
+  <div style="max-width:800px;">
+    <div class="hero-badge">🚀 Complete AI Agents Curriculum</div>
+    <h1 class="hero-title">AI Agents &<br>Observability<br>Handbook</h1>
+    <p class="hero-desc">The most comprehensive guide to understanding, building, monitoring, and mastering AI Agents. From fundamentals to building your own Agent Watcher — fully gamified with MCQs, flowcharts, and real projects.</p>
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="stat-num">50</span><span class="stat-label">Topics</span></div>
+      <div class="stat-pill"><span class="stat-num">750</span><span class="stat-label">MCQs</span></div>
+      <div class="stat-pill"><span class="stat-num">150</span><span class="stat-label">Flowcharts</span></div>
+      <div class="stat-pill"><span class="stat-num">50</span><span class="stat-label">Projects</span></div>
+      <div class="stat-pill"><span class="stat-num">10K</span><span class="stat-label">Max XP</span></div>
+    </div>
+    <div class="roadmap-grid">
+      <div class="roadmap-card" onclick="showTopic('t1')"><div class="rc-icon">🧠</div><div class="rc-title">AI Agent Fundamentals</div><div class="rc-range">Topics 1–10</div></div>
+      <div class="roadmap-card" onclick="showTopic('t11')"><div class="rc-icon">🔧</div><div class="rc-title">Agent Architecture</div><div class="rc-range">Topics 11–20</div></div>
+      <div class="roadmap-card" onclick="showTopic('t21')"><div class="rc-icon">📊</div><div class="rc-title">Agent Observability</div><div class="rc-range">Topics 21–35</div></div>
+      <div class="roadmap-card" onclick="showTopic('t36')"><div class="rc-icon">🛠️</div><div class="rc-title">Observability Tools</div><div class="rc-range">Topics 36–42</div></div>
+      <div class="roadmap-card" onclick="showTopic('t43')"><div class="rc-icon">🔭</div><div class="rc-title">Agent Watcher</div><div class="rc-range">Topics 43–50</div></div>
+      <div class="roadmap-card" onclick="showTopic('tfinal')"><div class="rc-icon">🏆</div><div class="rc-title">Capstone Project</div><div class="rc-range">Full Agent Watcher</div></div>
+    </div>
+    <br>
+    <button class="start-btn" onclick="showTopic('t1')">🚀 Start Learning →</button>
+  </div>
+</div>
+
+<div id="topicContainer"></div>
+
+</div>
+</main>
+
+<!-- Scroll to top -->
+<button id="scrollTop" onclick="scrollToTop()" title="Back to top">↑</button>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
+    <h2>Topic Complete!</h2>
+    <p id="modalMsg">You've mastered this topic and earned XP!</p>
+    <button class="modal-btn" onclick="closeModal()">Continue →</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// ALL 51 TOPICS NAV
+// ═══════════════════════════════════
+const ALL_NAV = [
+  {id:'welcome',num:'🏠',title:'Welcome & Roadmap',part:''},
+  {id:'t1',num:'01',title:'What is an AI Agent?',part:'Fundamentals'},
+  {id:'t2',num:'02',title:'Agent vs Chatbot vs Automation',part:'Fundamentals'},
+  {id:'t3',num:'03',title:'Anatomy of an AI Agent',part:'Fundamentals'},
+  {id:'t4',num:'04',title:'Types of AI Agents',part:'Fundamentals'},
+  {id:'t5',num:'05',title:'The Agent Loop',part:'Fundamentals'},
+  {id:'t6',num:'06',title:'LLM as the Agent Brain',part:'Fundamentals'},
+  {id:'t7',num:'07',title:'Tools & Tool Calling',part:'Fundamentals'},
+  {id:'t8',num:'08',title:'Memory Types',part:'Fundamentals'},
+  {id:'t9',num:'09',title:'Planning — ReAct, CoT, ToT',part:'Fundamentals'},
+  {id:'t10',num:'10',title:'Agent Roles & Personas',part:'Fundamentals'},
+  {id:'t11',num:'11',title:'Single Agent Architecture',part:'Architecture'},
+  {id:'t12',num:'12',title:'Multi-Agent Systems',part:'Architecture'},
+  {id:'t13',num:'13',title:'Orchestrator vs Sub-Agent',part:'Architecture'},
+  {id:'t14',num:'14',title:'Agent Communication Protocols',part:'Architecture'},
+  {id:'t15',num:'15',title:'RAG-Powered Agents',part:'Architecture'},
+  {id:'t16',num:'16',title:'Agent State Management',part:'Architecture'},
+  {id:'t17',num:'17',title:'Context Window Management',part:'Architecture'},
+  {id:'t18',num:'18',title:'Tool Registry & Discovery',part:'Architecture'},
+  {id:'t19',num:'19',title:'Human-in-the-Loop (HITL)',part:'Architecture'},
+  {id:'t20',num:'20',title:'Agent Sandboxing & Security',part:'Architecture'},
+  {id:'t21',num:'21',title:'What is Agent Observability?',part:'Observability'},
+  {id:'t22',num:'22',title:'3 Pillars: Traces, Metrics, Logs',part:'Observability'},
+  {id:'t23',num:'23',title:'Agent Tracing',part:'Observability'},
+  {id:'t24',num:'24',title:'Span & Trace Structure',part:'Observability'},
+  {id:'t25',num:'25',title:'LLM-Specific Metrics',part:'Observability'},
+  {id:'t26',num:'26',title:'Tool Call Observability',part:'Observability'},
+  {id:'t27',num:'27',title:'Memory Observability',part:'Observability'},
+  {id:'t28',num:'28',title:'Agent Failure Modes',part:'Observability'},
+  {id:'t29',num:'29',title:'Hallucination Detection',part:'Observability'},
+  {id:'t30',num:'30',title:'Prompt Drift Detection',part:'Observability'},
+  {id:'t31',num:'31',title:'Agent Benchmarking',part:'Observability'},
+  {id:'t32',num:'32',title:'Feedback Loops & Ratings',part:'Observability'},
+  {id:'t33',num:'33',title:'Alerting & Anomaly Detection',part:'Observability'},
+  {id:'t34',num:'34',title:'Cost Monitoring & Guardrails',part:'Observability'},
+  {id:'t35',num:'35',title:'Compliance & Audit Logging',part:'Observability'},
+  {id:'t36',num:'36',title:'LangSmith',part:'Tools'},
+  {id:'t37',num:'37',title:'Langfuse — Open-Source',part:'Tools'},
+  {id:'t38',num:'38',title:'OpenTelemetry for Agents',part:'Tools'},
+  {id:'t39',num:'39',title:'Arize AI / Phoenix',part:'Tools'},
+  {id:'t40',num:'40',title:'Helicone — LLM Proxy',part:'Tools'},
+  {id:'t41',num:'41',title:'AgentOps SDK',part:'Tools'},
+  {id:'t42',num:'42',title:'Custom Observability Middleware',part:'Tools'},
+  {id:'t43',num:'43',title:'What is an Agent Watcher?',part:'Agent Watcher'},
+  {id:'t44',num:'44',title:'Watcher Architecture Design',part:'Agent Watcher'},
+  {id:'t45',num:'45',title:'Real-time Activity Monitoring',part:'Agent Watcher'},
+  {id:'t46',num:'46',title:'Intercepting Tool Calls',part:'Agent Watcher'},
+  {id:'t47',num:'47',title:'Agent Health Dashboard',part:'Agent Watcher'},
+  {id:'t48',num:'48',title:'Alerting — Rogue Agents',part:'Agent Watcher'},
+  {id:'t49',num:'49',title:'Self-Healing Agents',part:'Agent Watcher'},
+  {id:'t50',num:'50',title:'Deploying Watcher in Production',part:'Agent Watcher'},
+  {id:'tfinal',num:'🏆',title:'Capstone: Full Agent Watcher',part:'Capstone'},
+];
+
+// ═══════════════════════════════════
+// RICH TOPIC DATA (Topics 1,2,3,21,43,Final fully detailed)
+// ═══════════════════════════════════
+const RICH_TOPICS = {
+  t1: {
+    tag:'Core Concept · AI Fundamentals', num:1,
+    title:'What is an AI Agent?',
+    desc:'The foundational concept powering everything from ChatGPT plugins to autonomous coding assistants.',
+    theory:`<div class="card"><h3>🧠 Defining an AI Agent</h3><p>An <strong>AI Agent</strong> is an autonomous software system that perceives its environment, reasons about it, and takes actions to achieve a defined goal — without requiring step-by-step human instructions for every decision.</p><div class="box b-vi"><h5>💡 Classic Definition</h5><p>An AI agent is anything that can be viewed as <strong>perceiving its environment through sensors</strong> and <strong>acting upon that environment through actuators</strong> — Russell &amp; Norvig, AIMA</p></div><h4>4 Core Properties</h4><ul><li><strong>Autonomy</strong> — Operates without constant human guidance</li><li><strong>Reactivity</strong> — Responds to changes in its environment</li><li><strong>Proactivity</strong> — Takes initiative to achieve goals</li><li><strong>Social Ability</strong> — Interacts with other agents or humans</li></ul><h4>Agent vs Traditional Software</h4><table><tr><th>Aspect</th><th>Traditional</th><th>AI Agent</th></tr><tr><td>Decision Making</td><td>Hardcoded if/else</td><td>Reasoned dynamically</td></tr><tr><td>Goal</td><td>Fixed, pre-programmed</td><td>Goal-directed, adaptive</td></tr><tr><td>Unknown Inputs</td><td>Crashes or errors</td><td>Reasons and adapts</td></tr><tr><td>Tool Use</td><td>Explicitly coded</td><td>Selected autonomously</td></tr></table></div><div class="card"><h3>💻 The Agent Loop in Code</h3><div class="cb"><span class="ck">def</span> <span class="cv">agent_loop</span>(goal: str, max_steps: int = 10):
+    memory = []
+    <span class="ck">for</span> step <span class="ck">in</span> range(max_steps):
+        context = build_context(goal, memory)      <span class="cm"># PERCEIVE</span>
+        decision = llm.reason(context)             <span class="cm"># REASON</span>
+        <span class="ck">if</span> decision.action == <span class="cs">"FINISH"</span>:
+            <span class="ck">return</span> decision.answer
+        result = execute_tool(decision.tool, decision.args)  <span class="cm"># ACT</span>
+        memory.append({<span class="cs">"tool"</span>: decision.tool, <span class="cs">"result"</span>: result})  <span class="cm"># REFLECT</span>
+    <span class="ck">return</span> <span class="cs">"Max steps reached"</span></div></div>`,
+    mcqs:[
+      {q:"What is the primary characteristic that distinguishes an AI agent from a traditional chatbot?",opts:["A. Uses more memory","B. Autonomous goal-directed action without step-by-step instructions","C. Has a better UI","D. Uses GPT-4 specifically"],ans:1,exp:"AI agents autonomously decide what actions to take to achieve a goal."},
+      {q:"Which is NOT one of the four core properties of an AI agent?",opts:["A. Autonomy","B. Reactivity","C. Determinism","D. Proactivity"],ans:2,exp:"The four properties are Autonomy, Reactivity, Proactivity, and Social Ability. Determinism is not one of them."},
+      {q:"In PEAS framework, what does 'A' stand for?",opts:["A. Algorithm","B. Architecture","C. Actuators","D. Agents"],ans:2,exp:"PEAS = Performance measure, Environment, Actuators, Sensors."},
+      {q:"What role does the LLM play in a modern AI agent?",opts:["A. Database storage","B. Network router","C. The reasoning/planning brain","D. The user interface"],ans:2,exp:"The LLM acts as the cognitive brain — understanding context, reasoning, and deciding tool calls."},
+      {q:"In the agent loop, what happens during 'Reflect'?",opts:["A. Deletes memory","B. Stores results and updates state/memory","C. Asks user for feedback","D. Resets context"],ans:1,exp:"Reflection stores action results into memory for future reasoning steps."},
+      {q:"A 'reactive' agent best describes:",opts:["A. Plans 10 steps ahead","B. Immediately adjusts when temperature drops","C. Learns over months","D. Coordinates with 5 agents"],ans:1,exp:"Reactive agents respond immediately to stimuli without complex planning."},
+      {q:"Tool-calling in LLM agents allows:",opts:["A. Makes LLM faster","B. Real-world actions beyond text generation","C. Reduces token costs","D. Eliminates need for memory"],ans:1,exp:"Tool-calling extends agents from text generation to real-world actions."},
+      {q:"Agent memory is primarily used for:",opts:["A. Storing model weights","B. Maintaining context across the reasoning loop","C. Caching API responses","D. Logging errors only"],ans:1,exp:"Memory maintains context and past actions for coherent multi-step behavior."},
+      {q:"ReAct pattern was popularized by:",opts:["A. OpenAI","B. Google DeepMind","C. Yao et al. (Google/Princeton)","D. Anthropic"],ans:2,exp:"ReAct was introduced in 'ReAct: Synergizing Reasoning and Acting in Language Models' (2022)."},
+      {q:"Goal-directed vs utility-based agents differ because:",opts:["A. Goal-directed achieves specific goals; utility-based maximizes performance measure","B. Goal-directed uses GPT-4","C. Goal-directed is always faster","D. They are identical"],ans:0,exp:"Goal-directed agents reach a goal state. Utility-based agents optimize a utility function."},
+      {q:"Max_steps is set in agent loops to:",opts:["A. Exactly 100 always","B. No limit needed","C. Prevent infinite loops","D. Always 10"],ans:2,exp:"A max_steps limit is a critical safety measure preventing runaway agents."},
+      {q:"In AI agents, a 'sensor' means:",opts:["A. Physical hardware","B. Any input providing environmental data","C. A database table","D. The attention mechanism"],ans:1,exp:"Sensors are abstract — API responses, messages, file reads, web scrapes."},
+      {q:"Multi-step agent task vs chatbot:",opts:["A. 'What is 2+2?'","B. Summarizing a paragraph","C. 'Research, draft report, format PDF, email it'","D. Translating a sentence"],ans:2,exp:"Multi-step tasks require sequential planning, tool use, and iteration."},
+      {q:"Why are AI agents more expensive than automations?",opts:["A. Require more RAM","B. LLM API calls for reasoning at each step","C. Need special hardware","D. More network bandwidth"],ans:1,exp:"Each reasoning step calls an LLM API which has token-based costs."},
+      {q:"Autonomy in agents primarily means:",opts:["A. Works without internet","B. Makes decisions without human approval for each step","C. Never makes mistakes","D. Uses open-source models"],ans:1,exp:"Autonomy = deciding and acting without requiring human approval at every step."}
+    ],
+    flows:[
+      {title:"The Agent Execution Loop",items:["start:Goal Input","proc:Build Context (Memory + Goal)","proc:LLM Reasoning","dec:Action = FINISH?","proc:Execute Tool","proc:Update Memory","end:Return Answer"]},
+      {title:"Agent vs Chatbot",items:["start:User Request","dec:Single Turn?","proc:Chatbot Response","proc:Agent Plans Steps","proc:Execute Actions","end:Goal Achieved"]},
+      {title:"PEAS Framework",items:["start:Agent Design","proc:Performance Measure","proc:Map Environment","proc:Identify Actuators","proc:Define Sensors","end:Specification Complete"]}
+    ],
+    game:{icon:"🤖",title:"Agent Apprentice",desc:"Complete challenges to earn the First Agent badge",badges:["🥚 Agent Seed","🤖 Agent Apprentice","⚡ Tool Caller","🧠 Reasoner"],challenges:[{icon:"📖",title:"Read & Recall",desc:"Identify 3 real agents you use daily",xp:50},{icon:"🔍",title:"Agent Hunt",desc:"Find 5 products that are secretly AI agents",xp:75},{icon:"💻",title:"Code Trace",desc:"Trace the agent_loop code for 'Send email' task",xp:100},{icon:"⚡",title:"MCQ Blitz",desc:"Answer all 15 MCQs scoring 12+",xp:150}]},
+    project:{title:"Build Your First CLI Agent",badge:"Beginner",desc:"Build a command-line AI agent with calculator and time tools.",tags:["Python","OpenAI API","Tool Calling","CLI"],steps:[{title:"Setup environment",desc:"pip install openai; set OPENAI_API_KEY"},{title:"Define tools",desc:"Create calculator and get_time tool definitions"},{title:"Build the reasoning loop",desc:"agent_loop with gpt-4o-mini + tool_choice=auto"},{title:"Add memory",desc:"messages[] list accumulating history"},{title:"Test with queries",desc:"'What is 15% of 2847?' and compound queries"},{title:"Add reflection",desc:"Print THOUGHT → ACTION → OBSERVATION trace"}],code:`<span class="ck">import</span> openai, json
+client = openai.OpenAI()
+
+tools = [{<span class="cs">"type"</span>: <span class="cs">"function"</span>, <span class="cs">"function"</span>: {
+    <span class="cs">"name"</span>: <span class="cs">"calculator"</span>,
+    <span class="cs">"description"</span>: <span class="cs">"Evaluates a math expression"</span>,
+    <span class="cs">"parameters"</span>: {<span class="cs">"type"</span>: <span class="cs">"object"</span>,
+        <span class="cs">"properties"</span>: {<span class="cs">"expr"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>}},
+        <span class="cs">"required"</span>: [<span class="cs">"expr"</span>]}}}]
+
+<span class="ck">def</span> <span class="cv">agent</span>(goal):
+    messages = [{<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: goal}]
+    <span class="ck">for</span> _ <span class="ck">in</span> range(<span class="cv">5</span>):
+        resp = client.chat.completions.create(
+            model=<span class="cs">"gpt-4o-mini"</span>, messages=messages, tools=tools)
+        msg = resp.choices[<span class="cv">0</span>].message
+        <span class="ck">if not</span> msg.tool_calls:
+            print(<span class="cs">f"Answer: {msg.content}"</span>); <span class="ck">break</span>
+        messages.append(msg)
+        <span class="ck">for</span> tc <span class="ck">in</span> msg.tool_calls:
+            args = json.loads(tc.function.arguments)
+            result = str(eval(args[<span class="cs">"expr"</span>]))
+            messages.append({<span class="cs">"role"</span>: <span class="cs">"tool"</span>, <span class="cs">"tool_call_id"</span>: tc.id, <span class="cs">"content"</span>: result})
+
+agent(<span class="cs">"What is 15% of 2847, then sqrt?"</span>)`}
+  },
+
+  
+  t2: {
+    tag:'Core Concept · AI Fundamentals', num:2, title:'Agent vs Chatbot vs Automation', desc:'Understanding the boundaries between simple automation, LLM chatbots, and autonomous agents.',
+    theory:`<div class="card"><h3>⚖️ Agent vs Chatbot vs Automation</h3><table><tr><th>Dimension</th><th>🤖 Chatbot</th><th>⚙️ Automation</th><th>🧠 Agent</th></tr><tr><td>Decision Logic</td><td>Pattern / LLM text</td><td>Hardcoded rules</td><td>Reasoning + Planning</td></tr><tr><td>Goal</td><td>Answer questions</td><td>Execute defined tasks</td><td>Achieve complex goals</td></tr><tr><td>Tool Use</td><td>None or minimal</td><td>Fixed predefined</td><td>Dynamic selection</td></tr><tr><td>Handles Unknown</td><td>Responds w/ uncertainty</td><td>Fails/errors</td><td>Reasons and adapts</td></tr></table><div class="box b-cy"><h5>💡 When to Use Each</h5><p><strong>Chatbot</strong>: FAQ, conversational tasks<br><strong>Automation</strong>: Repetitive, predictable workflows<br><strong>Agent</strong>: Dynamic, multi-step, real-world tool use</p></div></div>`,
+    mcqs:[
+      {q:"What is the defining trait of an automation compared to an agent?",opts:["A. Autonomy","B. Hardcoded rules","C. Uses LLMs","D. Requires internet"],ans:1,exp:"Automations use hardcoded rules (if X then Y). Agents use dynamic reasoning."},
+      {q:"Chatbots primarily focus on:",opts:["A. Taking complex actions","B. Managing databases","C. Conversational text generation","D. System administration"],ans:2,exp:"Chatbots generate conversational text but lack deep goal-oriented action planning."},
+      {q:"Which system is best for a highly predictable, repetitive task?",opts:["A. AI Agent","B. Chatbot","C. Traditional Automation","D. ReAct Loop"],ans:2,exp:"Traditional automation is faster, cheaper, and more reliable for completely predictable tasks."},
+      {q:"When an unknown edge case occurs, a traditional automation typically:",opts:["A. Solves it","B. Fails or throws an error","C. Asks the user","D. Uses an LLM to guess"],ans:1,exp:"Automations fail on unhandled edge cases. Agents attempt to reason through them."},
+      {q:"An agent differs from a chatbot mainly because the agent:",opts:["A. Has a better UI","B. Uses GPT-4","C. Can plan and use tools autonomously to change the environment","D. Is faster"],ans:2,exp:"Agents have agency (tool use, planning, taking action)."},
+      {q:"Which of these is a typical agent task?",opts:["A. Translate this text","B. Summarize this article","C. Research competitors, build a CSV, and email it","D. Respond to 'Hello'"],ans:2,exp:"Agents handle multi-step, tool-dependent tasks."},
+      {q:"If a workflow requires 100% deterministic execution, you should use:",opts:["A. CoT Agent","B. Traditional Automation","C. ReAct Agent","D. AutoGPT"],ans:1,exp:"Agents are non-deterministic (probabilistic). Automations are 100% deterministic."},
+      {q:"Which system has the highest execution cost?",opts:["A. Python script","B. Zapier workflow","C. Autonomous Agent","D. Bash script"],ans:2,exp:"Agents require repeated LLM API calls, making them the most expensive."},
+      {q:"Tool selection in an agent is:",opts:["A. Static","B. Dynamic based on reasoning","C. Random","D. Manual only"],ans:1,exp:"Agents dynamically choose tools based on the current context and goal."},
+      {q:"A system that books flights, updates calendar, and emails friends is best built as:",opts:["A. A simple Chatbot","B. An AI Agent","C. A SQL query","D. A static website"],ans:1,exp:"This requires multi-step planning and interacting with multiple external APIs."},
+      {q:"LLMs in chatbots vs agents:",opts:["A. Different models","B. Chatbots use LLMs for text; Agents use LLMs for reasoning and tool selection","C. Agents don't use LLMs","D. Chatbots are smarter"],ans:1,exp:"In agents, the LLM is the reasoning/routing engine, not just a text generator."},
+      {q:"Which metric is least relevant to traditional automation but critical to agents?",opts:["A. Uptime","B. Hallucination rate","C. Execution speed","D. Memory usage"],ans:1,exp:"Automations don't hallucinate; agents do, making hallucination rate critical."},
+      {q:"If you ask a chatbot to 'delete my database', it will:",opts:["A. Delete it","B. Tell you how to delete it","C. Crash","D. Write a SQL script and run it"],ans:1,exp:"Chatbots lack the 'actuators' or tools to actually perform the action."},
+      {q:"Why might an agent be slower than an automation?",opts:["A. Network latency","B. Iterative LLM reasoning loops take time","C. Bad code","D. Language choice"],ans:1,exp:"Each step in an agent requires an LLM call which takes seconds to generate."},
+      {q:"The best approach for building a customer support system is:",opts:["A. Pure Agent","B. Pure Automation","C. Hybrid (Automation for simple, Agent for complex)","D. Pure Chatbot"],ans:2,exp:"Hybrids optimize cost, speed, and capability."}
+    ],
+    flows:[
+      {title:"Automation Logic",items:["start:Trigger","dec:If A","proc:Action X","dec:If B","proc:Action Y","end:Done"]},
+      {title:"Chatbot Logic",items:["start:User Input","proc:Context Retrieval","proc:LLM Generation","end:Text Output"]},
+      {title:"Agent Logic",items:["start:Goal","proc:Observe","proc:Reason (LLM)","proc:Act (Tool)","dec:Goal Met?","end:Finish"]}
+    ],
+    game:{icon:"⚖️",title:"System Architect",desc:"Choose the right system for the job",badges:["⚙️ Automator","🤖 Bot Builder","🧠 Agent Architect"],challenges:[{icon:"📝",title:"Identify",desc:"List 3 chatbot use cases",xp:50},{icon:"⚙️",title:"Automate",desc:"List 3 automation use cases",xp:50},{icon:"🧠",title:"Agentify",desc:"List 3 agent use cases",xp:50},{icon:"⚡",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Hybrid System Design",badge:"Architect",desc:"Design a system combining automation, chatbots, and agents.",tags:["Design","Architecture"],steps:[{title:"Define Problem",desc:"Customer return processing"},{title:"Automation Layer",desc:"Webhooks for DB updates"},{title:"Chatbot Layer",desc:"FAQ answering"},{title:"Agent Layer",desc:"Complex return policy reasoning and tool execution"}],code:`# Pseudocode for Hybrid System
+def handle_request(req):
+    if is_simple_faq(req):
+        return chatbot.answer(req)
+    elif is_standard_return(req):
+        return automation.process_return(req)
+    else:
+        return agent.resolve_complex_issue(req)`}
+  },
+  t3: {
+    tag:'Core Concept · AI Fundamentals', num:3, title:'6 Core Agent Components', desc:'The anatomy of an AI Agent: Perception, Memory, Reasoning, Tools, Action, Output.',
+    theory:`<div class="card"><h3>🔬 6 Core Agent Components</h3><table><tr><th>Component</th><th>Analogy</th><th>Tech</th></tr><tr><td>Perception</td><td>Eyes &amp; Ears</td><td>Input parsers, webhooks</td></tr><tr><td>Memory</td><td>Working/Long-term</td><td>Redis, Pinecone, messages[]</td></tr><tr><td>Reasoning Engine</td><td>Brain</td><td>GPT-4, Claude, Gemini</td></tr><tr><td>Tool Registry</td><td>Hands &amp; Tools</td><td>JSON tool definitions</td></tr><tr><td>Action Executor</td><td>Muscles</td><td>Function calls, API calls</td></tr><tr><td>Output Generator</td><td>Voice &amp; Mouth</td><td>Response formatter</td></tr></table><div class="cb"><span class="ck">class</span> <span class="cv">AIAgent</span>:
+    <span class="ck">def</span> __init__(self):
+        self.memory = Memory()
+        self.tools = ToolRegistry()
+        self.llm = ReasoningEngine()</div></div>`,
+    mcqs:[
+      {q:"Which component acts as the 'brain' of the agent?",opts:["A. Memory","B. Tool Registry","C. Reasoning Engine (LLM)","D. Action Executor"],ans:2,exp:"The LLM processes context and makes decisions, acting as the brain."},
+      {q:"What does the 'Perception' component do?",opts:["A. Executes code","B. Stores data","C. Ingests and parses environment inputs","D. Generates text"],ans:2,exp:"Perception involves receiving user inputs, webhook events, or sensor data."},
+      {q:"The Tool Registry is analogous to:",opts:["A. Eyes","B. Brain","C. A toolbox or hands","D. Voice"],ans:2,exp:"Tools are the capabilities the agent can use to affect the world."},
+      {q:"Short-term memory in an agent is typically implemented as:",opts:["A. A SQL database","B. The conversational message history context","C. A vector database","D. A hard drive"],ans:1,exp:"Working memory is the immediate message list passed to the LLM."},
+      {q:"Long-term memory is often implemented using:",opts:["A. RAM","B. Vector databases (RAG)","C. CPU cache","D. Message history"],ans:1,exp:"Vector databases store vast amounts of past knowledge for semantic retrieval."},
+      {q:"The Action Executor is responsible for:",opts:["A. Thinking about what to do","B. Actually calling the API or running the function","C. Formatting the final output","D. Storing logs"],ans:1,exp:"Once the LLM decides on a tool, the executor runs the actual code."},
+      {q:"Why is the Output Generator important?",opts:["A. It makes the LLM faster","B. It formats the final result for the user (e.g., Markdown, JSON)","C. It connects to the internet","D. It stores memory"],ans:1,exp:"The generator takes the final state and creates a user-friendly response."},
+      {q:"Which component is most likely to use JSON Schema?",opts:["A. Perception","B. Memory","C. Tool Registry","D. Output Generator"],ans:2,exp:"Tools are defined using JSON Schema so the LLM understands their parameters."},
+      {q:"If an agent fails to remember a fact from 3 weeks ago, which component failed?",opts:["A. Short-term memory","B. Long-term memory / Retrieval","C. Action Executor","D. Tool Registry"],ans:1,exp:"Long-term memory handles distant historical context."},
+      {q:"If an agent decides to search the web but the code throws a 404 error, which component failed?",opts:["A. Reasoning Engine","B. Tool Registry","C. Action Executor","D. Perception"],ans:2,exp:"The executor runs the tool code, so network/execution errors happen here."},
+      {q:"The Reasoning Engine is entirely dependent on:",opts:["A. The quality of the prompt and context (Memory + Perception)","B. The speed of the CPU","C. The database size","D. The user's internet connection"],ans:0,exp:"Garbage in, garbage out. The LLM needs good context to reason well."},
+      {q:"A Vector Database belongs to which component?",opts:["A. Reasoning","B. Memory","C. Tools","D. Perception"],ans:1,exp:"Vector DBs are used for semantic long-term memory retrieval."},
+      {q:"Which component converts a user's voice audio into text for the agent?",opts:["A. Perception","B. Memory","C. Action","D. Reasoning"],ans:0,exp:"Perception processes raw inputs into usable data."},
+      {q:"Can an agent have multiple Reasoning Engines?",opts:["A. No, impossible","B. Yes, multi-agent systems use different LLMs for different tasks","C. Only if they are the exact same model","D. Yes, but it slows them down 100x"],ans:1,exp:"Complex agents often route tasks to different LLMs (e.g., a fast model for routing, a smart model for coding)."},
+      {q:"The integration of all 6 components forms:",opts:["A. A chatbot","B. An Agent Architecture / Execution Loop","C. A vector database","D. A prompt"],ans:1,exp:"These components operate together in a loop to create agency."}
+    ],
+    flows:[
+      {title:"Component Interaction",items:["start:Perception","proc:Memory Retrieval","proc:Reasoning Engine","proc:Tool Selection","proc:Action Execution","end:Output Generation"]},
+      {title:"Memory Flow",items:["start:Input","proc:Query Short-term","proc:Query Long-term","proc:Inject to Context","end:Send to LLM"]},
+      {title:"Action Flow",items:["start:LLM Decision","proc:Parse JSON Args","proc:Validate against Schema","proc:Execute Function","end:Return Result to Memory"]}
+    ],
+    game:{icon:"🔬",title:"Anatomy Lab",desc:"Master the 6 components of an agent",badges:["👀 Perceiver","🧠 Mastermind","🛠️ Tinkerer"],challenges:[{icon:"🧩",title:"Matchmaker",desc:"Match components to analogies",xp:50},{icon:"📝",title:"List 'em",desc:"Name all 6 components",xp:50},{icon:"⚡",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Component Scaffold",badge:"Builder",desc:"Create a python class structure with the 6 components.",tags:["Python","Architecture"],steps:[{title:"Define Classes",desc:"Create dummy classes for each component"},{title:"Agent Class",desc:"Create main AIAgent class composing them"},{title:"Run Method",desc:"Wire them together in a run() method"}],code:`class Perception:
+    def parse(self, input): return input
+class Memory:
+    def get_context(self): return []
+class ReasoningEngine:
+    def think(self, ctx): return "action"
+class ToolRegistry:
+    def get_tool(self, name): return lambda x: x
+class ActionExecutor:
+    def run(self, tool): return "result"
+class OutputGenerator:
+    def format(self, res): return res
+
+class AIAgent:
+    def __init__(self):
+        self.p, self.m, self.r, self.t, self.a, self.o = Perception(), Memory(), ReasoningEngine(), ToolRegistry(), ActionExecutor(), OutputGenerator()
+    def run(self, user_input):
+        ctx = self.m.get_context() + [self.p.parse(user_input)]
+        decision = self.r.think(ctx)
+        return self.o.format(decision)`}
+  },
+  t4: {
+    tag:'Core Concept · AI Fundamentals', num:4, title:'Anatomy of Agent Memory', desc:'Short-term, Long-term, and Episodic memory. How agents remember context across complex tasks.',
+    theory:`<div class="card"><h3>🧠 Types of Agent Memory</h3><table><tr><th>Type</th><th>Description</th><th>Implementation</th></tr><tr><td>Short-Term (Working)</td><td>Current context window</td><td>Array of message dicts</td></tr><tr><td>Long-Term</td><td>Factual knowledge retrieval</td><td>Vector Database (RAG)</td></tr><tr><td>Episodic</td><td>Memory of past actions/tasks</td><td>Logs / DB records</td></tr><tr><td>Semantic</td><td>General world knowledge</td><td>Baked into LLM weights</td></tr></table><div class="box b-am"><h5>⚠️ The Context Limit Problem</h5><p>LLMs have finite context windows (e.g., 128k tokens). If short-term memory grows too large, the agent forgets early instructions, slows down, and costs increase. <strong>Solution:</strong> Summarization &amp; Eviction.</p></div></div>`,
+    mcqs:[
+      {q:"What is Short-Term memory in an agent?",opts:["A. The hard drive","B. The current conversation context window","C. The vector database","D. The model weights"],ans:1,exp:"Short-term memory is the immediate list of messages (context window) passed to the LLM."},
+      {q:"Long-Term memory is primarily used for:",opts:["A. Storing the immediate last message","B. Retrieving facts and documents from a large corpus","C. Generating random numbers","D. Running Python code"],ans:1,exp:"Long-term memory uses RAG to retrieve relevant facts from vast data stores."},
+      {q:"Episodic memory refers to:",opts:["A. Remembering past tasks and experiences","B. Knowing facts like 'Paris is in France'","C. The current user prompt","D. Model weights"],ans:0,exp:"Episodic memory recalls specific past episodes or interactions."},
+      {q:"Semantic memory is usually:",opts:["A. Stored in Redis","B. Baked into the LLM's pre-trained weights","C. Stored in localstorage","D. User provided"],ans:1,exp:"Semantic memory is the general world knowledge the model learned during training."},
+      {q:"What happens when short-term memory exceeds the LLM context window?",opts:["A. The LLM gets smarter","B. The API returns an error or early tokens are truncated","C. The LLM automatically uses a vector DB","D. The agent works faster"],ans:1,exp:"Context limits are hard limits. Exceeding them causes errors or loss of early context."},
+      {q:"Which is a strategy to manage growing short-term memory?",opts:["A. Buy more RAM","B. Summarize older messages and evict them","C. Delete the tool registry","D. Use a smaller LLM"],ans:1,exp:"Summarization compresses older context to save tokens while retaining meaning."},
+      {q:"What technology is synonymous with Long-Term agent memory?",opts:["A. RAG (Retrieval-Augmented Generation)","B. CNNs","C. RNNs","D. HTML"],ans:0,exp:"RAG uses vector embeddings to retrieve relevant long-term memory."},
+      {q:"If an agent needs to remember the user's preferences across sessions, it uses:",opts:["A. Short-term memory","B. Long-term / Persistent memory","C. Semantic memory","D. Episodic memory"],ans:1,exp:"Persistent memory (DB or Vector DB) is needed across different sessions."},
+      {q:"Which memory type is updated continuously during a single task execution loop?",opts:["A. Semantic","B. Short-term / Working memory","C. Vector weights","D. Model architecture"],ans:1,exp:"Every thought, action, and observation is appended to working memory."},
+      {q:"Memory eviction means:",opts:["A. Deleting the entire agent","B. Removing the oldest or least relevant items from the context window","C. Formatting the hard drive","D. Kicking users out"],ans:1,exp:"Eviction keeps the context window within limits."},
+      {q:"Vector databases store data as:",opts:["A. JSON objects only","B. High-dimensional arrays of numbers (embeddings)","C. SQL tables","D. Plain text files"],ans:1,exp:"Embeddings capture semantic meaning as vectors."},
+      {q:"Why not just put all long-term memory into the context window?",opts:["A. It's too expensive and exceeds token limits","B. It makes the LLM too smart","C. It's impossible","D. Vector DBs require it"],ans:0,exp:"Large context windows cost more per API call and have hard token limits."},
+      {q:"An agent remembering that it failed a similar coding task yesterday is an example of:",opts:["A. Semantic memory","B. Episodic memory","C. Short-term memory","D. Cache"],ans:1,exp:"Recalling a specific past event is episodic memory."},
+      {q:"The most common format for working memory in OpenAI's API is:",opts:["A. A single long string","B. A list of message dictionaries (role/content)","C. A binary file","D. A CSV array"],ans:1,exp:"The Chat Completions API uses an array of role-based message objects."},
+      {q:"Which helps an agent avoid repeating the same mistake?",opts:["A. Deleting memory","B. Reflection and appending the failure to episodic/working memory","C. Using a smaller context window","D. Randomizing temperature"],ans:1,exp:"Reflecting on mistakes and storing them in memory prevents repetition."}
+    ],
+    flows:[
+      {title:"Memory Lifecycle",items:["start:User Input","proc:Add to Short-Term","proc:Agent Action","proc:Add Result to Short-Term","dec:Context Full?","proc:Summarize & Store in Long-Term","end:Continue"]},
+      {title:"RAG Retrieval",items:["start:Query","proc:Embed Query","proc:Vector DB Search","proc:Retrieve Top-K","proc:Inject into Prompt","end:LLM Generation"]},
+      {title:"Context Management",items:["start:Check Token Count","dec:> Limit?","proc:Extract Key Facts","proc:Replace Old Msgs with Summary","end:Ready for LLM"]}
+    ],
+    game:{icon:"💾",title:"Memory Master",desc:"Learn to manage tokens and context",badges:["📝 Note Taker","🧠 Recall Master","🗜️ Compressor"],challenges:[{icon:"📏",title:"Token Math",desc:"Calculate token usage for a 10-turn conversation",xp:50},{icon:"🗜️",title:"Summarize",desc:"Write a prompt to summarize memory",xp:50},{icon:"⚡",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Memory Manager",badge:"Archivist",desc:"Implement a rolling-window memory manager with summarization.",tags:["Python","Memory Management"],steps:[{title:"List Setup",desc:"Create a list to hold messages"},{title:"Token Counter",desc:"Use tiktoken to count tokens"},{title:"Summarization Logic",desc:"If tokens > max, call LLM to summarize oldest 5 messages"},{title:"Replacement",desc:"Replace the 5 messages with 1 summary message"}],code:`import tiktoken
+
+class MemoryManager:
+    def __init__(self, max_tokens=4000):
+        self.history = []
+        self.max_tokens = max_tokens
+        self.enc = tiktoken.get_encoding("cl100k_base")
+
+    def add(self, role, content):
+        self.history.append({"role": role, "content": content})
+        self.check_limits()
+
+    def check_limits(self):
+        tokens = sum(len(self.enc.encode(m["content"])) for m in self.history)
+        if tokens > self.max_tokens:
+            self.summarize_oldest()`}
+  },
+
+  t5: {
+    tag:'Core Concept · AI Fundamentals', num:5, title:'Perception & Tool Execution', desc:'How agents interact with the outside world through tools, APIs, and sensors.',
+    theory:`<div class="card"><h3>👀 Perception & 🛠️ Execution</h3><p>An agent is useless if it cannot see or change the world. This is achieved via <strong>Tools (Actuators)</strong> and <strong>Sensors (Perception)</strong>.</p><h4>1. Perception (Sensors)</h4><p>Agents perceive the world by receiving data. This data is converted into text and added to the context window.</p><ul><li><strong>Webhooks</strong>: Receiving an email, Slack message, or Github PR event.</li><li><strong>Polling</strong>: Checking an API every 5 minutes.</li><li><strong>User Input</strong>: A user typing a message in a chat interface.</li></ul><h4>2. Execution (Actuators/Tools)</h4><p>When the LLM decides to take action, it outputs a tool name and JSON arguments. The execution layer runs the actual code.</p><div class="cb"><span class="ck">def</span> <span class="cv">execute_tool</span>(name, args):
+    <span class="ck">if</span> name == <span class="cs">"search_web"</span>:
+        <span class="ck">return</span> tavily.search(args[<span class="cs">"query"</span>])
+    <span class="ck">elif</span> name == <span class="cs">"send_email"</span>:
+        <span class="ck">return</span> smtp.send(args[<span class="cs">"to"</span>], args[<span class="cs">"body"</span>])
+    <span class="ck">else</span>:
+        <span class="ck">return</span> <span class="cs">"Error: Unknown tool"</span></div></div>`,
+    mcqs:[
+      {q:"What is the primary purpose of Perception in an agent?",opts:["A. To generate text","B. To store memory","C. To ingest external data into the context window","D. To execute code"],ans:2,exp:"Perception converts external events into text the LLM can reason over."},
+      {q:"Which of these is a 'Sensor' for an agent?",opts:["A. A Python script that sends an email","B. A webhook receiving a GitHub issue creation event","C. A SQL DELETE statement","D. The LLM reasoning engine"],ans:1,exp:"A webhook provides data to the agent, acting as a sensor."},
+      {q:"Which of these is an 'Actuator' (Tool) for an agent?",opts:["A. A webhook receiving an event","B. The user typing a message","C. An API call that creates a Jira ticket","D. The short-term memory"],ans:2,exp:"Creating a ticket changes the external environment, acting as an actuator."},
+      {q:"When an LLM decides to use a tool, what does it actually output?",opts:["A. A Python binary","B. A JSON object with the tool name and arguments","C. A SQL database","D. A bash script"],ans:1,exp:"LLMs output structured text (usually JSON) which the execution layer parses."},
+      {q:"Who executes the actual tool code (e.g., making the HTTP request)?",opts:["A. The LLM directly on OpenAI's servers","B. The Agent's local execution layer (Python/Node code)","C. The vector database","D. The user"],ans:1,exp:"The LLM only generates the JSON. Your code (the execution layer) must actually run the tool."},
+      {q:"What happens if a tool execution fails (e.g., API 404)?",opts:["A. The agent crashes immediately","B. The error is added to memory and the LLM is prompted to retry or adapt","C. The LLM automatically fixes the API","D. The agent restarts the computer"],ans:1,exp:"Errors are fed back to the LLM as observations so it can reason about the failure."},
+      {q:"Why is JSON Schema used for tool definitions?",opts:["A. Because it's faster than XML","B. To enforce strict type definitions and descriptions for the LLM to understand how to use the tool","C. To encrypt the data","D. Because Python requires it"],ans:1,exp:"JSON Schema describes the exact structure of the arguments the tool expects."},
+      {q:"A 'polling' sensor works by:",opts:["A. Waiting for the user to type","B. Repeatedly checking an API or DB at intervals to see if there is new data","C. Receiving webhooks","D. Sending emails"],ans:1,exp:"Polling proactively asks 'is there new data?' on a schedule."},
+      {q:"What is the risk of giving an agent a 'delete_database' tool?",opts:["A. The agent might use it accidentally if the reasoning goes wrong","B. It takes too much memory","C. It slows down the LLM","D. There is no risk"],ans:0,exp:"Agents can hallucinate or misinterpret goals, leading to destructive actions if given dangerous tools."},
+      {q:"How do you prevent an agent from taking dangerous actions?",opts:["A. Don't use LLMs","B. Use Human-in-the-Loop (HITL) approval before executing dangerous tools","C. Make the prompt very long","D. Use a vector database"],ans:1,exp:"HITL pauses execution and asks a human to approve the tool call."},
+      {q:"If an agent has 100 tools, what is a common problem?",opts:["A. The LLM gets confused and context window fills up with tool schemas","B. The agent gets too smart","C. It runs out of RAM","D. The tools execute simultaneously"],ans:0,exp:"Too many tools in the context window degrades reasoning quality and increases costs."},
+      {q:"How can you solve the 'too many tools' problem?",opts:["A. Delete all tools","B. Use Tool Retrieval (RAG for tools) to only inject relevant tools into the context","C. Increase the temperature","D. Use GPT-2"],ans:1,exp:"Tool Retrieval dynamically selects which tools to give the LLM based on the current goal."},
+      {q:"When a tool returns 10,000 lines of JSON, what should the execution layer do?",opts:["A. Send it all to the LLM","B. Crash","C. Filter, truncate, or summarize the JSON before sending it to the LLM to save context","D. Convert it to XML"],ans:2,exp:"Massive tool outputs blow up the context window. They must be filtered."},
+      {q:"An agent that trades stocks based on Twitter sentiment uses Twitter as a: ",opts:["A. Actuator","B. Sensor","C. Memory","D. Output"],ans:1,exp:"Twitter provides the input data (sensor)."},
+      {q:"The stock trading agent uses a broker API to buy shares. The broker API is a:",opts:["A. Sensor","B. Actuator (Tool)","C. Memory","D. Perception"],ans:1,exp:"The broker API changes the world (buying shares), making it an actuator."}
+    ],
+    flows:[
+      {title:"Tool Execution",items:["start:LLM Outputs JSON","proc:Parse JSON","proc:Validate Arguments","proc:Run Python Function","end:Return Result String"]},
+      {title:"Error Handling",items:["start:Function Throws Error","proc:Catch Exception","proc:Format as 'Error: X'","proc:Append to Memory","end:Ask LLM to retry"]},
+      {title:"Human-in-the-Loop",items:["start:LLM Decides Action","dec:Is Tool Dangerous?","proc:Pause Agent","proc:Request User Approval","end:Execute if Approved"]}
+    ],
+    game:{icon:"👀",title:"Tool Smith",desc:"Master perception and execution",badges:["👀 Watcher","🛠️ Blacksmith","🛡️ Guardian"],challenges:[{icon:"🛠️",title:"Build a Tool",desc:"Write a JSON schema for a weather tool",xp:50},{icon:"🛡️",title:"Add Safety",desc:"Implement a HITL check in code",xp:50},{icon:"⚡",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Safe Tool Executor",badge:"Executor",desc:"Build an execution layer that validates JSON arguments and catches errors.",tags:["Python","Safety"],steps:[{title:"Define Tool",desc:"Create a dummy function"},{title:"JSON parsing",desc:"Parse LLM output safely with try/except"},{title:"Validation",desc:"Check if required args exist"},{title:"Error return",desc:"Return error string instead of crashing"}],code:`import json
+
+def my_tool(x):
+    if x < 0: raise ValueError("Negative not allowed")
+    return x * 2
+
+def execute_llm_call(llm_json_string):
+    try:
+        call = json.loads(llm_json_string)
+        if call["name"] == "my_tool":
+            if "x" not in call["args"]:
+                return "Error: Missing required argument 'x'"
+            return str(my_tool(call["args"]["x"]))
+    except json.JSONDecodeError:
+        return "Error: LLM output was not valid JSON"
+    except Exception as e:
+        return f"Error executing tool: {str(e)}"`}
+  },
+  t6: {
+    tag:'Core Concept · AI Fundamentals', num:6, title:'System Prompts for Agents', desc:'How to write robust, multi-part system prompts that guide autonomous behavior.',
+    theory:`<div class="card"><h3>📜 Anatomy of an Agent Prompt</h3><p>An agent's system prompt is much more complex than a chatbot's. It must define the persona, the available tools, the memory constraints, and the exact output format (like ReAct).</p><h4>The 5-Part Agent Prompt</h4><ol><li><strong>Persona &amp; Role</strong>: "You are a senior DevOps engineer..."</li><li><strong>Goal &amp; Context</strong>: "Your goal is to deploy the app. The environment is AWS."</li><li><strong>Rules &amp; Constraints</strong>: "Never delete a database. Always verify before restarting."</li><li><strong>Tool Descriptions</strong>: (Often injected automatically by the API)</li><li><strong>Output Format</strong>: "You must respond using the exact format: THOUGHT: ... ACTION: ..."</li></ol><div class="box b-ro"><h5>⚠️ Prompt Drift</h5><p>As context grows, LLMs often forget instructions at the beginning of the prompt (Lost in the Middle). Constantly repeating critical rules near the end of the prompt can help.</p></div></div>`,
+    mcqs:[
+      {q:"Why is an agent prompt usually longer than a chatbot prompt?",opts:["A. To waste tokens","B. Because it must define rules, output formats, tool usage, and complex constraints","C. Because LLMs need at least 1000 words to work","D. To slow down execution"],ans:1,exp:"Agents need strict boundaries and formatting rules to function autonomously."},
+      {q:"What is 'Prompt Drift' (Lost in the Middle)?",opts:["A. The LLM changes its name","B. The LLM forgets instructions placed in the middle of a very long context window","C. The user forgets what they asked","D. The API connection drops"],ans:1,exp:"LLMs pay more attention to the very beginning and very end of a prompt."},
+      {q:"Which is a good constraint to put in an agent prompt?",opts:["A. 'Do whatever you want'","B. 'Always verify the syntax before running the execute_sql tool'","C. 'Be a good AI'","D. 'Write a poem'"],ans:1,exp:"Constraints should be specific and actionable, relating to dangerous tools."},
+      {q:"If an agent keeps outputting plain text instead of the required JSON, what part of the prompt needs fixing?",opts:["A. Persona","B. Goal","C. Output Format / Formatting Instructions","D. Context"],ans:2,exp:"The Output Format section strictly dictates how the LLM should structure its response."},
+      {q:"In the ReAct pattern, the prompt forces the LLM to output:",opts:["A. Only the final answer","B. THOUGHT, then ACTION, then wait for OBSERVATION","C. Python code","D. A SQL table"],ans:1,exp:"ReAct prompts strictly enforce the Thought -> Action -> Observation loop format."},
+      {q:"Should you hardcode the current date in the system prompt?",opts:["A. Yes, forever","B. No, it should be dynamically injected as context when the agent starts","C. Yes, LLMs can't read dates","D. No, dates don't matter"],ans:1,exp:"Dynamic context (date, user name, environment) should be injected programmatically."},
+      {q:"What is the 'Persona' part of the prompt?",opts:["A. The API key","B. Setting the role and tone (e.g., 'You are a strict security auditor')","C. The JSON schema","D. The memory array"],ans:1,exp:"Persona helps guide the LLM's reasoning style and stylistic choices."},
+      {q:"If you tell an agent 'Never do X', and it still does X, a good workaround is to:",opts:["A. Tell it 'Never ever do X'","B. Provide positive instructions: 'Instead of X, always do Y'","C. Delete the prompt","D. Increase temperature"],ans:1,exp:"LLMs often struggle with negative constraints. Positive alternatives work better."},
+      {q:"Where is the best place to put the most critical safety rule in a long prompt?",opts:["A. At the very beginning","B. In the middle","C. At the very end (closest to the user input)","D. In a separate file"],ans:2,exp:"Due to recency bias, LLMs pay the most attention to the text at the very end of the prompt."},
+      {q:"When using OpenAI's Function Calling, do you need to manually write tool descriptions in the text prompt?",opts:["A. Yes, always","B. No, they are passed in a separate structured 'tools' array in the API call","C. Only for Python tools","D. Yes, in XML"],ans:1,exp:"Modern APIs separate the text prompt from the structured tools array."},
+      {q:"Which of these is dynamic context?",opts:["A. 'You are a helpful assistant'","B. 'The user's current OS is MacOS'","C. 'Always use JSON'","D. 'Never delete files'"],ans:1,exp:"Dynamic context changes based on the user or environment at runtime."},
+      {q:"A prompt that includes examples of successful executions is using:",opts:["A. Zero-shot prompting","B. Few-shot prompting","C. Chain of Thought","D. Fine-tuning"],ans:1,exp:"Few-shot prompting provides examples to show the LLM exactly what to do."},
+      {q:"If an agent is failing a complex task, what prompt technique helps?",opts:["A. 'Think step-by-step' (Chain of Thought)","B. 'Output only JSON'","C. 'Be brief'","D. 'Speak in Spanish'"],ans:0,exp:"CoT forces the LLM to spend tokens reasoning before acting, improving accuracy."},
+      {q:"What is a meta-prompt?",opts:["A. A prompt about Facebook","B. A prompt used to generate or optimize other prompts","C. A very short prompt","D. An empty prompt"],ans:1,exp:"Meta-prompts instruct an LLM to write a system prompt for another agent."},
+      {q:"Why should prompts be version controlled (e.g., in Git)?",opts:["A. They shouldn't be","B. Because changing a word can drastically alter agent behavior, treating prompts as code is best practice","C. Because GitHub requires it","D. To save disk space"],ans:1,exp:"Prompts are essentially the 'source code' of the agent's logic."}
+    ],
+    flows:[
+      {title:"Prompt Construction",items:["start:Base Persona","proc:Inject Dynamic Context","proc:Inject Rules","proc:Inject Tool Schemas","end:Final System Prompt"]},
+      {title:"Few-Shot Injection",items:["start:User Goal","proc:Find Similar Past Successes","proc:Format as Examples","proc:Add to Prompt","end:Send to LLM"]},
+      {title:"Recency Bias Fix",items:["start:Build Prompt","proc:Add Core Rules at Top","proc:Add Memory/Context","proc:Repeat Core Rules at Bottom","end:Send to LLM"]}
+    ],
+    game:{icon:"📜",title:"Prompt Engineer",desc:"Craft the perfect agent prompt",badges:["✍️ Scribe","📜 Prompt Master","🧠 Whisperer"],challenges:[{icon:"📝",title:"Draft Persona",desc:"Write a persona for a grumpy DBA agent",xp:50},{icon:"🔄",title:"Positive Pivot",desc:"Rewrite a negative constraint positively",xp:50},{icon:"⚡",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Dynamic Prompt Builder",badge:"Prompt Smith",desc:"Build a class that constructs a prompt dynamically.",tags:["Python","Prompting"],steps:[{title:"Base Template",desc:"Create a string with placeholders {date}, {os}"},{title:"Rule Builder",desc:"Function to append rules to the end"},{title:"Injection",desc:"Format the string with dynamic data"}],code:`import datetime
+
+class PromptBuilder:
+    def __init__(self):
+        self.base = "You are a DevOps Agent.\nDate: {date}\nOS: {os}\n"
+        self.rules = []
+    
+    def add_rule(self, rule):
+        self.rules.append(rule)
+        
+    def build(self): 
+        context = self.base.format(
+            date=datetime.date.today(), 
+            os="MacOS"
+        )
+        rules_str = "\nCRITICAL RULES:\n" + "\n".join(self.rules)
+        return context + rules_str
+
+p = PromptBuilder()
+p.add_rule("Always verify before deleting.")
+print(p.build())`}
+  },
+  t7: {
+    tag:'Core Concept · AI Fundamentals', num:7, title:'Tools & Tool Calling', desc:'How LLMs are trained to output structured JSON to execute local functions.',
+    theory:`<div class="card"><h3>🔧 Native Tool Calling</h3><p>Historically, developers used prompt engineering (like ReAct) to force LLMs to output JSON. Now, models like GPT-4 and Claude 3 are fine-tuned for <strong>Native Tool Calling (Function Calling)</strong>.</p><h4>How it works:</h4><ol><li>You pass a JSON Schema describing your functions to the API.</li><li>The LLM recognizes if a function helps achieve the goal.</li><li>The API returns a <code>tool_calls</code> object instead of standard text.</li><li>Your code parses this object, runs the function, and returns the result.</li></ol><div class="box b-em"><h5>Best Practices for Tool Schemas</h5><ul><li><strong>Descriptions are critical:</strong> The LLM reads the description to decide <em>when</em> to use the tool. Make it extremely clear.</li><li><strong>Enums:</strong> If an argument has specific allowed values, use JSON Schema enums to prevent hallucinations.</li><li><strong>Few arguments:</strong> Tools with 10 arguments confuse the LLM. Break them into smaller, focused tools.</li></ul></div></div>`,
+    mcqs:[
+      {q:"What is 'Native Tool Calling' (Function Calling)?",opts:["A. Writing a python function","B. The LLM being fine-tuned to reliably output JSON matching a provided schema","C. Calling a phone number","D. Writing bash scripts"],ans:1,exp:"Native tool calling is a feature built into modern LLM APIs to handle tool selection reliably."},
+      {q:"How does the LLM know what tools are available?",opts:["A. It searches the internet","B. You provide an array of JSON Schemas in the API request","C. It guesses based on the prompt","D. It reads your hard drive"],ans:1,exp:"You must explicitly pass the tool definitions in the API request (e.g., the 'tools' parameter in OpenAI)."},
+      {q:"What is the most important part of a tool schema for the LLM?",opts:["A. The function name","B. The 'description' field","C. The JSON formatting","D. The language it's written in"],ans:1,exp:"The LLM relies heavily on the 'description' field to understand *when* and *why* to use the tool."},
+      {q:"If a tool requires a 'status' argument that must be either 'open' or 'closed', how do you enforce this?",opts:["A. Write it in the prompt","B. Use the 'enum' property in the JSON schema","C. Check it in python after execution","D. Hope the LLM gets it right"],ans:1,exp:"Using 'enum' in the schema strongly guides the LLM to only pick valid options."},
+      {q:"What does the LLM return when it decides to call a tool?",opts:["A. The result of the tool","B. A 'tool_calls' array containing the tool name and generated JSON arguments","C. Plain text describing the tool","D. A python script"],ans:1,exp:"The API stops generating text and instead returns a structured tool_calls object."},
+      {q:"After the LLM returns a tool call, whose job is it to execute the tool?",opts:["A. OpenAI's servers","B. The user","C. Your local application code","D. The LLM"],ans:2,exp:"The LLM only generates the intent (the JSON args). Your code must actually run the function."},
+      {q:"Once your code executes the tool, what do you do next?",opts:["A. Exit the program","B. Send the result back to the LLM in a new message with role 'tool'","C. Print it to the screen and stop","D. Delete the memory"],ans:1,exp:"The result must be passed back to the LLM so it can observe the outcome and continue reasoning."},
+      {q:"What happens if a tool requires 15 different arguments?",opts:["A. The LLM handles it perfectly","B. The LLM is likely to hallucinate or miss arguments, reducing reliability","C. It runs faster","D. The API rejects it"],ans:1,exp:"Complex tools degrade LLM performance. It's better to break them into smaller, focused tools."},
+      {q:"If an agent needs to get the current time, how should it do it?",opts:["A. By guessing","B. By using a 'get_current_time' tool provided in the schema","C. By reading the system prompt","D. LLMs inherently know the exact time"],ans:1,exp:"LLMs don't have an internal clock. They need a tool to fetch the current time."},
+      {q:"What is 'Parallel Tool Calling'?",opts:["A. Running two LLMs at once","B. The LLM deciding to call multiple tools at the exact same time (e.g., get weather for NY and LA)","C. Writing multi-threaded python","D. Calling OpenAI and Anthropic together"],ans:1,exp:"Modern APIs allow the LLM to output an array of multiple tool calls to be executed simultaneously."},
+      {q:"Why is parallel tool calling useful?",opts:["A. It saves tokens","B. It reduces latency by doing multiple independent tasks at once before returning to the LLM","C. It prevents hallucinations","D. It uses less RAM"],ans:1,exp:"Executing 3 independent API calls in parallel is much faster than doing them sequentially."},
+      {q:"What role does the message containing the tool result have in the OpenAI API?",opts:["A. role: 'user'","B. role: 'system'","C. role: 'tool' (or 'function')","D. role: 'assistant'"],ans:2,exp:"Tool results are appended to the context with a specific role ('tool' or 'function')."},
+      {q:"If a tool result is a massive 50MB JSON file, what should your execution layer do?",opts:["A. Send it directly to the LLM","B. Parse, filter, or summarize it to extract only what the LLM needs before sending it back","C. Compress it into a zip file and send it","D. Ignore it"],ans:1,exp:"Sending 50MB of text will exceed the context window and cost a fortune."},
+      {q:"How do you force an LLM to ALWAYS use a specific tool?",opts:["A. Ask nicely in the prompt","B. Use the 'tool_choice' parameter in the API (e.g., tool_choice: {name: 'my_tool'})","C. Delete all other tools","D. It's impossible"],ans:1,exp:"The tool_choice parameter allows you to force the model to call a specific tool."},
+      {q:"What is the risk of poorly named tools (e.g., tool_1, tool_2)?",opts:["A. Syntax errors","B. The LLM will have no semantic understanding of what they do and will guess randomly","C. They run slower","D. OpenAI bans your account"],ans:1,exp:"Tool names and descriptions are semantic clues. They must be descriptive (e.g., 'search_database')."}
+    ],
+    flows:[
+      {title:"Tool Call Loop",items:["start:Send Context + Tools","proc:LLM Returns tool_calls","proc:App Runs Functions","proc:App Appends tool results","end:Send Back to LLM"]},
+      {title:"Schema Design",items:["start:Identify Function","proc:Define Name (Descriptive)","proc:Write clear description","proc:Define Properties (JSON Schema)","end:Add to API Request"]},
+      {title:"Parallel Execution",items:["start:LLM returns 3 calls","proc:Async Execute Tool 1","proc:Async Execute Tool 2","proc:Async Execute Tool 3","end:Wait for all, return results"]}
+    ],
+    game:{icon:"🔧",title:"Tool Architect",desc:"Design and execute robust tools",badges:["📝 Schema Writer","⚡ Async Executor","🔧 Tool Master"],challenges:[{icon:"📝",title:"Schema Design",desc:"Write a schema for 'book_flight'",xp:50},{icon:"⚡",title:"Parallel Logic",desc:"Write python async code to run 2 tools",xp:50},{icon:"🎓",title:"MCQ Master",desc:"Score 12+ on MCQs",xp:100}]},
+    project:{title:"Weather Tool Call",badge:"API Caller",desc:"Implement a simple tool call loop with the OpenAI API.",tags:["Python","OpenAI","Tool Calling"],steps:[{title:"Define Tool Schema",desc:"Create get_weather schema"},{title:"Call LLM",desc:"Send prompt: 'What is weather in Paris?'"},{title:"Parse Response",desc:"Check if message.tool_calls exists"},{title:"Execute & Return",desc:"Mock the weather data and send it back"}],code:`import openai
+client = openai.OpenAI()
+
+tools = [{
+    "type": "function",
+    "function": {
+        "name": "get_weather",
+        "description": "Get current weather in a city",
+        "parameters": {
+            "type": "object",
+            "properties": {"city": {"type": "string"}},
+            "required": ["city"]
+        }
+    }
+}]
+
+msgs = [{"role":"user", "content":"Weather in Paris?"}]
+resp = client.chat.completions.create(model="gpt-4o", messages=msgs, tools=tools)
+call = resp.choices[0].message.tool_calls[0]
+
+# Mock execution
+result = "22C and Sunny"
+msgs.append(resp.choices[0].message)
+msgs.append({"role":"tool", "tool_call_id":call.id, "content":result})
+
+final = client.chat.completions.create(model="gpt-4o", messages=msgs)
+print(final.choices[0].message.content)`}
+  },
+t21: {
+    tag:'Observability · Core Concept', num:21,
+    title:'What is AI Agent Observability?',
+    desc:'You cannot fix what you cannot see. Learn why observability is the #1 skill for running AI agents in production.',
+    theory:`<div class="card"><h3>👁️ Defining AI Agent Observability</h3><p><strong>AI Agent Observability</strong> is the practice of gaining deep visibility into the internal state, reasoning process, tool usage, and outputs of AI agents — enabling you to understand, debug, and improve agent behavior in production.</p><div class="box b-vi"><h5>💡 The Core Problem</h5><p>Traditional software is deterministic: input X always produces output Y. AI agents are <strong>non-deterministic</strong>: the same input can produce different outputs, take different reasoning paths, and use different tools. Observability makes sense of this complexity.</p></div><h4>Agent vs Traditional Monitoring</h4><table><tr><th>Aspect</th><th>Traditional</th><th>AI Agent Observability</th></tr><tr><td>Unit of analysis</td><td>Request/Response</td><td>Multi-step reasoning trace</td></tr><tr><td>Failure detection</td><td>Error codes</td><td>Hallucination, wrong reasoning</td></tr><tr><td>Performance</td><td>Latency, throughput</td><td>Task completion, reasoning quality</td></tr><tr><td>Debugging</td><td>Stack traces</td><td>Reasoning traces, token analysis</td></tr><tr><td>Cost</td><td>Compute/memory</td><td>LLM tokens, API calls</td></tr></table><h4>The 3 Pillars</h4><ul><li><strong>📋 Traces</strong> — Complete execution trace: what the agent thought, what tools it called, what results it got</li><li><strong>📊 Metrics</strong> — Quantitative measurements: token costs, latency, tool success rate, completion rate</li><li><strong>📝 Logs</strong> — Structured event logs for every significant event</li></ul></div><div class="card"><h3>💻 What an Observability System Captures</h3><div class="cb">agent_trace = {
+    <span class="cs">"trace_id"</span>: <span class="cs">"tr_abc123"</span>,
+    <span class="cs">"user_input"</span>: <span class="cs">"Analyze Q3 sales and create a forecast"</span>,
+    <span class="cs">"steps"</span>: [
+        {<span class="cs">"step"</span>: <span class="cv">1</span>, <span class="cs">"type"</span>: <span class="cs">"reasoning"</span>,
+         <span class="cs">"thought"</span>: <span class="cs">"I need to first fetch Q3 data"</span>,
+         <span class="cs">"tokens"</span>: {<span class="cs">"input"</span>: <span class="cv">245</span>, <span class="cs">"output"</span>: <span class="cv">67</span>}, <span class="cs">"latency_ms"</span>: <span class="cv">892</span>},
+        {<span class="cs">"step"</span>: <span class="cv">2</span>, <span class="cs">"type"</span>: <span class="cs">"tool_call"</span>,
+         <span class="cs">"tool"</span>: <span class="cs">"query_database"</span>, <span class="cs">"success"</span>: True, <span class="cs">"latency_ms"</span>: <span class="cv">340</span>},
+    ],
+    <span class="cs">"total_tokens"</span>: <span class="cv">2312</span>,
+    <span class="cs">"total_cost_usd"</span>: <span class="cv">0.0046</span>,
+    <span class="cs">"success"</span>: True
+}</div></div>`,
+    mcqs:[
+      {q:"Why is AI agent observability harder than traditional monitoring?",opts:["A. Agents use more memory","B. AI agents are non-deterministic","C. Agents use multiple languages","D. Agents run on different hardware"],ans:1,exp:"Non-determinism means you can't predict behavior from inputs alone."},
+      {q:"Which pillar captures the SEQUENCE of reasoning steps?",opts:["A. Metrics","B. Logs","C. Traces","D. Alerts"],ans:2,exp:"Traces capture the complete multi-step execution flow."},
+      {q:"A 'hallucination' in observability is:",opts:["A. Visual agent input","B. Confidently wrong or fabricated information","C. Agent running slowly","D. Too many tools"],ans:1,exp:"Hallucination is when the LLM generates plausible but factually incorrect content."},
+      {q:"What cost unit do you primarily track for LLM agents?",opts:["A. CPU hours","B. Memory GB","C. Tokens (input + output)","D. Network bandwidth"],ans:2,exp:"LLM costs are token-based — you pay per input and output token."},
+      {q:"'Task completion rate' measures:",opts:["A. Response speed","B. % of agent runs that successfully achieve the user's goal","C. Number of tools used","D. Server uptime"],ans:1,exp:"Task completion rate is the key quality metric — % of sessions that complete the intended task."},
+      {q:"The agent equivalent of a stack trace is:",opts:["A. Server logs","B. The reasoning trace showing where thinking went wrong","C. Network packets","D. Database query logs"],ans:1,exp:"The reasoning trace shows the sequence of thoughts, tool calls, and decisions that led to failure."},
+      {q:"Why instrument individual tool calls?",opts:["A. Make tools faster","B. Track success/failure rates, latency, cost independently","C. Secure the tools","D. Reduce memory"],ans:1,exp:"Per-tool observability identifies which tools are slow, failing, or expensive."},
+      {q:"Structured logging means:",opts:["A. Logs written to files","B. Consistent JSON schemas for every event type","C. Encrypted logs","D. Logs in SQL"],ans:1,exp:"Structured logs (JSON) enable programmatic analysis and alerting."},
+      {q:"A 'span' in agent tracing is:",opts:["A. Total response time","B. A single unit of work within a trace","C. The token count","D. The user session"],ans:1,exp:"A span represents one operation within a larger trace — e.g., one tool call."},
+      {q:"'Prompt drift' means:",opts:["A. The prompt is too long","B. Agent behavior changes unexpectedly after prompt modifications","C. Prompt gets cached","D. Prompt is translated incorrectly"],ans:1,exp:"Prompt drift is when small prompt changes cause unexpected behavioral shifts."},
+      {q:"Tool call frequency per session detects:",opts:["A. Total token cost","B. Looping agents calling the same tool repeatedly","C. User feedback","D. Response format"],ans:1,exp:"High frequency of the same tool call indicates an agent stuck in a loop."},
+      {q:"'Golden path' in observability refers to:",opts:["A. Fastest tool","B. Expected successful reasoning sequence","C. Most expensive model","D. Senior engineer workflow"],ans:1,exp:"The golden path is the expected successful trace — deviations indicate problems."},
+      {q:"Human feedback is important because:",opts:["A. Legal compliance","B. Provides ground truth for quality that automated metrics miss","C. Reduces costs","D. Speeds inference"],ans:1,exp:"Human ratings provide quality signals that latency and token counts can't capture."},
+      {q:"'Latency per step' is more useful than total latency because:",opts:["A. Easier to calculate","B. Identifies which specific step is causing slowness","C. Cheaper to track","D. Standard metric"],ans:1,exp:"Per-step latency pinpoints bottlenecks — LLM vs tool vs formatting."},
+      {q:"Alerting when cost exceeds $0.10 per session is implementing:",opts:["A. Performance monitoring","B. Security monitoring","C. Cost guardrails / budget alerts","D. Hallucination detection"],ans:2,exp:"Cost guardrails alert on per-session budget overruns — critical for production cost control."}
+    ],
+    flows:[
+      {title:"Agent Observability Architecture",items:["start:Agent Run","proc:Instrument Every Step","proc:Collect Traces + Metrics + Logs","proc:Send to Platform","proc:Dashboards + Alerts","proc:Human Review","end:Agent Improvement"]},
+      {title:"Trace Anatomy",items:["start:Trace Start","proc:Span: User Input","proc:Span: LLM Reasoning #1","proc:Span: Tool Call","proc:Span: Tool Result","proc:Span: Final Output","end:Trace End + Metrics"]},
+      {title:"Observe → Improve Loop",items:["start:Deploy Agent","proc:Observe Behavior","dec:Issues Found?","proc:Identify Root Cause","proc:Fix & Deploy","end:Monitor Again"]}
+    ],
+    game:{icon:"👁️",title:"The Observer",desc:"Set up monitoring and identify 3 issues",badges:["👁️ Observer","🔍 Trace Reader","📊 Metrics Master","🚨 Alert Engineer"],challenges:[{icon:"📋",title:"Trace Reading",desc:"Given a JSON trace, identify 2 potential issues",xp:90},{icon:"📊",title:"Metrics Design",desc:"Design 5 key metrics for a customer service agent",xp:100},{icon:"🚨",title:"Alert Design",desc:"Write 3 alert rules for your agent",xp:80},{icon:"💻",title:"Instrumentation",desc:"Add trace logging to the Topic 1 agent",xp:150}]},
+    project:{title:"Manual Agent Tracer",badge:"Intermediate",desc:"Build a Python decorator that automatically instruments any agent function.",tags:["Python","Decorators","Tracing","Observability"],steps:[{title:"Create @trace decorator",desc:"Wraps any function, records start time, end time, inputs"},{title:"Add trace_id propagation",desc:"Pass trace context through nested calls"},{title:"Capture errors",desc:"Catch exceptions and record in trace"},{title:"Build TraceStore",desc:"In-memory store for completed traces"},{title:"Implement trace.print()",desc:"Display formatted trace report"}],code:`<span class="ck">import</span> time, uuid, functools
+
+traces = []
+
+<span class="ck">def</span> <span class="cv">trace</span>(fn):
+    @functools.wraps(fn)
+    <span class="ck">def</span> <span class="cv">wrapper</span>(*args, **kwargs):
+        span = {<span class="cs">"fn"</span>: fn.__name__, <span class="cs">"inputs"</span>: str(args)[:<span class="cv">200</span>],
+                <span class="cs">"start"</span>: time.time() * <span class="cv">1000</span>}
+        <span class="ck">try</span>:
+            result = fn(*args, **kwargs)
+            span.update({<span class="cs">"output"</span>: str(result)[:<span class="cv">200</span>], <span class="cs">"status"</span>: <span class="cs">"ok"</span>})
+            <span class="ck">return</span> result
+        <span class="ck">except</span> Exception <span class="ck">as</span> e:
+            span.update({<span class="cs">"error"</span>: str(e), <span class="cs">"status"</span>: <span class="cs">"error"</span>}); <span class="ck">raise</span>
+        <span class="ck">finally</span>:
+            span[<span class="cs">"ms"</span>] = time.time() * <span class="cv">1000</span> - span[<span class="cs">"start"</span>]
+            traces.append(span)
+    <span class="ck">return</span> wrapper`}
+  },
+
+  t43: {
+    tag:'Agent Watcher · Architecture', num:43,
+    title:'What is an Agent Watcher?',
+    desc:'The Guardian Agent concept — a meta-agent that watches over other agents, detects anomalies, enforces guardrails, and triggers recovery.',
+    theory:`<div class="card"><h3>🔭 The Agent Watcher Concept</h3><p>An <strong>Agent Watcher</strong> is a specialized system that monitors the health, behavior, and performance of other AI agents in real-time — and autonomously takes corrective actions when agents misbehave or fail.</p><div class="box b-vi"><h5>🏭 Why You Need a Watcher</h5><p>With 50+ agents running simultaneously, without a watcher: rogue agents drain budgets, looping agents consume compute forever, hallucinating agents serve bad data, and tool failures go undetected for hours.</p></div><h4>Watcher vs Traditional Monitoring</h4><table><tr><th>Feature</th><th>Traditional Monitor</th><th>Agent Watcher</th></tr><tr><td>Detection</td><td>Fixed rules (CPU &gt; 90%)</td><td>Semantic understanding of agent behavior</td></tr><tr><td>Response</td><td>Send alert email</td><td>Autonomously intervene (pause, redirect, fix)</td></tr><tr><td>Context</td><td>Single metric</td><td>Full reasoning trace context</td></tr><tr><td>Learning</td><td>Static rules</td><td>Learns normal behavior patterns</td></tr></table><h4>Key Watcher Capabilities</h4><ul><li><strong>🔍 Trace Analysis</strong> — Real-time analysis of agent reasoning traces</li><li><strong>💰 Cost Guardrails</strong> — Stop agents exceeding token budgets</li><li><strong>🔄 Loop Detection</strong> — Identify agents stuck in reasoning loops</li><li><strong>🧠 Hallucination Detection</strong> — Flag suspicious outputs for review</li><li><strong>⚡ Performance Monitoring</strong> — Alert on SLA violations</li><li><strong>🛡️ Safety Enforcement</strong> — Block unsafe tool calls</li><li><strong>♻️ Auto-Recovery</strong> — Restart or re-route failed agents</li></ul></div><div class="card"><h3>💻 Agent Watcher Skeleton</h3><div class="cb"><span class="ck">class</span> <span class="cv">AgentWatcher</span>:
+    <span class="ck">def</span> <span class="cv">__init__</span>(self, config: dict):
+        self.config = config
+        self.sessions = {}
+
+    <span class="ck">def</span> <span class="cv">watch</span>(self, agent_id: str, event: dict):
+        s = self.sessions.setdefault(agent_id, {<span class="cs">"tokens"</span>: <span class="cv">0</span>, <span class="cs">"calls"</span>: []})
+        s[<span class="cs">"tokens"</span>] += event.get(<span class="cs">"tokens"</span>, <span class="cv">0</span>)
+        <span class="ck">if</span> s[<span class="cs">"tokens"</span>] > self.config[<span class="cs">"max_tokens"</span>]:
+            <span class="ck">return</span> self.intervene(agent_id, <span class="cs">"BUDGET_EXCEEDED"</span>)
+        <span class="ck">if</span> event.get(<span class="cs">"tool"</span>):
+            s[<span class="cs">"calls"</span>].append(event[<span class="cs">"tool"</span>])
+            <span class="ck">if</span> len(set(s[<span class="cs">"calls"</span>][-<span class="cv">5</span>:])) == <span class="cv">1</span>:
+                <span class="ck">return</span> self.intervene(agent_id, <span class="cs">"LOOP_DETECTED"</span>)
+        <span class="ck">return</span> {<span class="cs">"action"</span>: <span class="cs">"ALLOW"</span>}
+
+    <span class="ck">def</span> <span class="cv">intervene</span>(self, agent_id, reason):
+        print(<span class="cs">f"🚨 {agent_id}: {reason}"</span>)
+        <span class="ck">return</span> {<span class="cs">"action"</span>: <span class="cs">"HALT"</span>, <span class="cs">"reason"</span>: reason}</div></div>`,
+    mcqs:[
+      {q:"Primary role of an Agent Watcher?",opts:["A. Generate new agents","B. Monitor and intervene in other agent behaviors","C. Store agent memories","D. Format outputs"],ans:1,exp:"The Watcher monitors other agents and autonomously intervenes when they misbehave."},
+      {q:"How does a Watcher detect a looping agent?",opts:["A. Checks CPU usage","B. Detects same tool called repeatedly in same session","C. Reads agent memory","D. Checks response time"],ans:1,exp:"Loop detection identifies patterns where the same tool is called N times in a row."},
+      {q:"A cost guardrail:",opts:["A. Limits number of agents","B. Stops an agent exceeding a token/cost budget","C. Controls response format","D. Monitors CPU"],ans:1,exp:"Cost guardrails halt agents that exceed defined token or dollar budgets."},
+      {q:"Architecturally, the Watcher sits:",opts:["A. After user gets response","B. Inside the LLM","C. As middleware between agents and tool executors","D. In the database"],ans:2,exp:"The Watcher sits as middleware — intercepting every tool call."},
+      {q:"Watcher vs simple alerting rule:",opts:["A. Uses Python not YAML","B. Understands semantic context and autonomously intervenes","C. Cheaper","D. Runs faster"],ans:1,exp:"Unlike static rules, a Watcher understands context and makes autonomous intervention decisions."},
+      {q:"Safety enforcement blocks:",opts:["A. Slow responses","B. Dangerous tool calls like deleting production data","C. Long responses","D. 3 tool calls"],ans:1,exp:"Safety enforcement blocks calls to destructive tools."},
+      {q:"Auto-recovery means:",opts:["A. Asks user to fix","B. Automatically restarts or re-routes failed agents","C. Writes new code","D. Increases capacity"],ans:1,exp:"Auto-recovery takes corrective action autonomously — restarting, rerouting, or retrying."},
+      {q:"Watcher needs real-time access to:",opts:["A. Final outputs only","B. All events: reasoning, tool calls, results, token counts","C. Error logs only","D. User inputs only"],ans:1,exp:"Effective watching requires the full real-time event stream."},
+      {q:"Hallucination detection typically involves:",opts:["A. Spell checking","B. Comparing claims against known facts or triggering human review","C. Measuring response length","D. Checking punctuation"],ans:1,exp:"Hallucination detection uses fact-checking tools or confidence scoring."},
+      {q:"Watching 50 agents simultaneously requires:",opts:["A. Sequential for-loop","B. Event-driven, async processing with shared state","C. Monolithic app","D. Manual checking hourly"],ans:1,exp:"Async event processing handles concurrent agent monitoring."},
+      {q:"Intervention policy is best stored as:",opts:["A. Hardcoded if/else","B. Configurable YAML/JSON","C. In LLM weights","D. In database schema"],ans:1,exp:"Configurable rules allow policy updates without code changes."},
+      {q:"Behavioral baselining means:",opts:["A. Setting fixed max tokens","B. Learning normal behavior patterns to detect anomalies","C. Defining agent personas","D. Setting response templates"],ans:1,exp:"Baselining establishes normal behavior — enabling anomaly detection on deviations."},
+      {q:"LLM-as-Judge implements:",opts:["A. Cost monitoring","B. Quality evaluation using a separate LLM","C. Loop detection","D. Tool validation"],ans:1,exp:"LLM-as-Judge uses a separate LLM to evaluate quality and safety of agent outputs."},
+      {q:"Shadow mode means:",opts:["A. Reduce costs","B. Run Watcher without blocking agents — just observing","C. Make agents invisible","D. Encrypt data"],ans:1,exp:"Shadow mode tests Watcher detection logic without actually blocking agents."},
+      {q:"Watcher effectiveness is measured by:",opts:["A. Number of agents watched","B. True positive rate of interventions vs false alarms","C. Server uptime","D. Token count"],ans:1,exp:"Precision (low false alarms) and recall (catches real issues) measure Watcher quality."}
+    ],
+    flows:[
+      {title:"Agent Watcher Architecture",items:["start:Agent Event","proc:Watcher Middleware","proc:Cost Guardrail Check","proc:Loop Detection Check","proc:Safety Check","dec:Violation?","proc:ALLOW","proc:INTERVENE (HALT + Alert)"]},
+      {title:"Watcher Intervention Flow",items:["start:Violation Detected","proc:Classify Severity","dec:Critical?","proc:Immediate Halt","proc:Alert + Continue","proc:Log Incident","proc:Notify Team","end:Resolved"]},
+      {title:"Multi-Agent Watching",items:["start:50 Agents Running","proc:Event Stream","proc:Watcher Event Bus","proc:Per-Agent State","proc:Policy Evaluation","proc:Dashboard Update","end:Interventions"]}
+    ],
+    game:{icon:"🔭",title:"The Watcher",desc:"Build and deploy a basic Agent Watcher",badges:["👶 Watcher Cadet","🔭 The Observer","🛡️ Guardian","🏆 Watcher Master"],challenges:[{icon:"🔍",title:"Design Rules",desc:"Write 5 intervention rules for your Watcher",xp:100},{icon:"💻",title:"Budget Guard",desc:"Add token budget enforcement to AgentWatcher",xp:150},{icon:"🔄",title:"Loop Detector",desc:"Implement and test the loop detection algorithm",xp:150},{icon:"🚨",title:"Alert System",desc:"Add Slack webhook when watcher intervenes",xp:120}]},
+    project:{title:"Production Agent Watcher v1",badge:"Advanced",desc:"Full Agent Watcher with cost guardrails, loop detection, safety rules, real-time dashboard, and alert notifications.",tags:["Python","FastAPI","WebSocket","Redis"],steps:[{title:"Create Watcher core",desc:"AgentWatcher with watch(), intervene(), get_status()"},{title:"Add event streaming",desc:"FastAPI + WebSocket endpoint for real-time events"},{title:"Implement detection rules",desc:"Cost limits, loop detection, safety keyword blocking"},{title:"Build Redis state store",desc:"Per-agent session state in Redis for scaling"},{title:"Create REST API",desc:"GET /sessions, GET /alerts, POST /policy"},{title:"Build dashboard",desc:"Real-time HTML dashboard of all active agents"}],code:`<span class="ck">from</span> fastapi <span class="ck">import</span> FastAPI
+<span class="ck">import</span> redis, json
+
+app = FastAPI()
+r = redis.Redis()
+
+<span class="ck">def</span> <span class="cv">process_event</span>(event: dict) -> dict:
+    key = <span class="cs">f"session:{event['agent_id']}"</span>
+    s = json.loads(r.get(key) <span class="ck">or</span> <span class="cs">"{}"</span>)
+    s.setdefault(<span class="cs">"tokens"</span>, <span class="cv">0</span>)
+    s[<span class="cs">"tokens"</span>] += event.get(<span class="cs">"tokens"</span>, <span class="cv">0</span>)
+    r.setex(key, <span class="cv">3600</span>, json.dumps(s))
+    <span class="ck">if</span> s[<span class="cs">"tokens"</span>] > <span class="cv">100000</span>:
+        <span class="ck">return</span> {<span class="cs">"action"</span>: <span class="cs">"HALT"</span>, <span class="cs">"reason"</span>: <span class="cs">"BUDGET"</span>}
+    <span class="ck">return</span> {<span class="cs">"action"</span>: <span class="cs">"ALLOW"</span>}
+
+@app.post(<span class="cs">"/watch"</span>)
+<span class="ck">async def</span> <span class="cv">watch</span>(event: dict): <span class="ck">return</span> process_event(event)`}
+  },
+
+  tfinal: {
+    tag:'Final Project · Full Stack', num:'🏆',
+    title:'Capstone: Full Agent Watcher System',
+    desc:'Build the complete production-grade Agent Watcher — integrating all 50 topics. Full Python/FastAPI stack with real-time dashboard.',
+    theory:`<div class="card"><h3>🏆 The Complete System</h3><p>The <strong>Agent Watcher System</strong> is a production-grade meta-agent platform that monitors, controls, and improves AI agents running at scale — integrating all 50 topics.</p><h4>7 System Components</h4><ul><li><strong>🔌 Event Ingestion API</strong> — FastAPI service receiving real-time events</li><li><strong>🧠 Policy Engine</strong> — Rule-based + LLM-powered behavior evaluation</li><li><strong>📊 Real-time Dashboard</strong> — WebSocket-powered live agent monitor</li><li><strong>🚨 Alert System</strong> — Multi-channel alerting (Slack, Email)</li><li><strong>📋 Trace Store</strong> — Persistent agent trace storage</li><li><strong>🔄 Recovery Engine</strong> — Automated recovery actions</li><li><strong>📈 Analytics Engine</strong> — Cost trends, quality metrics</li></ul><table><tr><th>Layer</th><th>Tech</th><th>Purpose</th></tr><tr><td>API Layer</td><td>FastAPI + WebSocket</td><td>Event ingestion, REST</td></tr><tr><td>State</td><td>Redis</td><td>Real-time session state</td></tr><tr><td>Persistence</td><td>PostgreSQL</td><td>Trace storage, analytics</td></tr><tr><td>Queue</td><td>Redis Streams</td><td>Async event processing</td></tr><tr><td>Dashboard</td><td>HTML + WebSocket</td><td>Real-time UI</td></tr><tr><td>Alerts</td><td>Slack API</td><td>Team notifications</td></tr></table></div><div class="card"><h3>🗺️ 30-Day Build Plan</h3><table><tr><th>Week</th><th>Focus</th><th>Deliverable</th></tr><tr><td>Week 1</td><td>Core Watcher Engine</td><td>Python watcher with detection rules</td></tr><tr><td>Week 2</td><td>API + State Management</td><td>FastAPI + Redis event pipeline</td></tr><tr><td>Week 3</td><td>Dashboard + Alerts</td><td>Live dashboard + Slack alerts</td></tr><tr><td>Week 4</td><td>Analytics + Deploy</td><td>Full platform deployed</td></tr></table><div class="box b-em"><h5>🎯 Success Criteria</h5><p>✅ Monitors 10 agents simultaneously<br>✅ Detects and halts loop within 5 seconds<br>✅ Slack alert on budget violation<br>✅ Dashboard updates in &lt; 500ms<br>✅ 30-day trace retention<br>✅ Cost &lt; $0.001/day per agent</p></div></div>`,
+    mcqs:[
+      {q:"WebSockets are used because:",opts:["A. REST is deprecated","B. Enable real-time bidirectional communication for live updates","C. WebSockets are cheaper","D. REST doesn't support JSON"],ans:1,exp:"WebSockets allow the server to push updates to the dashboard in real-time."},
+      {q:"Redis over PostgreSQL for session state because:",opts:["A. Redis is free","B. In-memory — ultra-fast for real-time state with TTL","C. Supports SQL","D. PostgreSQL too large"],ans:1,exp:"Redis's in-memory nature provides microsecond latency — critical for real-time policy evaluation."},
+      {q:"Policy Engine uses rules AND LLM because:",opts:["A. Rules always wrong","B. Rules fast/cheap for common cases; LLM handles semantic nuances","C. LLMs always better","D. Rules legally required"],ans:1,exp:"Hybrid approach: rules for 95% of cases cheaply; LLM for complex behavioral patterns."},
+      {q:"Redis Streams purpose:",opts:["A. Store agent memories","B. Async processing — decouple ingestion from evaluation","C. Cache LLM responses","D. Store traces permanently"],ans:1,exp:"Redis Streams enable async, scalable event processing at high throughput."},
+      {q:"Recovery Engine should be:",opts:["A. Auto-fix everything","B. Never intervene","C. Conservative — escalate high-risk to humans","D. Delete failed agents"],ans:2,exp:"Auto-recovery should be conservative — humans for high-risk, auto for low-risk."},
+      {q:"10 simultaneous agents requires:",opts:["A. Sequential for-loop","B. Async/concurrent event processing","C. Multi-server deployment","D. Manual checking"],ans:1,exp:"asyncio handles events from multiple agents concurrently without blocking."},
+      {q:"30-day trace retention requires:",opts:["A. Keep forever","B. TTL expiration or scheduled cleanup jobs","C. Delete after session","D. Paper archive"],ans:1,exp:"30-day retention needs TTL policies or scheduled cleanup."},
+      {q:"Analytics 'trend analysis' discovers:",opts:["A. Individual agent names","B. Patterns like 'quality drops on Fridays'","C. LLM model used","D. User demographics"],ans:1,exp:"Trend analysis reveals temporal and contextual patterns in agent behavior."},
+      {q:"'Blast radius' concern when deploying Watcher:",opts:["A. Dashboard size","B. Buggy Watcher incorrectly halts all agents","C. RAM usage","D. Alerts too loud"],ans:1,exp:"A faulty Watcher halting all agents is worse than no Watcher — requires careful testing."},
+      {q:"'<500ms dashboard updates' requires:",opts:["A. Faster DB queries only","B. End-to-end optimization: ingestion, state lookup, WebSocket push","C. Faster internet","D. Fewer features"],ans:1,exp:"Sub-500ms requires optimizing the entire pipeline end-to-end."},
+      {q:"HTML dashboard vs React because:",opts:["A. React deprecated","B. HTML+JS simpler without build steps — good for internal tools","C. HTML faster","D. React lacks WebSocket"],ans:1,exp:"For internal tools, HTML+vanilla JS avoids npm/webpack complexity."},
+      {q:"LLM-as-Judge evaluates:",opts:["A. Response time","B. Semantic quality and safety using separate LLM","C. Token count","D. Tool count"],ans:1,exp:"LLM-as-Judge uses a designated evaluator model for semantic quality assessment."},
+      {q:"Network partition handling:",opts:["A. Crash immediately","B. Assume agents down, alert after timeout","C. Continue normally","D. Delete sessions"],ans:1,exp:"Network partitions require a timeout strategy — alert if agent events stop for N seconds."},
+      {q:"'<$0.001/day per agent' cost target requires:",opts:["A. GPT-4 for everything","B. Lightweight rules for most, LLM only for suspicious cases","C. No LLM","D. Monitor fewer events"],ans:1,exp:"Cost targets require tiered evaluation: cheap rules for 95%, LLM for flagged cases."},
+      {q:"'Production-grade' means:",opts:["A. Specific language","B. Handles scale, failures, security, observability, and ops","C. More code","D. Latest LLM"],ans:1,exp:"Production-grade thinks beyond happy-path: scale, failure, security, operations."}
+    ],
+    flows:[
+      {title:"Complete Watcher System Architecture",items:["start:Monitored Agents","proc:Event Ingestion API","proc:Redis Streams","proc:Policy Engine Workers","proc:State Store (Redis)","proc:Trace Store (PostgreSQL)","proc:Dashboard (WebSocket)","proc:Alert System","end:Ops Team"]},
+      {title:"30-Day Build Roadmap",items:["start:Week 1: Core Engine","proc:Week 2: API + Redis","proc:Week 3: Dashboard + Alerts","proc:Week 4: Analytics + Deploy","dec:All Criteria Met?","end:Production Launch"]},
+      {title:"Event Processing Pipeline",items:["start:Agent Event","proc:FastAPI Ingest","proc:Redis Stream Publish","proc:Policy Worker","dec:Violation?","proc:ALLOW → Metrics","proc:INTERVENE → Alert","end:Dashboard Update"]}
+    ],
+    game:{icon:"🏆",title:"The Architect",desc:"Complete all 50 topics and build the full Agent Watcher",badges:["🏗️ Builder","🔭 The Watcher","🛡️ Guardian Agent","🏆 Agent Architect"],challenges:[{icon:"🏗️",title:"System Design",desc:"Draw full Watcher architecture from memory",xp:200},{icon:"💻",title:"Week 1 Build",desc:"Implement the core Watcher engine",xp:300},{icon:"🚀",title:"Full Deploy",desc:"Deploy complete system with all 7 components",xp:500},{icon:"🧪",title:"Stress Test",desc:"Simulate 10 agents, detect a loop, trigger recovery",xp:400}]},
+    project:{title:"Full Agent Watcher System",badge:"Master",desc:"The complete deployable Agent Watcher system — integrating all 50 topics.",tags:["Python","FastAPI","Redis","PostgreSQL","WebSocket","Docker","Slack API"],steps:[{title:"Clone project structure",desc:"Create: /watcher-core, /api, /dashboard, /tests"},{title:"Build Policy Engine",desc:"All detection rules: cost, loop, safety, anomaly"},{title:"Implement Event API",desc:"FastAPI with WebSocket + Redis Streams"},{title:"Create Dashboard",desc:"HTML+JS with WebSocket live updates"},{title:"Add Alert System",desc:"Slack webhook + email with configurable policies"},{title:"Build Analytics API",desc:"PostgreSQL-backed: cost trends, quality metrics"},{title:"Dockerize everything",desc:"docker-compose.yml for all services"},{title:"Write tests",desc:"Unit + integration tests for policy engine"},{title:"Deploy & validate",desc:"Run 10 simulated agents, verify all success criteria"}],code:`<span class="cm"># docker-compose.yml — Complete Agent Watcher</span>
+version: <span class="cs">'3.9'</span>
+services:
+  api:
+    build: ./api
+    ports: [<span class="cs">"8000:8000"</span>]
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_URL=postgresql://watcher:pass@db/watcherdb
+    depends_on: [redis, db]
+  redis:
+    image: redis:7-alpine
+    ports: [<span class="cs">"6379:6379"</span>]
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: watcherdb
+      POSTGRES_USER: watcher
+      POSTGRES_PASSWORD: pass
+  dashboard:
+    build: ./dashboard
+    ports: [<span class="cs">"3000:3000"</span>]
+    depends_on: [api]`}
+  }
+};
+
+// ═══════════════════════════════════
+// STATE
+// ═══════════════════════════════════
+let xp = 0;
+let completedTopics = new Set();
+let mcqState = {};
+
+// ═══════════════════════════════════
+// BUILD SIDEBAR NAV
+// ═══════════════════════════════════
+function buildNav() {
+  const nav = document.getElementById('navList');
+  let lastPart = '';
+  ALL_NAV.forEach(item => {
+    if (item.part && item.part !== lastPart) {
+      const div = document.createElement('div');
+      div.className = 'sb-parts';
+      div.textContent = item.part;
+      nav.appendChild(div);
+      lastPart = item.part;
+    }
+    const el = document.createElement('div');
+    el.className = 'nav-item' + (item.id === 'welcome' ? ' on' : '');
+    el.id = 'nav-' + item.id;
+    el.onclick = () => showTopic(item.id);
+    el.innerHTML = `<div class="nav-num">${item.num}</div><span>${item.title}</span><span class="nav-check">✓</span>`;
+    nav.appendChild(el);
+  });
+}
+
+function filterNav(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.style.display = !q || el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+// ═══════════════════════════════════
+// SHOW TOPIC
+// ═══════════════════════════════════
+function showTopic(id) {
+  document.querySelectorAll('.topic-pane').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('on'));
+
+  if (id === 'welcome') {
+    document.getElementById('pane-welcome').classList.add('on');
+    const wn = document.getElementById('nav-welcome');
+    if (wn) { wn.classList.add('on'); wn.scrollIntoView({block:'nearest'}); }
+    document.querySelector('main').scrollTop = 0;
+    return;
+  }
+
+  let pane = document.getElementById('pane-' + id);
+  if (!pane) {
+    const rich = RICH_TOPICS[id];
+    pane = rich ? buildRichPane(rich, id) : buildGenericPane(id);
+    document.getElementById('topicContainer').appendChild(pane);
+  }
+  pane.classList.add('on');
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) {
+    navEl.classList.add('on');
+    navEl.scrollIntoView({block:'nearest', behavior:'smooth'});
+  }
+  document.querySelector('main').scrollTop = 0;
+  currentTopicId = id;
+  updateProgress();
+}
+
+// ═══════════════════════════════════
+// BUILD RICH PANE (full data)
+// ═══════════════════════════════════
+function getPrevNext(id) {
+  const navItems = ALL_NAV.filter(n => n.id !== 'welcome');
+  const idx = navItems.findIndex(n => n.id === id);
+  const prev = idx > 0 ? navItems[idx-1] : null;
+  const next = idx < navItems.length-1 ? navItems[idx+1] : null;
+  return {prev, next};
+}
+
+function buildPrevNextNav(id) {
+  const {prev, next} = getPrevNext(id);
+  const prevHtml = prev
+    ? `<div class="tnav-btn" onclick="showTopic('${prev.id}')">
+        <span class="tnav-arrow">←</span>
+        <div><span class="tnav-label">Previous</span><span class="tnav-title">${prev.title}</span></div>
+       </div>`
+    : '<div></div>';
+  const nextHtml = next
+    ? `<div class="tnav-btn next" onclick="showTopic('${next.id}')">
+        <span class="tnav-arrow">→</span>
+        <div><span class="tnav-label">Next Topic</span><span class="tnav-title">${next.title}</span></div>
+       </div>`
+    : '<div></div>';
+  return `<div class="topic-nav">${prevHtml}${nextHtml}</div>`;
+}
+
+function buildRichPane(data, id) {
+  const div = document.createElement('div');
+  div.className = 'topic-pane';
+  div.id = 'pane-' + id;
+
+  const tabs = ['📚 Theory','🌍 Example','📊 Flowcharts','❓ MCQs','🎮 Gamified','💻 Project'];
+  div.innerHTML = `
+    <div class="t-tag"><span class="t-num">#${data.num}</span>${data.tag}</div>
+    <h2 class="topic-title">${data.title}</h2>
+    <p class="t-desc">${data.desc}</p>
+    <div class="sec-tabs" id="tabs-${id}">
+      ${tabs.map((t,i)=>`<div class="sec-tab ${i===0?'on':''}" onclick="switchTab('${id}',${i})">${t}</div>`).join('')}
+    </div>`;
+
+  // Theory panel
+  addPanel(div, id, 0, true, data.theory);
+  // Example panel
+  addPanel(div, id, 1, false, buildExPanel(data.title));
+  // Flowcharts panel
+  addPanel(div, id, 2, false, buildFlows(data.flows));
+  // MCQs panel
+  addPanel(div, id, 3, false, buildMCQs(id, data.mcqs));
+  // Game panel
+  addPanel(div, id, 4, false, buildGame(id, data.game));
+  // Project panel
+  addPanel(div, id, 5, false, buildProject(data.project));
+
+  return div;
+}
+
+function addPanel(parent, id, idx, active, html) {
+  const d = document.createElement('div');
+  d.className = 'sec-panel' + (active ? ' on' : '');
+  d.id = `panel-${id}-${idx}`;
+  d.innerHTML = html;
+  parent.appendChild(d);
+}
+
+// ═══════════════════════════════════
+// BUILD GENERIC PANE (stub topics)
+// ═══════════════════════════════════
+function buildGenericPane(id) {
+  const nav = ALL_NAV.find(n => n.id === id);
+  const title = nav ? nav.title : id;
+  const num = nav ? nav.num : '?';
+  const part = nav ? nav.part : '';
+  const tabs = ['📚 Theory','🌍 Example','📊 Flowcharts','❓ MCQs','🎮 Gamified','💻 Project'];
+
+  const div = document.createElement('div');
+  div.className = 'topic-pane';
+  div.id = 'pane-' + id;
+  div.innerHTML = `
+    <div class="t-tag"><span class="t-num">#${num}</span>${part}</div>
+    <h2 class="topic-title">${title}</h2>
+    <p class="t-desc">Deep dive into ${title} — theory, real-world examples, flowcharts, MCQs, gamified challenges, and hands-on projects.</p>
+    <div class="sec-tabs" id="tabs-${id}">
+      ${tabs.map((t,i)=>`<div class="sec-tab ${i===0?'on':''}" onclick="switchTab('${id}',${i})">${t}</div>`).join('')}
+    </div>`;
+
+  const panels = [
+    getTopicTheory(id, title),
+    buildExPanel(title),
+    buildGenericFlows(title),
+    buildMCQs(id, getGenericMCQs(title)),
+    buildGenericGame(title),
+    buildGenericProject(title)
+  ];
+  panels.forEach((html, i) => addPanel(div, id, i, i===0, html));
+  return div;
+}
+
+// ═══════════════════════════════════
+// PANEL BUILDERS
+// ═══════════════════════════════════
+function buildExPanel(title) {
+  return `<div class="card"><h3>🌍 Real-World Applications</h3><p>Here is how <strong>${title}</strong> applies in production AI systems.</p><div class="box b-cy"><h5>🏢 Enterprise Scenario</h5><p>A Fortune 500 company applies ${title} across their AI agent infrastructure — processing millions of events daily. This concept directly impacts reliability, cost efficiency, and the quality of AI-driven decisions at scale.</p></div><div class="box b-em"><h5>🚀 Startup Scenario</h5><p>A SaaS startup leverages ${title} to differentiate their product. Correct implementation means the difference between a reliable AI feature and one that fails under real user load, burning budget and trust.</p></div><div class="box b-am"><h5>💡 Developer Scenario</h5><p>Individual developers building AI assistants apply ${title} to create robust, maintainable systems. Understanding the practical implications helps avoid the most common production pitfalls.</p></div><h4>Industry Applications</h4><table><tr><th>Industry</th><th>Application</th><th>Impact</th></tr><tr><td>Finance</td><td>Automated analysis agent</td><td>90% time reduction</td></tr><tr><td>Healthcare</td><td>Patient data agent</td><td>Faster clinical decisions</td></tr><tr><td>E-commerce</td><td>Customer service agent</td><td>24/7 coverage</td></tr><tr><td>DevOps</td><td>Incident response agent</td><td>MTTR -60%</td></tr></table></div>`;
+}
+
+function buildFlows(flows) {
+  return flows.map((f, i) => `
+<div class="flow-container">
+  <div class="flow-title">📊 Flowchart ${i+1}: ${f.title}</div>
+  <div style="display:flex;justify-content:center;padding:10px 0;">
+    <div class="flow-down">${f.items.map((node, ni, arr) => {
+      const [type, ...rest] = node.split(':');
+      const label = rest.join(':');
+      const cls = {start:'fn-start',end:'fn-end',dec:'fn-dec',io:'fn-io',db:'fn-db'}[type] || 'fn-proc';
+      return `<div class="flow-row"><div class="flow-node ${cls}">${label}</div></div>${ni < arr.length-1 ? '<div class="flow-row"><span style="color:var(--t3);font-size:1.4rem;">↓</span></div>' : ''}`;
+    }).join('')}</div>
+  </div>
+</div>`).join('');
+}
+
+function buildGenericFlows(title) {
+  const defaultFlows = [
+    {title:`${title} — Main Flow`,items:['start:Start','proc:Input Processing','proc:Core Logic','dec:Decision Point','proc:Execute Action','end:Output Result']},
+    {title:`${title} — Error Handling`,items:['start:Execute','dec:Success?','proc:Handle Error','proc:Retry or Escalate','end:Resolved']},
+    {title:`${title} — Integration`,items:['start:System Request','io:Validate Input','proc:Process Logic','db:Store Results','end:Return Response']}
+  ];
+  return buildFlows(defaultFlows);
+}
+
+function buildMCQs(id, mcqs) {
+  let html = `<div class="mcq-header"><h3>❓ ${mcqs.length} MCQs</h3><span class="mcq-score" id="score-${id}">Score: 0 / ${mcqs.length}</span></div>`;
+  html += `<div class="mcq-progress" id="prog-${id}">${mcqs.map((_,i)=>`<div class="mcq-dot" id="dot-${id}-${i}"></div>`).join('')}</div>`;
+  const letters = ['A','B','C','D'];
+  mcqs.forEach((q, qi) => {
+    html += `<div class="mcq-box" id="mcq-${id}-${qi}">
+      <div class="mcq-q"><span class="mcq-num">Q${qi+1}</span>${q.q}</div>
+      <div class="mcq-opts">${q.opts.map((opt,oi)=>`
+        <div class="mcq-o" id="opt-${id}-${qi}-${oi}" onclick="answer('${id}',${qi},${oi},${q.ans},${mcqs.length})">
+          <span class="mcq-letter">${letters[oi]}</span>${opt}
+        </div>`).join('')}
+      </div>
+      <div class="mcq-explain" id="exp-${id}-${qi}">${q.exp}</div>
+    </div>`;
+  });
+  return html;
+}
+
+function buildGame(id, g) {
+  return `<div class="game-header"><div class="game-icon">${g.icon}</div><div class="game-info"><h3>🎮 ${g.title}</h3><p>${g.desc}</p></div></div>
+<h4 style="color:var(--cy);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">🏅 Achievement Badges</h4>
+<div class="game-badges">${g.badges.map((b,i)=>`<div class="badge ${['badge-vi','badge-cy','badge-am','badge-em'][i]}">${b}</div>`).join('')}</div>
+<h4 style="color:var(--cy);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;">⚡ Challenges</h4>
+<div class="challenge-grid">${g.challenges.map(c=>`<div class="challenge-card" onclick="earnXP(${c.xp},'${c.title}')"><div class="ch-icon">${c.icon}</div><div class="ch-title">${c.title}</div><div class="ch-desc">${c.desc}</div><div class="ch-xp">⚡ +${c.xp} XP on complete</div></div>`).join('')}</div>
+<div class="leaderboard" style="margin-top:24px;"><div class="lb-header">🏆 Leaderboard</div>
+<div class="lb-row"><span class="lb-rank gold">🥇</span><span class="lb-name">You (Bhoomi)</span><span class="lb-xp" id="your-xp">${xp} XP</span></div>
+<div class="lb-row"><span class="lb-rank silver">🥈</span><span class="lb-name">Priya S.</span><span class="lb-xp">7,200 XP</span></div>
+<div class="lb-row"><span class="lb-rank bronze">🥉</span><span class="lb-name">Rahul K.</span><span class="lb-xp">6,100 XP</span></div>
+</div>`;
+}
+
+function buildGenericGame(title) {
+  const g = {icon:'🎮',title:`${title} Mastery`,desc:'Complete challenges to earn badges and XP',badges:['🔰 Beginner','⭐ Practitioner','🏅 Expert','🏆 Master'],challenges:[{icon:'📖',title:'Read Theory',desc:'Study the theory section',xp:60},{icon:'🌍',title:'Find Examples',desc:'Find 3 real-world examples',xp:80},{icon:'📊',title:'Draw Flowchart',desc:'Recreate main flowchart from memory',xp:100},{icon:'⚡',title:'MCQ Blitz',desc:'Answer all MCQs with 12+ correct',xp:150}]};
+  return buildGame(null, g);
+}
+
+function buildProject(p) {
+  return `<div class="proj-header"><div class="proj-title">💻 ${p.title} <span class="proj-badge">${p.badge}</span></div><div class="proj-desc">${p.desc}</div><div class="proj-meta">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div></div>
+<h4 style="color:var(--cy);font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;">📋 Step-by-Step Guide</h4>
+<div class="step-list">${p.steps.map(s=>`<div class="step"><div class="step-content"><div class="step-title">${s.title}</div><div class="step-desc">${s.desc}</div></div></div>`).join('')}</div>
+<h4 style="color:var(--cy);font-size:.8rem;text-transform:uppercase;margin-top:24px;margin-bottom:12px;">💾 Starter Code</h4>
+<div class="cb">${p.code}</div>`;
+}
+
+function buildGenericProject(title) {
+  return buildProject({title:`Apply ${title}`,badge:'Hands-On',desc:`Build a practical implementation demonstrating ${title}.`,tags:['Python','AI Agents','Hands-On'],steps:[{title:'Define scope',desc:`Choose a specific aspect of ${title} to implement`},{title:'Setup environment',desc:'pip install openai or relevant framework'},{title:'Implement core logic',desc:'Follow patterns from the theory section'},{title:'Test with real inputs',desc:'Test with realistic inputs and edge cases'},{title:'Add observability',desc:'Add logging/metrics for production readiness'}],code:`<span class="ck">class</span> <span class="cv">Handler</span>:
+    <span class="ck">def</span> <span class="cv">run</span>(self, task: dict) -> dict:
+        <span class="cm"># TODO: implement ${title}</span>
+        <span class="ck">return</span> {<span class="cs">"status"</span>: <span class="cs">"success"</span>, <span class="cs">"result"</span>: task}
+
+result = Handler().run({<span class="cs">"task"</span>: <span class="cs">"your task"</span>})`});
+}
+
+// ═══════════════════════════════════
+// TOPIC-SPECIFIC THEORY
+// ═══════════════════════════════════
+function getTopicTheory(id, title) {
+  const theories = {
+    t2:`<div class="card"><h3>⚖️ Agent vs Chatbot vs Automation</h3><table><tr><th>Dimension</th><th>🤖 Chatbot</th><th>⚙️ Automation</th><th>🧠 Agent</th></tr><tr><td>Decision Logic</td><td>Pattern / LLM text</td><td>Hardcoded rules</td><td>Reasoning + Planning</td></tr><tr><td>Goal</td><td>Answer questions</td><td>Execute defined tasks</td><td>Achieve complex goals</td></tr><tr><td>Tool Use</td><td>None or minimal</td><td>Fixed predefined</td><td>Dynamic selection</td></tr><tr><td>Handles Unknown</td><td>Responds w/ uncertainty</td><td>Fails/errors</td><td>Reasons and adapts</td></tr></table><div class="box b-cy"><h5>💡 When to Use Each</h5><p><strong>Chatbot</strong>: FAQ, conversational tasks<br><strong>Automation</strong>: Repetitive, predictable workflows<br><strong>Agent</strong>: Dynamic, multi-step, real-world tool use</p></div></div>`,
+    t3:`<div class="card"><h3>🔬 6 Core Agent Components</h3><table><tr><th>Component</th><th>Analogy</th><th>Tech</th></tr><tr><td>Perception</td><td>Eyes &amp; Ears</td><td>Input parsers, webhooks</td></tr><tr><td>Memory</td><td>Working/Long-term</td><td>Redis, Pinecone, messages[]</td></tr><tr><td>Reasoning Engine</td><td>Brain</td><td>GPT-4, Claude, Gemini</td></tr><tr><td>Tool Registry</td><td>Hands &amp; Tools</td><td>JSON tool definitions</td></tr><tr><td>Action Executor</td><td>Muscles</td><td>Function calls, API calls</td></tr><tr><td>Output Generator</td><td>Voice &amp; Mouth</td><td>Response formatter</td></tr></table><div class="cb"><span class="ck">class</span> <span class="cv">AIAgent</span>:
+    <span class="ck">def</span> <span class="cv">perceive</span>(self, inp): self.memory.append({<span class="cs">"role"</span>: <span class="cs">"user"</span>, <span class="cs">"content"</span>: inp})
+    <span class="ck">def</span> <span class="cv">reason</span>(self): <span class="ck">return</span> llm.call(self.memory, tools=self.get_schemas())
+    <span class="ck">def</span> <span class="cv">act</span>(self, tool, args): <span class="ck">return</span> self.registry[tool](**args)
+    <span class="ck">def</span> <span class="cv">reflect</span>(self, tool, result): self.memory.append({<span class="cs">"tool"</span>: tool, <span class="cs">"result"</span>: result})</div></div>`,
+    t4:`<div class="card"><h3>🗂️ Types of AI Agents</h3><table><tr><th>Type</th><th>Memory</th><th>Planning</th><th>Example</th></tr><tr><td>Simple Reflex</td><td>None</td><td>None</td><td>Thermostat</td></tr><tr><td>Model-Based</td><td>Internal state</td><td>None</td><td>Robot vacuum</td></tr><tr><td>Goal-Based</td><td>State model</td><td>Goal achievement</td><td>Chess AI</td></tr><tr><td>Utility-Based</td><td>State model</td><td>Utility optimization</td><td>Recommendation engine</td></tr><tr><td>Learning Agent</td><td>Experience</td><td>Adaptive</td><td>GPT-4 agent</td></tr><tr><td>BDI Agent</td><td>Beliefs</td><td>Intentions</td><td>Autonomous vehicle</td></tr></table><div class="box b-vi"><h5>💡 Modern LLM Agents</h5><p>GPT-4/Claude-powered agents are <strong>Learning Agents</strong> with a <strong>Hybrid Architecture</strong> — using pre-trained knowledge as policy combined with reactive responses and deliberative planning.</p></div></div>`,
+    t5:`<div class="card"><h3>🔄 The Agent Loop</h3><div class="box b-vi"><h5>4-Phase Loop</h5><p><strong>1. OBSERVE</strong> → Gather environment state<br><strong>2. THINK</strong> → LLM reasons about next action<br><strong>3. ACT</strong> → Execute chosen tool/action<br><strong>4. REFLECT</strong> → Update memory with results</p></div><h4>ReAct Pattern</h4><p>ReAct interleaves reasoning and action — the agent writes thoughts before each action, creating a scratchpad that improves decision quality.</p><div class="cb"><span class="ck">def</span> <span class="cv">react_loop</span>(question):
+    history = []
+    <span class="ck">while True</span>:
+        thought = llm.think(question, history)
+        <span class="ck">if</span> thought.is_final: <span class="ck">return</span> thought.answer
+        obs = execute(thought.action)
+        history.append((thought.text, obs))</div></div>`,
+    t6:`<div class="card"><h3>🧠 LLM as the Agent Brain</h3><h4>What the LLM Does</h4><ul><li><strong>NLU</strong> — Parses user intent and context</li><li><strong>Reasoning</strong> — Chain-of-thought across steps</li><li><strong>Planning</strong> — Breaks complex goals into sub-tasks</li><li><strong>Tool Selection</strong> — Decides which tool + arguments</li><li><strong>Synthesis</strong> — Combines outputs into responses</li></ul><h4>LLM Limitations + Mitigations</h4><table><tr><th>Limitation</th><th>Mitigation</th></tr><tr><td>Hallucination</td><td>Tool-verified facts, RAG</td></tr><tr><td>Context limit</td><td>Compression, RAG</td></tr><tr><td>Outdated knowledge</td><td>Web search, real-time tools</td></tr><tr><td>Math errors</td><td>Code execution tool</td></tr><tr><td>No real actions</td><td>Tool calling</td></tr></table></div>`,
+    t7:`<div class="card"><h3>🔧 Tools & Tool Calling</h3><div class="box b-em"><h5>How Tool Calling Works</h5><p>1. LLM receives tool schemas (JSON Schema)<br>2. LLM decides to call a tool + provides args<br>3. Execution layer calls the actual function<br>4. Result returned to LLM as next context<br>5. LLM continues reasoning with result</p></div><h4>Tool Design Principles</h4><ul><li>Single Responsibility — one thing done well</li><li>Descriptive names — LLM uses description to choose</li><li>Structured return — JSON preferred over free text</li><li>Error handling — return structured errors</li></ul><div class="cb">{
+  <span class="cs">"name"</span>: <span class="cs">"search_products"</span>,
+  <span class="cs">"description"</span>: <span class="cs">"Search catalog by name or category. Returns list with prices."</span>,
+  <span class="cs">"parameters"</span>: {
+    <span class="cs">"query"</span>: {<span class="cs">"type"</span>: <span class="cs">"string"</span>},
+    <span class="cs">"limit"</span>: {<span class="cs">"type"</span>: <span class="cs">"integer"</span>, <span class="cs">"default"</span>: <span class="cv">10</span>}
+  }
+}</div></div>`,
+    t8:`<div class="card"><h3>💾 Memory Types</h3><table><tr><th>Type</th><th>Duration</th><th>Storage</th><th>Use Case</th></tr><tr><td>Working Memory</td><td>Single turn</td><td>Context window</td><td>Current step</td></tr><tr><td>Episodic Memory</td><td>Session</td><td>messages[] history</td><td>Multi-turn chat</td></tr><tr><td>Semantic Memory</td><td>Persistent</td><td>Vector DB</td><td>Knowledge base</td></tr><tr><td>Procedural Memory</td><td>Permanent</td><td>Model weights / system prompt</td><td>Skills, rules</td></tr></table><div class="box b-cy"><h5>🧠 Human Analogy</h5><p><strong>Working</strong> = Current thoughts<br><strong>Episodic</strong> = Recent conversation<br><strong>Semantic</strong> = Facts you know<br><strong>Procedural</strong> = How to ride a bike</p></div></div>`,
+    t9:`<div class="card"><h3>🗺️ Planning — ReAct, CoT, ToT</h3><table><tr><th>Strategy</th><th>Description</th><th>Best For</th><th>Cost</th></tr><tr><td>CoT</td><td>Think step-by-step before answering</td><td>Single-path reasoning</td><td>Low</td></tr><tr><td>ReAct</td><td>Reason + Act interleaved</td><td>Tool-using agents</td><td>Medium</td></tr><tr><td>ToT</td><td>Explore multiple reasoning branches</td><td>Complex planning</td><td>High</td></tr><tr><td>MCTS</td><td>Monte Carlo tree search</td><td>Game-like search</td><td>Very High</td></tr></table></div>`,
+    t10:`<div class="card"><h3>🎭 Agent Roles & Personas</h3><div class="box b-pk"><h5>Why Roles Matter</h5><p>An agent told "You are an expert financial analyst" reasons differently than one with no role. Roles activate relevant knowledge, set tone, and define behavioral limits.</p></div><h4>Role Template</h4><div class="cb">You are Alex, a senior DevOps engineer.
+You specialize in Kubernetes, CI/CD, and incident response.
+You communicate in clear, concise technical language.
+You ALWAYS provide actionable next steps.
+You NEVER give advice that could cause data loss without warning.</div></div>`,
+    t11:`<div class="card"><h3>🏗️ Single Agent Architecture</h3><h4>Patterns</h4><table><tr><th>Pattern</th><th>Description</th><th>Best For</th></tr><tr><td>ReAct Agent</td><td>Reason + Act loop</td><td>Tool-using tasks</td></tr><tr><td>Plan-and-Execute</td><td>Plan all steps then execute</td><td>Complex single goals</td></tr><tr><td>Reflexion</td><td>Self-critique and retry</td><td>Quality-sensitive tasks</td></tr></table><div class="box b-em"><h5>Single Agent Limits</h5><p>Context window cap, sequential (no parallelism), single failure point, no specialization → motivates multi-agent systems.</p></div></div>`,
+    t12:`<div class="card"><h3>🕸️ Multi-Agent Systems</h3><div class="box b-vi"><h5>Why Multi-Agent?</h5><p><strong>Specialization</strong>, <strong>Parallelism</strong>, <strong>Scale beyond context window</strong>, <strong>Resilience</strong></p></div><h4>Topologies</h4><table><tr><th>Topology</th><th>Structure</th><th>Use Case</th></tr><tr><td>Hierarchical</td><td>Orchestrator → Workers</td><td>Complex projects</td></tr><tr><td>Peer-to-Peer</td><td>Agents communicate directly</td><td>Collaborative</td></tr><tr><td>Pipeline</td><td>Agent → Agent → Agent</td><td>Sequential processing</td></tr></table></div>`,
+    t13:`<div class="card"><h3>🎯 Orchestrator vs Sub-Agent</h3><div class="box b-cy"><h5>The Pattern</h5><p><strong>Orchestrator</strong>: Goal → Plan → Delegate → Aggregate → Respond<br><strong>Sub-Agents</strong>: Receive sub-task → Execute with specialized tools → Return results</p></div><div class="cb"><span class="ck">class</span> <span class="cv">Orchestrator</span>:
+    sub_agents = {<span class="cs">"research"</span>: ResearchAgent(), <span class="cs">"writer"</span>: WriterAgent()}
+    <span class="ck">def</span> <span class="cv">run</span>(self, goal):
+        plan = self.plan(goal)
+        results = [self.sub_agents[s.agent].run(s.task) <span class="ck">for</span> s <span class="ck">in</span> plan]
+        <span class="ck">return</span> self.synthesize(results)</div></div>`,
+    t14:`<div class="card"><h3>📡 Agent Communication Protocols</h3><table><tr><th>Protocol</th><th>Purpose</th><th>Transport</th></tr><tr><td>A2A</td><td>Google's agent comm standard</td><td>HTTP/gRPC</td></tr><tr><td>MCP</td><td>Model Context Protocol</td><td>JSON-RPC 2.0</td></tr><tr><td>ACP</td><td>IBM enterprise standard</td><td>REST</td></tr></table></div>`,
+    t15:`<div class="card"><h3>📚 RAG-Powered Agents</h3><h4>RAG Architecture</h4><ul><li>Knowledge Base → documents</li><li>Embedding Model → vectors</li><li>Vector DB (Pinecone, Chroma) → search</li><li>Retriever Tool → agent calls this</li></ul><div class="box b-cy"><h5>RAG vs Fine-tuning</h5><p><strong>RAG</strong>: Dynamic, updatable, cites sources, private data<br><strong>Fine-tuning</strong>: Baked in, fast, not updatable, expensive</p></div></div>`,
+    t16:`<div class="card"><h3>📊 Agent State Management</h3><table><tr><th>State Type</th><th>Storage</th><th>Use Case</th></tr><tr><td>In-Context</td><td>messages[] array</td><td>Short sessions</td></tr><tr><td>External KV</td><td>Redis</td><td>Multi-session, fast</td></tr><tr><td>Database</td><td>PostgreSQL</td><td>Persistent, auditable</td></tr><tr><td>Vector Store</td><td>Pinecone</td><td>Semantic retrieval</td></tr></table></div>`,
+    t17:`<div class="card"><h3>📏 Context Window Management</h3><div class="box b-am"><h5>Token Budget (128K)</h5><p>System prompt: 2K (1.5%) | Tools: 3K (2.3%) | Retrieved: 30K (23%) | History: 50K (39%) | Buffer: 43K (33%)</p></div><h4>Compression Strategies</h4><ul><li>Summarization of old messages</li><li>Pruning irrelevant tool outputs</li><li>Sliding window (last N messages)</li><li>Selective memory retrieval</li></ul></div>`,
+    t18:`<div class="card"><h3>📚 Tool Registry & Discovery</h3><div class="cb"><span class="ck">class</span> <span class="cv">ToolRegistry</span>:
+    <span class="ck">def</span> <span class="cv">register</span>(self, tool): self.tools[tool.name] = tool
+    <span class="ck">def</span> <span class="cv">schemas</span>(self): <span class="ck">return</span> [t.schema <span class="ck">for</span> t <span class="ck">in</span> self.tools.values()]
+    <span class="ck">def</span> <span class="cv">execute</span>(self, name, args): <span class="ck">return</span> self.tools[name].run(**args)</div><h4>Registry Features</h4><ul><li>Registration with schema</li><li>Discovery by capability</li><li>Versioning support</li><li>Access control per agent</li></ul></div>`,
+    t19:`<div class="card"><h3>👥 Human-in-the-Loop</h3><table><tr><th>Pattern</th><th>When</th><th>Example</th></tr><tr><td>Approve-before-execute</td><td>Irreversible actions</td><td>Delete records</td></tr><tr><td>Interrupt-on-uncertainty</td><td>Low confidence</td><td>Ambiguous intent</td></tr><tr><td>Review-on-completion</td><td>Quality assurance</td><td>Generated reports</td></tr><tr><td>Sample-and-review</td><td>Scale + quality</td><td>5% of emails</td></tr></table></div>`,
+    t20:`<div class="card"><h3>🔒 Agent Sandboxing & Security</h3><h4>Threat Model</h4><ul><li><strong>Prompt Injection</strong> — Malicious input overrides instructions</li><li><strong>Tool Abuse</strong> — Destructive tool calls</li><li><strong>Data Leakage</strong> — Sensitive data via tools</li><li><strong>Runaway Costs</strong> — Loop drains API budget</li></ul><h4>Security Controls</h4><ul><li>Tool permission scoping (read-only default)</li><li>Sandboxed code execution (Docker)</li><li>Rate limiting and budget caps</li><li>Input/output sanitization</li><li>Audit logging for all tool calls</li></ul></div>`,
+    t22:`<div class="card"><h3>📐 3 Pillars: Traces, Metrics, Logs</h3><table><tr><th>Pillar</th><th>Answers</th><th>Agent Example</th></tr><tr><td>Traces</td><td>What happened in this session?</td><td>Full 8-step reasoning trace</td></tr><tr><td>Metrics</td><td>How is the system performing?</td><td>P99 latency: 8s</td></tr><tr><td>Logs</td><td>What happened at 3:47pm?</td><td>tool_call: search_web failed</td></tr></table></div>`,
+    t23:`<div class="card"><h3>🔍 Agent Tracing</h3><div class="box b-vi"><h5>Complete Trace Contains</h5><p>trace_id, user_input, each reasoning step (tokens, latency), each tool call (args, result, latency), errors, final output, total cost + duration</p></div><h4>Tracing Approaches</h4><ul><li>SDK: LangSmith, Langfuse, AgentOps</li><li>Middleware: intercept at LLM client level</li><li>Manual: explicit span.add() calls</li><li>OpenTelemetry: industry standard</li></ul></div>`,
+    t24:`<div class="card"><h3>📦 Span & Trace Structure</h3><div class="box b-cy"><h5>Trace → Span Hierarchy</h5><p>Trace: session_abc<br>├── Span: agent_start (10ms)<br>├── Span: llm_reasoning (900ms)<br>├── Span: tool_call_search (340ms)<br>└── Span: format_output (50ms)</p></div><h4>Required Span Attributes</h4><ul><li>span_id, trace_id, parent_span_id</li><li>operation_name, start_time, duration_ms</li><li>llm.model, llm.input_tokens, llm.output_tokens</li><li>tool.name, tool.input, tool.output</li></ul></div>`,
+    t25:`<div class="card"><h3>📊 LLM-Specific Metrics</h3><table><tr><th>Metric</th><th>Formula</th><th>Why It Matters</th></tr><tr><td>Token Usage</td><td>input + output tokens</td><td>Direct cost driver</td></tr><tr><td>Cost/Session</td><td>tokens × price</td><td>Business viability</td></tr><tr><td>TTFT</td><td>ms to first token</td><td>Perceived latency</td></tr><tr><td>Tool Call Rate</td><td>calls/steps</td><td>Agent behavior</td></tr><tr><td>Hallucination Rate</td><td>% flagged outputs</td><td>Quality tracking</td></tr></table></div>`,
+    t26:`<div class="card"><h3>🔧 Tool Call Observability</h3><h4>Track Per Tool Call</h4><ul><li>Tool name + version</li><li>Input arguments (sanitized)</li><li>Response (truncated)</li><li>Latency, success/failure, retry count</li></ul><div class="box b-em"><h5>Tool Health Dashboard</h5><p>Monitor per tool: P95 latency, error rate, timeout rate, call frequency. Alert when error rate > 5%.</p></div></div>`,
+    t27:`<div class="card"><h3>💾 Memory Observability</h3><h4>Memory Metrics</h4><ul><li>Memory utilization (% context used)</li><li>Retrieval accuracy</li><li>Memory hit rate</li><li>Memory staleness (age distribution)</li><li>Write frequency</li></ul></div>`,
+    t28:`<div class="card"><h3>💥 Agent Failure Modes</h3><table><tr><th>#</th><th>Failure</th><th>Detection</th></tr><tr><td>1</td><td>Hallucination</td><td>Fact checking</td></tr><tr><td>2</td><td>Infinite Loop</td><td>Tool call frequency</td></tr><tr><td>3</td><td>Goal Drift</td><td>Goal verification</td></tr><tr><td>4</td><td>Tool Misuse</td><td>Tool call audit</td></tr><tr><td>5</td><td>Context Overflow</td><td>Token monitoring</td></tr><tr><td>6</td><td>Prompt Injection</td><td>Input sanitization</td></tr><tr><td>7</td><td>Early Termination</td><td>Completion validation</td></tr><tr><td>8</td><td>Resource Exhaustion</td><td>Budget/rate monitoring</td></tr></table></div>`,
+    t29:`<div class="card"><h3>🔮 Hallucination Detection</h3><h4>Detection Approaches</h4><ul><li><strong>Retrieval Grounding</strong> — Verify claims against documents</li><li><strong>Self-Consistency</strong> — Run same query multiple times</li><li><strong>LLM-as-Judge</strong> — Separate LLM evaluates facts</li><li><strong>Confidence Scoring</strong> — Flag low-confidence outputs</li></ul><div class="box b-ro"><h5>⚠️ Hallucination Spectrum</h5><p>Ranges from <strong>benign</strong> (wrong dates) to <strong>catastrophic</strong> (wrong medical dosage). Detection thresholds should reflect downstream impact severity.</p></div></div>`,
+    t30:`<div class="card"><h3>📉 Prompt Drift Detection</h3><h4>What Causes Drift</h4><ul><li>System prompt edits (even small wording changes)</li><li>Model updates (GPT-4 → GPT-4o)</li><li>Tool schema changes</li><li>Temperature parameter changes</li></ul><h4>Detection Methods</h4><ul><li>A/B Testing on traffic</li><li>Behavioral metrics tracking</li><li>Canary deployment (1% traffic)</li><li>Regression test suite</li><li>Semantic similarity of outputs</li></ul></div>`,
+    t31:`<div class="card"><h3>📏 Agent Benchmarking</h3><table><tr><th>Dimension</th><th>Metric</th><th>Target</th></tr><tr><td>Success Rate</td><td>% completed correctly</td><td>&gt; 85%</td></tr><tr><td>Latency</td><td>P95 response</td><td>&lt; 10s</td></tr><tr><td>Cost/Task</td><td>$ per success</td><td>&lt; $0.05</td></tr><tr><td>Hallucination</td><td>% wrong outputs</td><td>&lt; 2%</td></tr></table></div>`,
+    t32:`<div class="card"><h3>⭐ Feedback Loops & Ratings</h3><h4>Collection Methods</h4><ul><li>Thumbs up/down (high volume)</li><li>Star ratings 1-5 (nuanced)</li><li>Correction interface (user provides right answer)</li><li>Task completion survey</li><li>Session replay review by annotators</li></ul><div class="box b-cy"><h5>The Feedback Loop</h5><p>Collect → Identify low-rated sessions → Trace the path → Find failure point → Fix → Measure improvement</p></div></div>`,
+    t33:`<div class="card"><h3>🚨 Alerting & Anomaly Detection</h3><table><tr><th>Alert</th><th>Trigger</th><th>Severity</th></tr><tr><td>Loop Detection</td><td>Same tool 5x in a row</td><td>High</td></tr><tr><td>Budget Alert</td><td>Session cost &gt; $1.00</td><td>High</td></tr><tr><td>Tool Failure</td><td>Error rate &gt; 10%</td><td>High</td></tr><tr><td>Hallucination</td><td>Fails fact check</td><td>Critical</td></tr><tr><td>Volume Anomaly</td><td>3σ above baseline</td><td>Medium</td></tr></table></div>`,
+    t34:`<div class="card"><h3>💰 Cost Monitoring & Guardrails</h3><table><tr><th>Component</th><th>Cost Driver</th><th>Optimization</th></tr><tr><td>LLM Calls</td><td>Input + output tokens</td><td>Prompt compression, caching</td></tr><tr><td>Tool API Calls</td><td>Per-call pricing</td><td>Batching, caching</td></tr><tr><td>Vector DB</td><td>Per-query</td><td>Filter before semantic search</td></tr></table><div class="box b-ro"><h5>🛡️ Budget Guardrail Levels</h5><p>Session: max $0.10 | User: max $5.00/day | System: max $500/day</p></div></div>`,
+    t35:`<div class="card"><h3>📋 Compliance & Audit Logging</h3><table><tr><th>Industry</th><th>Regulation</th><th>Requirement</th></tr><tr><td>Finance</td><td>SOX, FINRA</td><td>7-year audit trail</td></tr><tr><td>Healthcare</td><td>HIPAA</td><td>PHI access logging</td></tr><tr><td>EU</td><td>GDPR</td><td>Data processing records</td></tr><tr><td>AI Systems</td><td>EU AI Act</td><td>High-risk documentation</td></tr></table><h4>Requirements</h4><ul><li>Immutable (write-once) storage</li><li>User identity on every event</li><li>Full input/output with PII masking</li><li>Model version at execution time</li></ul></div>`,
+    t36:`<div class="card"><h3>🔬 LangSmith</h3><div class="box b-vi"><h5>Key Features</h5><p>Auto trace capture for LangChain, dataset management, LLM-as-Judge evaluations, human annotation, prompt hub with versioning, cost tracking</p></div><div class="cb">export LANGCHAIN_TRACING_V2=true
+export LANGCHAIN_API_KEY=<span class="cs">"ls__your_key"</span>
+<span class="cm"># All LangChain runs auto-traced!</span></div></div>`,
+    t37:`<div class="card"><h3>🌿 Langfuse — Open Source</h3><div class="box b-em"><h5>Why Langfuse?</h5><p>Open-source (MIT), framework-agnostic, full-featured: traces, metrics, experiments, evals, 3,500+ GitHub stars</p></div><div class="cb"><span class="ck">from</span> langfuse.openai <span class="ck">import</span> openai
+<span class="cm"># Drop-in replacement — all calls auto-traced!</span>
+client = openai.OpenAI()</div></div>`,
+    t38:`<div class="card"><h3>🔭 OpenTelemetry for Agents</h3><div class="box b-cy"><h5>Why OTel?</h5><p>Vendor-neutral, standardized spans, works with Jaeger/Grafana/Datadog. OpenLLMetry extends OTel with LLM-specific semantics.</p></div><div class="cb"><span class="ck">from</span> traceloop.sdk <span class="ck">import</span> Traceloop
+Traceloop.init(app_name=<span class="cs">"my-agent"</span>)
+<span class="cm"># All LLM calls automatically instrumented!</span></div></div>`,
+    t39:`<div class="card"><h3>🦅 Arize AI / Phoenix</h3><div class="box b-am"><h5>Phoenix (Open Source)</h5><p><code>pip install arize-phoenix</code>. Features: trace visualization, embedding analysis, evaluation framework. Run locally, zero cloud dependency.</p></div><h4>Arize AI Strengths</h4><ul><li>LLM-specific: hallucination, toxicity monitoring</li><li>Embeddings visualization</li><li>A/B testing for LLM changes</li><li>Enterprise: SSO, RBAC</li></ul></div>`,
+    t40:`<div class="card"><h3>🎯 Helicone — LLM Proxy</h3><div class="box b-pk"><h5>Zero-Code Instrumentation</h5><p>Change one URL in your OpenAI client. Every LLM call automatically traced, costed, and stored. No code changes to your agent.</p></div><div class="cb">client = openai.OpenAI(
+    api_key=<span class="cs">"sk-..."</span>,
+    base_url=<span class="cs">"https://oai.helicone.ai/v1"</span>,
+    default_headers={<span class="cs">"Helicone-Auth"</span>: <span class="cs">"Bearer hc-key"</span>}
+)</div></div>`,
+    t41:`<div class="card"><h3>⚡ AgentOps SDK</h3><div class="box b-vi"><h5>Agent-First Features</h5><p>Agent session tracking (not just LLM calls), tool cost attribution, multi-agent correlation, replay viewer, native CrewAI/AutoGen/LangChain support</p></div><div class="cb">agentops.init(<span class="cs">"your-api-key"</span>)
+<span class="ck">with</span> agentops.start_session() <span class="ck">as</span> session:
+    result = my_agent.run(<span class="cs">"task"</span>)
+    session.end(end_state=<span class="cs">"Success"</span>)</div></div>`,
+    t42:`<div class="card"><h3>🔧 Custom Observability Middleware</h3><h4>When to Build Custom</h4><ul><li>Proprietary data formats</li><li>Privacy (data can't leave infrastructure)</li><li>Cost at scale</li><li>Existing internal observability stack</li></ul><div class="cb"><span class="ck">class</span> <span class="cv">ObsMiddleware</span>:
+    <span class="ck">def __init__</span>(self, client, backend):
+        self.client = client; self.backend = backend
+    <span class="ck">def</span> <span class="cv">chat</span>(self, **kw):
+        start = time.time()
+        resp = self.client.chat(**kw)
+        self.backend.record(kw, resp, time.time()-start)
+        <span class="ck">return</span> resp</div></div>`,
+    t44:`<div class="card"><h3>🏗️ Watcher Architecture Design</h3><h4>Design Principles</h4><ul><li><strong>Non-blocking</strong> — Watcher must not slow monitored agents</li><li><strong>Resilient</strong> — Watcher failure shouldn't stop agents</li><li><strong>Configurable</strong> — Rules changeable without code deploy</li><li><strong>Observable</strong> — Watcher itself needs monitoring</li></ul><table><tr><th>Decision</th><th>Option A</th><th>Option B</th></tr><tr><td>Coupling</td><td>Inline (blocks)</td><td>Async (fire-and-forget)</td></tr><tr><td>State</td><td>In-memory (fast)</td><td>Redis (scalable)</td></tr><tr><td>Rules</td><td>Code (type-safe)</td><td>Config YAML (dynamic)</td></tr></table></div>`,
+    t45:`<div class="card"><h3>📡 Real-time Activity Monitoring</h3><div class="box b-vi"><h5>Event Streaming Architecture</h5><p>Agents emit events → Redis Streams → Consumer workers → WebSocket push → Dashboard. Target end-to-end latency: &lt; 200ms</p></div><h4>Event Types to Stream</h4><ul><li>agent.started / agent.completed / agent.failed</li><li>llm.reasoning (with token counts)</li><li>tool.call.started / tool.call.completed / tool.call.failed</li><li>watcher.alert / watcher.intervention</li></ul></div>`,
+    t46:`<div class="card"><h3>🔌 Intercepting Tool Calls</h3><div class="box b-cy"><h5>WatcherProxy Pattern</h5><p>Agent calls WatcherProxy → evaluates policy → ALLOW: forwards to real tool → BLOCK: returns error to agent. The agent doesn't know it's being watched.</p></div><div class="cb"><span class="ck">class</span> <span class="cv">WatcherProxy</span>:
+    <span class="ck">def</span> <span class="cv">execute</span>(self, tool, args, agent_id):
+        decision = self.watcher.evaluate(tool, args, agent_id)
+        <span class="ck">if</span> decision[<span class="cs">"action"</span>] == <span class="cs">"BLOCK"</span>:
+            <span class="ck">raise</span> ToolBlockedError(decision[<span class="cs">"reason"</span>])
+        result = self.registry.execute(tool, args)
+        self.watcher.record(tool, result, agent_id)
+        <span class="ck">return</span> result</div></div>`,
+    t47:`<div class="card"><h3>📊 Agent Health Dashboard</h3><h4>Components</h4><ul><li><strong>Agent Grid</strong> — Card per agent: status, task, budget, steps</li><li><strong>Live Feed</strong> — Scrolling stream of events</li><li><strong>Alert Panel</strong> — Active alerts with one-click ack</li><li><strong>Metrics Overview</strong> — Aggregate stats</li><li><strong>Trace Explorer</strong> — Click agent to see full trace</li></ul><div class="box b-em"><h5>Real-time Stack</h5><p>FastAPI WebSocket → broadcasts events → JS updates DOM without reload → agents visible within 100ms</p></div></div>`,
+    t48:`<div class="card"><h3>🚨 Alerting — When Agents Go Rogue</h3><table><tr><th>Alert Type</th><th>Severity</th><th>Route To</th><th>SLA</th></tr><tr><td>Budget exceeded</td><td>High</td><td>Engineering + Finance</td><td>15 min</td></tr><tr><td>Agent loop</td><td>High</td><td>Engineering</td><td>10 min</td></tr><tr><td>Tool failure spike</td><td>High</td><td>Engineering</td><td>10 min</td></tr><tr><td>Hallucination</td><td>Critical</td><td>All + CISO</td><td>5 min</td></tr></table></div>`,
+    t49:`<div class="card"><h3>♻️ Self-Healing Agents</h3><h4>Recovery Patterns</h4><ul><li><strong>Retry with Backoff</strong> — Exponential backoff on tool failures</li><li><strong>Tool Fallback</strong> — Try alternative (Bing if Google fails)</li><li><strong>Context Reset</strong> — Clear context and restart with summary</li><li><strong>Goal Decomposition</strong> — Break main goal into sub-goals</li><li><strong>Model Escalation</strong> — Try more capable model if current fails</li></ul></div>`,
+    t50:`<div class="card"><h3>🚀 Deploying Watcher in Production</h3><h4>Production Checklist</h4><ul><li>✅ High availability (2+ instances, load balanced)</li><li>✅ Redis cluster (not single-node)</li><li>✅ Database read replicas</li><li>✅ Health check endpoints</li><li>✅ Secrets management</li><li>✅ Network policies</li><li>✅ Rate limiting on event API</li><li>✅ The Watcher itself is observed</li></ul><div class="box b-ro"><h5>⚠️ Anti-Pattern</h5><p>Never make the Watcher a single point of failure. Watcher down = agents continue (fail-open), not fail because Watcher is unavailable.</p></div></div>`
+  };
+  return theories[id] || `<div class="card"><h3>📚 ${title}</h3><p>This topic covers <strong>${title}</strong> in depth — a core concept for building production-grade AI agents.</p><div class="box b-vi"><h5>💡 Key Concept</h5><p>${title} is essential knowledge for any AI engineer working with agents at scale. Mastering this enables you to build more reliable, observable, and maintainable agent systems.</p></div><ul><li>Deep understanding of ${title} fundamentals</li><li>Real-world application patterns</li><li>Common pitfalls and avoidance strategies</li><li>Practical implementation examples</li></ul></div>`;
+}
+
+function getGenericMCQs(title) {
+  return [
+    {q:`What is the primary purpose of ${title}?`,opts:["A. Improve training","B. Enable reliable, observable agent behavior","C. Reduce hardware costs","D. Simplify UI"],ans:1,exp:`${title} is fundamental for building production-grade AI agents.`},
+    {q:`Which scenario requires ${title} the most?`,opts:["A. Single API responses","B. Complex multi-step autonomous tasks","C. Static website generation","D. Database backup"],ans:1,exp:`Multi-step autonomous tasks expose the complexity that ${title} addresses.`},
+    {q:`${title} aligns with which engineering principle?`,opts:["A. DRY","B. Observability and Reliability Engineering","C. Code formatting","D. Package management"],ans:1,exp:`The concepts align with modern reliability engineering for AI systems.`},
+    {q:`Most critical production factor for ${title}?`,opts:["A. Response format","B. Dashboard color","C. Reliability, scalability, failure handling","D. Language choice"],ans:2,exp:`Production systems prioritize scale, failure handling, and non-functional requirements.`},
+    {q:`Unexpected ${title} results should be handled by:`,opts:["A. Ignoring","B. Restarting system","C. Analyzing traces and logs for root cause","D. Disabling the feature"],ans:2,exp:`Systematic debugging using observability data is the correct approach.`},
+    {q:`How does ${title} contribute to cost optimization?`,opts:["A. No impact on costs","B. Identifies inefficiencies in tool usage and reasoning","C. Reduces features","D. Auto-selects cheaper models"],ans:1,exp:`Observability reveals cost patterns — unnecessary tool calls, context bloat — for optimization.`},
+    {q:`${title} primarily benefits:`,opts:["A. Only DevOps","B. All roles: engineers, PMs, operators","C. Only data scientists","D. Only executives"],ans:1,exp:`Good observability benefits the entire team.`},
+    {q:`'Happy path' means:`,opts:["A. Most common failure","B. Expected successful execution flow","C. Cheapest path","D. Fastest path"],ans:1,exp:`The happy path is the expected successful flow — deviations indicate problems.`},
+    {q:`Not relevant to ${title}:`,opts:["A. Latency per step","B. Font size of output","C. Token cost","D. Tool success rate"],ans:1,exp:`UI presentation concerns are not agent observability metrics.`},
+    {q:`'Instrumentation' in ${title} means:`,opts:["A. Adding music","B. Adding code to capture telemetry during execution","C. Installing hardware","D. Documenting code"],ans:1,exp:`Instrumentation adds measurement code — logging, tracing, metrics.`},
+    {q:`${title} becomes more important as systems:`,opts:["A. Become simpler","B. Scale to more users and complex tasks","C. Use fewer tools","D. Generate shorter responses"],ans:1,exp:`Scale amplifies the need for observability — problems hidden at small scale become critical at large scale.`},
+    {q:`A 'baseline' in ${title} is used to:`,opts:["A. Set minimum quality","B. Establish normal behavior to detect anomalies","C. Define maximum cost","D. List tools"],ans:1,exp:`A behavioral baseline enables anomaly detection.`},
+    {q:`Standard format for ${title} events:`,opts:["A. XML","B. CSV","C. Structured JSON","D. Plain text"],ans:2,exp:`Structured JSON is machine-readable, queryable, and flexible.`},
+    {q:`'Cardinality' is a concern because:`,opts:["A. Affects font size","B. High-cardinality dimensions cause metrics storage to explode","C. Determines speed","D. Controls tool selection"],ans:1,exp:`High-cardinality fields (billions of unique user IDs) create storage problems in metrics systems.`},
+    {q:`Ultimate goal of ${title}:`,opts:["A. Generate revenue","B. Enable continuous improvement of agent reliability and quality","C. Replace human operators","D. Eliminate all errors"],ans:1,exp:`Observability enables the feedback loop for continuous improvement.`}
+  ];
+}
+
+// ═══════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════
+function switchTab(id, idx) {
+  const pane = document.getElementById('pane-'+id);
+  if (!pane) return;
+  pane.querySelectorAll('.sec-tab').forEach((t,i) => t.classList.toggle('on', i===idx));
+  for (let i=0; i<6; i++) {
+    const p = document.getElementById(`panel-${id}-${i}`);
+    if (p) p.classList.toggle('on', i===idx);
+  }
+}
+
+// ═══════════════════════════════════
+// MCQ ANSWERING
+// ═══════════════════════════════════
+function answer(topicId, qi, oi, correct, total) {
+  const box = document.getElementById(`mcq-${topicId}-${qi}`);
+  if (!box || box.classList.contains('ans-c') || box.classList.contains('ans-w')) return;
+
+  const allOpts = box.querySelectorAll('.mcq-o');
+  allOpts.forEach(o => o.classList.add('dis'));
+
+  const isCorrect = oi === correct;
+  box.classList.add(isCorrect ? 'ans-c' : 'ans-w');
+  allOpts[oi].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) allOpts[correct].classList.add('reveal');
+
+  document.getElementById(`dot-${topicId}-${qi}`)?.classList.add(isCorrect ? 'ans-c' : 'ans-w');
+  document.getElementById(`exp-${topicId}-${qi}`)?.classList.add('show');
+
+  if (!mcqState[topicId]) mcqState[topicId] = {answers: {}, score: 0};
+  if (!mcqState[topicId].answers[qi]) {
+    mcqState[topicId].answers[qi] = isCorrect;
+    if (isCorrect) { mcqState[topicId].score++; earnXP(10, 'Correct!', true); }
+  }
+
+  const score = mcqState[topicId].score;
+  document.getElementById(`score-${topicId}`).textContent = `Score: ${score} / ${total}`;
+
+  if (Object.keys(mcqState[topicId].answers).length === total && !completedTopics.has(topicId)) {
+    completedTopics.add(topicId);
+    document.getElementById('nav-'+topicId)?.classList.add('done');
+    earnXP(50, 'Topic Complete!');
+    showModal(`MCQs done! Score: ${score}/${total}. Topic marked complete!`);
+    updateProgress();
+  }
+}
+
+// ═══════════════════════════════════
+// XP SYSTEM
+// ═══════════════════════════════════
+function earnXP(amount, reason, silent=false) {
+  xp += amount;
+  document.getElementById('xpVal').textContent = xp.toLocaleString();
+  document.getElementById('xpBar').style.width = Math.min((xp/10000)*100,100) + '%';
+  document.querySelectorAll('#your-xp').forEach(el => el.textContent = xp.toLocaleString() + ' XP');
+  if (!silent) showToast(`+${amount} XP — ${reason}`);
+  updateProgress();
+}
+
+let toastT;
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'toast';
+    t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:linear-gradient(135deg,#7c5cfc,#00e5ff);color:#fff;padding:12px 22px;border-radius:99px;font-weight:800;font-size:.85rem;z-index:300;box-shadow:0 4px 20px rgba(124,92,252,.4);display:none;';
+    document.body.appendChild(t);
+  }
+  t.textContent = '⚡ ' + msg;
+  t.style.display = 'block';
+  clearTimeout(toastT);
+  toastT = setTimeout(() => t.style.display='none', 2500);
+}
+
+function updateProgress() {
+  const total = ALL_NAV.filter(n=>n.id!=='welcome').length;
+  document.getElementById('gBar').style.width = (completedTopics.size/total*100) + '%';
+}
+
+function showModal(msg) {
+  document.getElementById('modalMsg').textContent = msg;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+// ═══════════════════════════════════
+// SCROLL TO TOP
+// ═══════════════════════════════════
+function scrollToTop() {
+  document.querySelector('main').scrollTo({top:0, behavior:'smooth'});
+}
+
+// Show/hide scroll-to-top button
+document.querySelector('main').addEventListener('scroll', function() {
+  const btn = document.getElementById('scrollTop');
+  if (this.scrollTop > 300) btn.classList.add('visible');
+  else btn.classList.remove('visible');
+});
+
+// ═══════════════════════════════════
+// KEYBOARD NAVIGATION (Arrow keys)
+// ═══════════════════════════════════
+let currentTopicId = 'welcome';
+document.addEventListener('keydown', function(e) {
+  const navItems = ALL_NAV.filter(n => n.id !== 'welcome');
+  const idx = navItems.findIndex(n => n.id === currentTopicId);
+  if (e.key === 'ArrowRight' && idx < navItems.length - 1) {
+    showTopic(navItems[idx+1].id);
+  } else if (e.key === 'ArrowLeft' && idx > 0) {
+    showTopic(navItems[idx-1].id);
+  }
+});
+
+// ═══════════════════════════════════
+// INJECT PREV/NEXT INTO ALL PANES
+// ═══════════════════════════════════
+function appendPrevNext(div, id) {
+  const nav = document.createElement('div');
+  nav.innerHTML = buildPrevNextNav(id);
+  div.querySelector('.content-wrap, .topic-pane') ? div.appendChild(nav.firstChild) : div.appendChild(nav.firstChild);
+}
+
+// Override addPanel to inject prev/next after last panel
+const _origAddPanel = addPanel;
+function addPanelWithNav(parent, id, idx, active, html) {
+  const d = document.createElement('div');
+  d.className = 'sec-panel' + (active ? ' on' : '');
+  d.id = `panel-${id}-${idx}`;
+  // Append prev/next nav to every panel
+  d.innerHTML = html + buildPrevNextNav(id);
+  parent.appendChild(d);
+}
+
+// INIT
+buildNav();
+
+// Override addPanel globally after definition
+window.addPanel = addPanelWithNav;
+</script>
+</body>
+</html>
