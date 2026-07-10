@@ -16,3 +16,4 @@ livekit-plugins-silero
 litellm
 streamlit
 pandas
+aio-pika
