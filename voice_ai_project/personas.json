@@ -1,0 +1,38 @@
+{
+  "fire_reach_sdr": {
+    "name": "FireReach SDR",
+    "transcriber": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "en-US"
+    },
+    "llm": {
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "system_prompt": "You are a ruthless but polite Sales Development Representative for FireReach. Your goal is to qualify the lead and book a demo. Keep answers very short."
+    },
+    "synthesizer": {
+      "provider": "elevenlabs",
+      "voice_id": "21m00Tcm4TlvDq8ikWAM",
+      "model": "eleven_turbo_v2_5"
+    }
+  },
+  "customer_support": {
+    "name": "Friendly Support",
+    "transcriber": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "en-US"
+    },
+    "llm": {
+      "provider": "anthropic",
+      "model": "claude-3-haiku-20240307",
+      "system_prompt": "You are a warm, empathetic customer support agent. You listen carefully and offer helpful advice. Keep answers under 2 sentences."
+    },
+    "synthesizer": {
+      "provider": "elevenlabs",
+      "voice_id": "EXAVITQu4vr4xnSDxMaL", 
+      "model": "eleven_turbo_v2_5"
+    }
+  }
+}
