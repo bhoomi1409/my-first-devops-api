@@ -434,11 +434,41 @@ assistant.add_task(
         </section>
         
         <section id="next-steps">
-            <h2>What I can build with you next</h2>
+            <h2>Prerequisites & Getting Started</h2>
+            
+            <h3>1. System Requirements (macOS)</h3>
+            <p>Because we are dealing with raw audio, your Mac needs a specific audio library installed so Python can access your microphone and speakers.</p>
             <ul>
-                <li>Actual working code for any single phase (start with Phase 1's <code>bare_loop.py</code>)</li>
-                <li>A deeper technical breakdown of Bolna's <code>TaskManager</code> async queue architecture specifically</li>
-                <li>A cost model spreadsheet for FireAgent's projected outbound call volume add all tis</li>
+                <li><strong>Homebrew</strong> (Package manager for Mac)</li>
+                <li><strong>PortAudio:</strong> Install this by running <code>brew install portaudio</code> in your terminal. <em>(If you don't do this, the <code>pyaudio</code> Python package will fail to install).</em></li>
+            </ul>
+
+            <h3>2. Local Developer Tools</h3>
+            <ul>
+                <li><strong>Python 3.9 or higher</strong></li>
+                <li><strong>ngrok:</strong> A tunneling tool. When we build the Twilio phone number integration (Phase 5), Twilio needs to send data to your local laptop. ngrok creates a public URL for your local <code>localhost:8000</code> server. You can install it via <code>brew install ngrok</code>.</li>
+                <li><strong>Docker Desktop:</strong> Only required if you want to run the advanced RabbitMQ distributed demo.</li>
+            </ul>
+
+            <h3>3. API Keys & Accounts</h3>
+            <p>You will need to create free/trial accounts for the following services and add their keys to the <code>.env</code> file:</p>
+            <ul>
+                <li><strong>OpenAI:</strong> (<code>OPENAI_API_KEY</code>) For the <code>gpt-4o-mini</code> brain.</li>
+                <li><strong>Mistral:</strong> (<code>MISTRAL_API_KEY</code>) For alternative LLM brains.</li>
+                <li><strong>Deepgram:</strong> (<code>DEEPGRAM_API_KEY</code>) For ultra-fast streaming Speech-to-Text (and optionally their Aura Text-to-Speech). They offer $200 in free credits.</li>
+                <li><strong>ElevenLabs:</strong> (<code>ELEVENLABS_API_KEY</code>) For ultra-realistic Text-to-Speech cloning.</li>
+                <li><strong>Twilio:</strong> You will need to create an account and buy a single phone number (~$1/month) to test dialing in and out over regular phone lines.</li>
+                <li><strong>LiveKit Cloud:</strong> (<code>LIVEKIT_API_KEY</code>, <code>LIVEKIT_API_SECRET</code>, <code>LIVEKIT_URL</code>) Create a free project at <a href="https://cloud.livekit.io/">cloud.livekit.io</a> to power the WebRTC phase.</li>
+            </ul>
+        </section>
+        
+        <section id="further-reading">
+            <h2>Recommended Reading & Reference Material</h2>
+            <ul>
+                <li><a href="https://github.com/bolna-ai/bolna">Bolna Source Code</a> - Study their <code>TaskManager</code> to see how they manage async queues.</li>
+                <li><a href="https://docs.livekit.io/agents">LiveKit Agents SDK</a> - Learn about the shift from raw websockets to WebRTC.</li>
+                <li><a href="https://developers.deepgram.com/docs/getting-started-with-live-streaming-audio">Deepgram Streaming Docs</a> - Understand interim results and endpointing.</li>
+                <li><a href="https://platform.openai.com/docs/guides/function-calling">OpenAI Function Calling Guide</a> - Crucial for building "Second Brain" tool-calling agents.</li>
             </ul>
         </section>
     </div>
