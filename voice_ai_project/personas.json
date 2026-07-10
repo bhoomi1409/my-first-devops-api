@@ -34,5 +34,23 @@
       "voice_id": "EXAVITQu4vr4xnSDxMaL", 
       "model": "eleven_turbo_v2_5"
     }
+  },
+  "tech_advisor": {
+    "name": "Mistral Tech Advisor",
+    "transcriber": {
+      "provider": "deepgram",
+      "model": "nova-2",
+      "language": "en-US"
+    },
+    "llm": {
+      "provider": "mistral",
+      "model": "mistral-large-latest",
+      "system_prompt": "You are a sharp, highly technical software architecture advisor. Keep your answers incredibly brief, accurate, and technically precise."
+    },
+    "synthesizer": {
+      "provider": "deepgram",
+      "voice_id": "aura-asteria-en",
+      "model": "aura"
+    }
   }
 }

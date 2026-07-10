@@ -44,7 +44,7 @@ class Assistant:
         
         print(f"\n[{self.name}] Thinking... (Routing to {self.llm_model})")
         
-        # LiteLLM abstract call (works identically for OpenAI, Anthropic, Gemini, Azure, etc.)
+        # LiteLLM abstract call (works identically for OpenAI, Anthropic, Mistral, Gemini, Azure, etc.)
         response = await litellm.acompletion(
             model=self.llm_model,
             messages=self.message_history,
@@ -57,17 +57,19 @@ class Assistant:
         print(f"[{self.name}] Says: '{ai_text}'")
         
         # In a real app, you would now dynamically route to the self.tts_provider 
-        # using the self.tts_voice setting, rather than hardcoding ElevenLabs.
+        # using the self.tts_voice setting.
         return ai_text
 
 async def main():
     print("=== Phase 7: Config-Driven Orchestration (Bolna style) ===\n")
     
-    # Check for keys. LiteLLM automatically uses OPENAI_API_KEY, ANTHROPIC_API_KEY, etc. from env.
+    # Check for keys. LiteLLM automatically uses API keys from env.
     if not os.getenv("OPENAI_API_KEY"):
         print("⚠️ Warning: OPENAI_API_KEY missing.")
     if not os.getenv("ANTHROPIC_API_KEY"):
         print("⚠️ Warning: ANTHROPIC_API_KEY missing. (The Customer Support persona will fail unless you provide this).")
+    if not os.getenv("MISTRAL_API_KEY"):
+        print("⚠️ Warning: MISTRAL_API_KEY missing. (The Tech Advisor persona will fail).")
         
     print("1️⃣ Loading 'FireReach SDR' Persona...")
     sdr_agent = Assistant("fire_reach_sdr")
@@ -81,6 +83,15 @@ async def main():
         await support_agent.generate_response("My account is locked, can you help me?")
     except Exception as e:
         print(f"❌ Failed to run support agent: {e}")
+
+    print("\n-------------------------------------------------\n")
+
+    print("3️⃣ Loading 'Mistral Tech Advisor' Persona...")
+    tech_agent = Assistant("tech_advisor")
+    try:
+        await tech_agent.generate_response("Should I use websockets or WebRTC for a voice bot?")
+    except Exception as e:
+        print(f"❌ Failed to run tech agent: {e}")
 
 if __name__ == "__main__":
     asyncio.run(main())
