@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice AI Transcript Widget</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            padding: 15px; 
+            background: #f8fafc; 
+        }
+        h4 { margin-top: 0; color: #334155; border-bottom: 1px solid #e2e8f0; padding-bottom: 10px; }
+        .message { margin-bottom: 12px; padding: 10px 14px; border-radius: 8px; font-size: 14px; }
+        .ai { 
+            background: #e0f2fe; 
+            color: #0369a1; 
+            border-left: 4px solid #0ea5e9; 
+            margin-right: 20px;
+        }
+        .user { 
+            background: #dcfce7; 
+            color: #166534; 
+            border-left: 4px solid #22c55e; 
+            margin-left: 20px;
+        }
+        #live-interim { 
+            font-style: italic; 
+            color: #64748b; 
+            font-size: 13px;
+            padding-left: 10px;
+        }
+        /* A little CSS animation to simulate live typing */
+        @keyframes blink { 50% { opacity: 0; } }
+        .cursor { animation: blink 1s step-start infinite; }
+    </style>
+</head>
+<body>
+    <h4>🔴 Live Call Transcript</h4>
+    <div id="transcript-box">
+        <div class="message ai"><strong>🤖 AI:</strong> Hello! This is the FireReach AI Agent. How can I help you today?</div>
+        <div class="message user"><strong>👤 User:</strong> I'm trying to figure out how to embed this transcript into my CRM.</div>
+        <div class="message ai"><strong>🤖 AI:</strong> That's easy! You can use an HTML iframe to display this exact widget inside Salesforce or HubSpot.</div>
+        
+        <!-- Simulating the Deepgram interim WebSocket result -->
+        <div id="live-interim">
+            <strong>👤 User Speaking:</strong> Wait, so an iframe just creates a window<span class="cursor">|</span>
+        </div>
+    </div>
+</body>
+</html>
