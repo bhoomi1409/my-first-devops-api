@@ -1,0 +1,172 @@
+import os
+
+def generate_guide():
+    html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice AI: Using iFrames & Transcripts</title>
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --gradient-start: #3b82f6;
+            --gradient-end: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--text-main);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p, li {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background-color: #000;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            color: #10b981;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .card {
+            background-color: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .highlight {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Voice AI: iFrames & Transcripts</h1>
+            <p>How to seamlessly integrate Voice AI data into existing web applications</p>
+        </header>
+
+        <section class="card">
+            <h2>1. What is an iFrame?</h2>
+            <p>An <strong>iFrame</strong> (Inline Frame) is an HTML element that allows you to embed a completely separate webpage or application inside your current webpage. Think of it as a "window" cut into your website that looks at another website.</p>
+            <div class="code-block">
+&lt;iframe src="https://my-voice-dashboard.com" width="100%" height="500px"&gt;&lt;/iframe&gt;
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>2. What is a Voice AI Transcript?</h2>
+            <p>In Voice AI, a transcript is the written record of everything said during a call. It exists in two forms:</p>
+            <ul>
+                <li><strong>Interim (Real-time) Transcripts:</strong> Partial sentences generated word-by-word via WebSockets while the user is still speaking.</li>
+                <li><strong>Final (Post-call) Transcripts:</strong> The complete, structured, timestamped JSON object generated after an utterance or the entire call concludes.</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>3. How to Use iFrames and Transcripts Together</h2>
+            <p>Combining iFrames and transcripts solves a major enterprise problem: <strong>How do you put Voice AI features into an existing CRM or SaaS product without rewriting your entire frontend?</strong></p>
+
+            <h3>Use Case A: The Embedded "Live Call" Subtitle Widget</h3>
+            <p>When a user is on a web-call with your AI (via LiveKit or WebRTC), you can display real-time subtitles. If your Voice AI backend runs on a separate server, you can expose a small URL specifically for subtitles and embed it into your main app via an iFrame.</p>
+            <div class="highlight">
+                <p><strong>Benefit:</strong> The WebSocket connection for the transcript runs entirely inside the iFrame, meaning it doesn't slow down or interfere with the state of your main React/Angular application.</p>
+            </div>
+
+            <h3>Use Case B: Embedding the Post-Call Analysis Dashboard</h3>
+            <p>Instead of building a complex transcript-viewing UI inside Salesforce or Hubspot, you can host the Streamlit Call Dashboard (from Phase 8) externally and embed it directly into your CRM's record page.</p>
+            <div class="code-block">
+&lt;!-- Inside your CRM Lead Page --&gt;
+&lt;div class="crm-record"&gt;
+    &lt;h3&gt;Latest AI Call Recording &amp; Transcript&lt;/h3&gt;
+    &lt;iframe 
+        src="https://your-streamlit-app.com/?call_id=CALL_101&amp;embed=true" 
+        width="100%" 
+        height="600px" 
+        frameborder="0"&gt;
+    &lt;/iframe&gt;
+&lt;/div&gt;
+            </div>
+
+            <h3>Use Case C: The "Public Share" Link</h3>
+            <p>Similar to how Loom lets you share videos, Voice AI platforms generate a public URL for a specific call transcript. Users can take this URL and embed it as an iFrame into Notion, Confluence, or internal wikis so the team can read what the AI discussed with the client without needing login access to the Voice AI platform.</p>
+        </section>
+
+        <section class="card">
+            <h2>4. Technical Implementation Considerations</h2>
+            <ul>
+                <li><strong>PostMessage API:</strong> If the iFrame (the transcript) needs to talk to the parent window (your main app)—for example, if the user clicks "End Call" inside the iFrame—you must use the JavaScript <code>window.postMessage()</code> API to securely pass events across the boundary.</li>
+                <li><strong>CORS & X-Frame-Options:</strong> By default, modern browsers block iFrames from embedding content from different domains to prevent Clickjacking. You must explicitly set the HTTP headers on your transcript server: <code>Content-Security-Policy: frame-ancestors 'self' https://your-crm.com;</code></li>
+                <li><strong>Responsive Design:</strong> Transcripts can be long. Always ensure the content inside the iFrame is scrollable, or dynamically resize the iFrame height based on the transcript length using a library like <em>iframe-resizer</em>.</li>
+            </ul>
+        </section>
+
+    </div>
+</body>
+</html>"""
+    
+    file_path = os.path.join(os.path.dirname(__file__), 'iframe_transcript_guide.html')
+    with open(file_path, 'w') as f:
+        f.write(html_content)
+    
+    print(f"Generated {file_path}")
+
+if __name__ == "__main__":
+    generate_guide()
